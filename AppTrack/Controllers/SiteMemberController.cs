@@ -100,6 +100,7 @@ namespace AppTrack.Controllers
                 int endPeriodID = 999999;
                 string thisStatus = "";
 
+
                 var model = new MemberProfileViewModel();
 
                 model.MemberRecord = db.Database.SqlQuery<Member>("exec dbo.[LB_GetC_InfoByCustID] @CustID",
