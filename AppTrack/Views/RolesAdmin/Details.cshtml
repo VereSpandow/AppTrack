@@ -1,0 +1,59 @@
+﻿@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Html.DisplayFor(model => model.Name) Role</h2>
+
+<h4>List of users in this role</h4>
+
+<table class="table table-hover table-striped table-responsive" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                UserName
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in ViewBag.Users)
+    {
+        <tr>
+            <td>
+                @item.UserName
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", "UsersAdmin", new { id = item.Id })"><span class="fa fa-fw fa-edit"></span></a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+@section Scripts {
+    <script>
+            $(document).ready(function () {
+                $('#myTable').dataTable(
+                {
+                    "searching": false,
+                    "bLengthChange": false,
+                    "oLanguage": {
+                        "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                        "sLengthMenu": "Show _MENU_ rows per page",
+                        "sInfoEmpty": "0 records found",
+                        "sEmptyTable": "No information available to display"
+                    }
+                });
+            });
+    </script>
+}
+
+
+
+

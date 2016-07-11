@@ -1,0 +1,7 @@
+﻿@model AppTrack.ViewModels.PromotionListViewModel
+
+<div id="promotionListDiv">
+    @Html.LabelFor(model => model.PromotionID, htmlAttributes: new { @class = "control-label" })
+    @Html.DropDownListFor(model => model.PromotionID, Model.PromotionList, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.PromotionID, "", new { @class = "text-danger" })
+</div>

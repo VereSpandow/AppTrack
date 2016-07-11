@@ -1,0 +1,203 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.OrderListViewModel
+
+    <div id="profileContainerDiv">
+        <div class="h2" style="float:left">Order List</div>
+        <div class="filterbar" style="display:block;clear:both;">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div id="searchFormDiv">
+                @using (Html.BeginForm("OrderList", "Billing", FormMethod.Post, new { id = "formProfileList" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.SearchStatus, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.SearchStatus, Model.SearchStatusList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.SearchStatus, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-5" style="padding:0;">
+                                <div class="col-sm-6">
+                                    <label class="control-label">Order Date From</label>
+                                    <br />
+                                    @Html.JQueryUI().DatepickerFor(model => model.SearchStartDate, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.SearchStartDate, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="control-label">To</label>
+                                    <br />
+                                    @Html.JQueryUI().DatepickerFor(model => model.SearchEndDate, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.SearchEndDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-sm-5" style="padding:0;">
+                                <div class="col-sm-6">
+                                    <label class="control-label">Balance From</label>
+                                    <br />
+                                    @Html.EditorFor(model => model.SearchStartBalance, new { htmlAttributes = new { @class = "form-control", maxlength = "10" } })
+                                    @Html.ValidationMessageFor(model => model.SearchStartBalance, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="control-label">To</label>
+                                    <br />
+                                    @Html.EditorFor(model => model.SearchEndBalance, new { htmlAttributes = new { @class = "form-control", maxlength = "10" } })
+                                    @Html.ValidationMessageFor(model => model.SearchEndBalance, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.SearchCustID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.SearchCustID, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.SearchCustID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.SearchOrderID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.SearchOrderID, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.SearchOrderID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.SearchItemID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.SearchItemID, Model.SearchItemList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.SearchItemID, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-sm-4" style="text-align:right;">
+                                <label class="control-label">&nbsp;</label>
+                                <br />
+                                <input class="btn btn-info" type="submit" name="submitAction" value="Search">
+                            </div>
+                        </div>
+                    </div>
+                }
+                <hr />
+            </div>
+        </div>
+
+        <table class="table table-hover table-striped table-responsive" id="thisTable" >
+            <thead>
+                <tr>
+                    <th>
+                        Order ID
+                    </th>
+                    <th>
+                        Customer ID
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                    <th>
+                        Paid
+                    </th>
+                    <th>
+                        Due
+                    </th>
+                    <th>
+                        Order By
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderHeaderList)
+                {
+                    var dueClass = "";
+
+                    if (item.BalanceDue > 0)
+                    { dueClass = "status-OPEN"; }
+                    if (item.BalanceDue < 0)
+                    { dueClass = "status-CANCELLED"; }
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CustID)
+                        </td>
+                        <td>
+                            @(item.OrderDate != null ? item.OrderDate.Value.ToString("MM/dd/yy") : "")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderTotal)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Paid)
+                        </td>
+                        <td class="@dueClass">
+                            @Html.DisplayFor(modelItem => item.BalanceDue)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                            <br />
+                            @item.Address1
+                            @if (item.Address2 != "" && item.Address2 != null)
+                            {
+                                <span>,</span> @item.Address2
+                            }
+                            @item.City<span>,</span> @item.State @item.PostalCode
+                        </td>
+                        <td>
+                            <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                        </td>
+                        <td>
+                            @if (item.StatusID < 3)
+                            {
+                                <a href="/Billing/OrderUpdate/@item.OrderID"><span class="fa fa-2x fa-edit"></span></a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                $.validator.unobtrusive.parse(document);
+                $("#SearchStartDate").datepicker();
+                $("#SearchEndDate").datepicker();
+                $('#thisTable').dataTable(
+                {
+                    "searching": false,
+                    "bLengthChange": true,
+                    "iDisplayLength": 50,
+                    "oLanguage": {
+                        "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                        "sLengthMenu": "Show _MENU_ rows per page",
+                        "sInfoEmpty": "0 records found",
+                        "sEmptyTable": "No orders found to display"
+                    }
+                });
+            });
+        </script>
+    }
+}

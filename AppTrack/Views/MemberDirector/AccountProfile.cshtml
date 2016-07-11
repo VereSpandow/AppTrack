@@ -1,0 +1,357 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.MemberDirectorProfileViewModel
+
+    <h2>@(Model.MemberDirectorRecord.DisplayName)</h2>
+    <div class="pull-right">
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+            CANCEL
+        </button>
+    </div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+    <div class="col-md-12">
+        <ul id="tabstrip" class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="@Url.Action("AccountProfile", "MemberDirector", new { @id = Model.MemberDirectorRecord.CustID })">Profile</a></li>
+            <li><a class="ajax" href="#Edit" role="tab" data-toggle="tab">Contact</a></li>
+            <li><a class="MeetingLink" href="#MeetingTab" role="tab" data-toggle="tab">Meetings</a></li>
+            <li><a class="CommissionLink" href="#CommissionTab" role="tab" data-toggle="tab">Commissions</a></li>
+            <li><a class="MemberLink" href="#MemberTab" role="tab" data-toggle="tab">Members</a></li>
+            <li><a class="CustomerNotesLink" href="#CustomerNotesTab" role="tab" data-toggle="tab">Notes</a></li>
+        </ul>
+
+        <!-- Tab Content Containers -->
+        <div class="tab-content" style="padding-top:15px;">
+            <div class="tab-pane fade in active" id="Profile">
+                <div class="col-md-6 col-sm-12 pull-left">
+                    <div class="panel panel-default" style="min-height:250px;">
+                        <div class=" panel-heading">Contact Information</div>
+                        <div class="panel-body">
+                            <div class="col-sm-4">Name:</div>
+                            <div class="col-sm-8">@Model.MemberDirectorRecord.DisplayName </div>
+                            <div class="col-sm-4" style="clear:both">TIN Name:</div>
+                            <div class="col-sm-8">@Model.MemberDirectorRecord.Company</div>
+                            <div class="col-sm-4" style="clear:both">Address:</div>
+                            <div class="col-sm-8">
+                                @if (!String.IsNullOrEmpty(Model.MemberDirectorRecord.Address1))
+                                {
+                                    @Model.MemberDirectorRecord.Address1
+                                    if (!String.IsNullOrEmpty(Model.MemberDirectorRecord.Address2))
+                                    {
+                                        <span>,</span> @Model.MemberDirectorRecord.Address2
+                                    }
+                                    <br />
+                                    @Model.MemberDirectorRecord.City<span>,</span> @Model.MemberDirectorRecord.State <span> </span> @Model.MemberDirectorRecord.PostalCode
+                                    <br />
+                                }
+                            </div>
+                            <div class="col-sm-4" style="clear:both">Phone:</div>
+                            <div class="col-sm-8">@Helpers.FormatPhone(@Model.MemberDirectorRecord.DayPhone)</div>
+                            <div class="col-sm-4" style="clear:both">Email:</div>
+                            <div class="col-sm-8">@Model.MemberDirectorRecord.Email</div>
+                                @if (Model.MemberDirectorRecord.SponsorID > 1000)
+                                {
+                                    <div class="col-sm-4" style="clear:both">Member ID:</div>
+                                    <div class="col-sm-8">@Model.MemberDirectorRecord.SponsorID</div>
+                                }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 pull-left">
+                    <div class="panel panel-default" style="min-height:250px;">
+                        <div class=" panel-heading">Meetings</div>
+                        <div class="panel-body">
+                            <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:.9em">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                            Topic / Location
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in Model.MeetingEventList)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EventStartDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EventTitle)
+                                            <br>
+                                            @Html.DisplayFor(modelItem => item.LocationTitle)
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 pull-left">
+                    <div class="panel panel-default" style="min-height:250px;">
+                        <div class=" panel-heading">Commissions</div>
+                        <div class="panel-body">
+                            <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:.9em">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Period
+                                        </th>
+                                        <th>
+                                            Type of Commission
+                                        </th>
+                                        <th style="text-align:right">
+                                            Amount
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.CommissionHeaderList)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.PeriodName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CommissionName)
+                                                </td>
+                                                <td style="text-align:right">
+                                                    @Html.DisplayFor(modelItem => item.Commission)
+                                                </td>
+                                            </tr>
+                                        }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12 pull-left">
+                    <div class="panel panel-default" style="min-height:250px;">
+                        <div class=" panel-heading">Members</div>
+                        <div class="panel-body">
+                            <table class="table table-hover table-striped table-responsive" id="membersTable" style="font-size:.9em">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Join Date
+                                        </th>
+                                        <th>
+                                            Member
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.MemberList.Count == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="3">
+                                                No members enrolled in the last 6 months
+                                            </td>
+                                        </tr>
+
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in Model.MemberList)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.StartDate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Company)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Status)
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    }
+                                </tbody>
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="tab-pane fade" id="Edit"></div>
+            <div class="tab-pane fade" id="MeetingTab"></div>
+            <div class="tab-pane fade" id="CommissionTab"></div>
+            <div class="tab-pane fade" id="MemberTab"></div>
+            <div class="tab-pane fade" id="CustomerNotesTab"></div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Delete Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>
+                        Are you sure you want to Cancel <strong>@(Model.MemberDirectorRecord.DisplayName)</strong>?
+                    </h4>
+                    <br />
+                    <p>
+                        Cancelling an IMD cannot be undone without contacting technical support.
+                    </p>
+                </div>
+                <div class="modal-footer">
+
+                    <div class="btn btn-info pull-left" data-dismiss="modal">No, Do Not Cancel</div>
+                    @using (Html.BeginForm("Delete", "MemberDirector"))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="Hidden" name="CustID" value="@Model.MemberDirectorRecord.CustID" />
+                        <button type="submit" value="Delete" class="btn btn-danger pull-right">Yes. Cancel this IMD.</button>
+                    }
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <script>
+
+    $('#tabstrip .ajax').click(function (e) {
+        var tabID = $(this).attr("href").substr(1);
+        if ($("#" + tabID).html() == "") {
+            e.preventDefault()
+            $(this).tab('show')
+            $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+            $.ajax({
+                url: "/@ViewContext.RouteData.Values["controller"]/" + tabID + "?CustID=@Model.MemberDirectorRecord.CustID",
+                cache: false,
+                type: "get",
+                dataType: "html",
+                success: function (result) {
+                    $("#" + tabID).html(result);
+                    $.validator.unobtrusive.parse(document);
+                },
+                failure: function () {
+                    alert("Ooops - something went wrong");
+                }
+            });
+        }
+    });
+
+    $('#tabstrip .CustomerNotesLink').click(function (e) {
+        var tabID = $(this).attr("href").substr(1);
+        if ($("#" + tabID).html() == "") {
+            e.preventDefault()
+            $(this).tab('show')
+            $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+            $.ajax({
+                url: "/CustomerNotes/NotesList/@Model.MemberDirectorRecord.CustID",
+                cache: false,
+                type: "get",
+                dataType: "html",
+                success: function (result) {
+                    $("#" + tabID).html(result);
+                    $.validator.unobtrusive.parse(document);
+                    $("#SearchStartDate").datepicker();
+                    $("#SearchEndDate").datepicker();
+                },
+                failure: function () {
+                    alert("Ooops - something went wrong");
+                }
+            });
+        }
+    });
+    $('#tabstrip .MeetingLink').click(function (e) {
+        var tabID = $(this).attr("href").substr(1);
+        if ($("#" + tabID).html() == "") {
+            e.preventDefault()
+            $(this).tab('show')
+            $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+            $.ajax({
+                url: "/Meeting/MeetingList?CustID=@Model.MemberDirectorRecord.CustID",
+                cache: false,
+                type: "get",
+                dataType: "html",
+                success: function (result) {
+                    $("#" + tabID).html(result);
+                    $.validator.unobtrusive.parse(document);
+                },
+                failure: function () {
+                    alert("Ooops - something went wrong");
+                }
+            });
+        }
+    });
+    $('#tabstrip .CommissionLink').click(function (e) {
+        var tabID = $(this).attr("href").substr(1);
+        if ($("#" + tabID).html() == "") {
+            e.preventDefault()
+            $(this).tab('show')
+            $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+            $.ajax({
+                url: "/Commission/CommissionList/@Model.MemberDirectorRecord.CustID",
+                cache: false,
+                type: "get",
+                dataType: "html",
+                success: function (result) {
+                    $("#" + tabID).html(result);
+                    $.validator.unobtrusive.parse(document);
+                },
+                failure: function () {
+                    alert("Ooops - something went wrong");
+                }
+            });
+        }
+    });
+    $('#tabstrip .MemberLink').click(function (e) {
+        var tabID = $(this).attr("href").substr(1);
+        if ($("#" + tabID).html() == "") {
+            e.preventDefault()
+            $(this).tab('show')
+            $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+            $.ajax({
+                url: "/MemberDirector/MemberList?CustID=@Model.MemberDirectorRecord.CustID",
+                cache: false,
+                type: "get",
+                dataType: "html",
+                success: function (result) {
+                    $("#" + tabID).html(result);
+                    $.validator.unobtrusive.parse(document);
+                },
+                failure: function () {
+                    alert("Ooops - something went wrong");
+                }
+            });
+        }
+    });
+
+    </script>
+}

@@ -1,0 +1,317 @@
+﻿@{
+    var isEditCookie = "N";
+
+    if (User.IsInRole("Finance") && Request.Cookies["isEditCookie"] != null)
+    {
+        isEditCookie = Request.Cookies["isEditCookie"].Value;
+        ViewBag.EditModeMessage = "You are in Edit Mode.  Click any section with a dashed border to edit that section. Click the Green Button to return to Live Mode. Click the Orange button to upload images.";
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - @isEditCookie</title>
+    @Styles.Render("~/Content/css")
+    <link href="~/Content/loyaltybenefitsSiteMobile.css" rel="stylesheet">
+    @Styles.Render("~/Content/themes/base/css")
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.lb.css">
+    @Scripts.Render("~/bundles/modernizr")
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.maskedinput.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-66332113-1', 'auto');
+    ga('send', 'pageview');
+
+    /*<![CDATA[*/(function (w, a, b, d, s) { w[a] = w[a] || {}; w[a][b] = w[a][b] || { q: [], track: function (r, e, t) { this.q.push({ r: r, e: e, t: t || +new Date }); } }; var e = d.createElement(s); var f = d.getElementsByTagName(s)[0]; e.async = 1; e.src = '//marketing.AppTrack.net/cdnr/28/acton/bn/tracker/18857'; f.parentNode.insertBefore(e, f); })(window, 'ActOn', 'Beacon', document, 'script'); ActOn.Beacon.track();/*]]>*/
+
+    </script>
+</head>
+<body>
+
+    @Html.Partial("_SiteHeader")
+
+
+    <div class="row nopadding">
+        <div class="container nopadding" style="margin-top:0px;">
+            @RenderBody()
+        </div>
+    </div>
+
+    <div class="row nopadding" style="width:100%;height:5px;">
+        <img src="../../images/FooterBar.png" class="nopadding" style="width:100%;height:5px;margin-top:-8px;" />
+    </div>
+    <div class="row nopadding bg-gray-dark" style="width:100%;height:105px;">
+        <div class="container nopadding bg-gray-dark">
+            <div class="col-md-4 nopadding">
+                &nbsp;
+            </div>
+            <div class="col-md-8 nopadding">
+                <div class="row nopadding ">
+                    <div class="col-md-4 nopadding" style="padding-top:25px;text-align:left;">
+                        &copy; 2015 AppTrack
+                    </div>
+                    <div class="col-md-4 nopadding" style="padding-top:25px;text-align:center;">
+                        All Rights Reserved
+                    </div>
+                    <div class="col-md-4 nopadding" style="padding-top:25px;text-align:right;">
+                        <a href="/Site/PrivacyPolicy"><span style="color:#fff;">privacy policy</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @{
+        if (isEditCookie == "Y")
+        {
+            using (Html.BeginForm("PublishContents", "CMSContents", FormMethod.Post, new { id = "publishMe" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" name="viewname" id="viewname" value="@ViewBag.thisPage" />
+                <input type="hidden" name="CallbackURL" id="CallbackURL" value="@ViewBag.callBackURL" />
+            }
+            using (Html.BeginForm("RollBackContents", "CMSContents", FormMethod.Post, new { id = "rollMeBack" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" name="viewname" id="viewname" value="@ViewBag.thisPage" />
+                <input type="hidden" name="CallbackURL" id="CallbackURL" value="@ViewBag.callBackURL" />
+            }
+            <script>
+                // open content editor panel
+                $(document).ready(function () {
+                    if ($(".SAVED").length > 0) {
+                        $("#liveMode").hide();
+                        $("#editMode").show();
+                        $("#publishMode").show();
+                        $("#editSection").show();
+                        $("#editBar").html("There are un-published changes: @ViewBag.EditModeMessage")
+                        $("#editBar").css('background-color', '#e33d43');
+                        $("#editBar").show();
+                        $(".editable").css('border', '1px #66C dashed');
+                    }
+                    else {
+                        $("#liveMode").show();
+                        $("#editMode").hide();
+                        $("#publishMode").hide();
+                        $("#editSection").hide();
+                        $("#editBar").hide();
+                        $("#liveBar").show();
+                    }
+
+                    $("#editMode").click(function () {
+                        $("#editMode").hide();
+                        $("#publishMode").hide();
+                        $("#editSection").hide();
+                        $("#liveMode").show();
+                        $("#editBar").hide();
+                        $("#liveBar").show();
+                        $(".editable").css('border', '0');
+                    });
+
+                    $("#liveMode").click(function () {
+                        $("#liveMode").hide();
+                        $("#editMode").show();
+                        $("#publishMode").show();
+                        $("#editSection").hide();
+                        $("#editBar").show();
+                        $("#liveBar").hide();
+                        $(".editable").css('border', '1px #66C dashed');
+                    });
+                    $("#publishMode").click(function () {
+                        alert("Published");
+                        $("#publishMe").submit();
+                    });
+                    $("#editMode").click(function () {
+                        alert("Rollback");
+                        $("#rollbackMe").submit();
+                    });
+
+                });
+            </script>
+        }
+    }
+
+    @{
+        if (isEditCookie == "Y")
+        {
+            <div class="container" id="editSection" style="max-height:500px;overflow-y:scroll;">
+                <div class="CMSContentPanel" id="cmsContentPanel" style="position:fixed; top:-300px; left:50%;margin-left:-580px; width:1160px; height:400px; background-color:#fff; border:1px #369 solid; display:none;z-index:3;">
+                    <div class="panel panel-danger panel-warning-dark">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                You are in page <span style="font-size:1.2em;color:#339;">@ViewBag.Title</span> and editing section. <span id="cmsSectionID"></span>
+                                <div class="btn btn-sm pull-right" id="cmsClose"><i class="fa fa-fw fa-2x fa-sign-out"></i>X</div>
+                            </div>
+                        </div>
+                        <div class="panel-body" style="min-height:350px;">
+                            @using (Ajax.BeginForm("CMSSaveContents", "CMSContents", null,
+                    new AjaxOptions
+                    {
+                        InsertionMode = InsertionMode.Replace,
+                        HttpMethod = "POST",
+                        OnSuccess = "OnSuccess",
+                        OnFailure = "OnFailure",
+                        LoadingElementId = "ajax-loader",
+                        UpdateTargetId = "cMSResults"
+                    }, new { id = "CMSScott" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="ViewName" id="ViewName" value="@ViewBag.Title" />
+                                <input type="hidden" id="SectionName" name="SectionName" value="" />
+                                <img id="ajax-loader" src="@Url.Content("~/Images/ajax-loader.gif")" style="display:none;" />
+                                <div class="col-md-12" id="cMSResultsToggleWrapper" style="display:none;">
+                                    <div class="btn btn-sm btn-success col-md-3" id="cMSResultsToggle">Preview</div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group" id="cMSResults" style="max-height:800px;overflow-y:scroll;">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="Submit" name="Submit" value="Save" class="btn btn-sm btn-primary pull-right">
+                                    </div>
+                                    <textarea id="ContentValue" name="ContentValue" class="mceEditor" style="width:80%;">
+                                        Content Goes Here
+                                    </textarea>
+                                </div>
+                            }
+                        </div>
+                        <div class="panel-footer">
+                            copyright 2015 loyalty benefits, llc
+                        </div>
+                    </div>
+
+                    <script>
+                        function OnSuccess(response) {
+                            $("#cMSResultsToggleWrapper").show();
+                        }
+
+                        function OnFailure(response) {
+                            alert(response);
+                            alert("Whoops! That didn't go so well did it?");
+                        }
+
+                        $(document).ready(function () {
+                            $("#cMSResultsToggle").click(function (event) {
+                                $("#cMSResults").slideToggle();
+                            });
+
+
+                            $(".editable").click(function (event) {
+                                var isVisible = $("#editMode").is(":visible");
+                                if (isVisible == true) {
+                                    thisDiv = $(this).attr("id");
+                                    //                                alert(thisDiv);
+                                    thisString = $("#" + thisDiv).html();
+                                    //                                alert(thisString);
+                                    $(".alphapagelayer").show();
+                                    $("#editSection").show();
+                                    $("#cmsContentPanel").show();
+                                    $("#cmsSectionID").html(thisDiv);
+                                    $("#SectionName").val(thisDiv);
+                                    $("#cmsContentPanel").animate({ top: "70px" }, 1000).delay(100).animate({ top: "50px" }, 500);
+                                    // Replace the <textarea id="editor1"> with a CKEditor
+                                    // instance, using default configuration.
+                                    CKEDITOR.replace('ContentValue', {
+                                        customConfig: 'SD1config.js',
+                                        clearForm: true
+                                    });
+                                    CKEDITOR.instances['ContentValue'].setData(thisString);
+                                }
+                            });
+                            // close content editor panel
+                            $("#cmsClose").click(function () {
+                                $("#cmsContentPanel").animate({ top: "-500px" }, 1000).delay(100).hide().delay(100);
+                                $(".alphapagelayer").hide();
+                                window.location.reload(true);;
+                                //                                CKEDITOR.instances['ContentValue'].setData('');
+                                //                               var instance = CKEDITOR.instances['ContentValue'];
+                                //                              instance.destroy()
+                            });
+
+                            // preview saved but not published
+                            /*
+                            $(".preview").click(function (event) {
+                                $.get("saveCMS.asp", function (data, status) {
+                                    alert("Data: " + data + "\nStatus: " + status);
+                                });
+                            });
+                            */
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="row">
+                <div class="container">
+                    <div id="editBar" class="bg-success-dark" style="position:fixed;bottom:0px; left:0px; width:100%; height:25px; display:block; z-index:93;">
+                        @ViewBag.EditModeMessage
+                    </div>
+                    <div id="liveBar" class="bg-info-dark" style="position:fixed;bottom:0px; left:0px; width:100%; height:25px; display:block; z-index:93;display:none;">
+                        You are in Live review mode. Click the Blue Edit button at the top to enter CMS edit mode.
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    <div class="alphapagelayer" style="position:fixed;top:0px; left:0px; width:100%; height:100%;background-color:#069; opacity: 0.4; filter: alpha(opacity=40);display:none;z-index:2;"></div>
+
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+    <script>
+        // pulldown from top
+        $(document).ready(function () {
+            $('a[href*=#]:not([href=#])').click(function () {
+                if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+
+                    var target = $(this.hash);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    if (target.length) {
+                        $('html,body').animate({
+                            scrollTop: target.offset().top
+                        }, 1000);
+                        return false;
+                    }
+                }
+            });
+        });
+    </script>
+
+    @{
+        if (isEditCookie == "Y")
+        {
+            <div class="" style="position:fixed; top:35px; left:75px; margin-left:-75px; height:auto; width:40px;">
+                <div class="btn btn-lbtop bg-info-dark" style="display:none;" id="liveMode">
+                    <i class="fa fa-fw fa-2x fa-edit"></i>
+                </div>
+                <div class="btn btn-lbtop bg-success-dark pull-left" style="" id="editMode">
+                    <i class="fa fa-fw fa-2x fa-undo"></i>
+                </div>
+                <div class="btn btn-lbtop bg-danger-dark pull-left" style="" id="publishMode">
+                    <i class="fa fa-fw fa-2x fa-globe"></i>
+                </div>
+            </div>
+
+        }
+    }
+</body>
+</html>

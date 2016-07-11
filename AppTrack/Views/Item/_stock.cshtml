@@ -1,0 +1,67 @@
+﻿@model AppTrack.ViewModels.StockBinViewModel
+
+@{
+    ViewBag.Title = "Inventory Quantities";
+}    
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    <a onclick="$('#stockpanelcreate').toggle()" style="cursor: pointer;">Add Inventory</a>
+</p>        
+
+<div id="stockpanelcreate" class="col-md-12" style="display:none;">
+    @Html.Partial("_createStock")
+</div>  
+ 
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OnHand)            
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QtyCommitted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QtyShipped)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Available)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StatusID)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.StockBinList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OnHand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QtyCommitted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QtyShipped)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Available)
+            </td>
+            <td>
+                @if (item.StatusID == 1)
+                {
+                    @Html.Raw("Active");
+                }
+                else
+                {
+                    @Html.Raw("Suspended");
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "StockBin", new { id = item.InventoryID }, null)
+            </td>
+        </tr>
+    }
+</table>

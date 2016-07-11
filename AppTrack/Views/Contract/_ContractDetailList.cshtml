@@ -1,0 +1,312 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="programContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.ContractDetailViewModel
+    if (User.IsInRole("ContractAdmin"))
+    {
+        ViewBag.Disabled = "";
+    }
+    else
+    {
+        ViewBag.Disabled = " disabled";
+    }
+
+    <div id="contractDetailContainerDiv">
+        <div class="col-sm-6">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+
+        @if (ViewBag.Disabled == "")
+        {
+            <div class="col-sm-6 pull-right" style="text-align:right;">
+                &nbsp;<button class="btn btn-xs btn-info" onclick="showAddContractDetailForm()" id="addContractDetailButton">
+                    Add ContractDetail
+                </button>
+            </div>
+        }
+        <div style="clear:both"></div>
+
+        <div class="row" style="padding-top:10px;">
+
+            <div class="filterbar" id="updateContractDetailFormDiv" style="display:none;">
+                @using (Ajax.BeginForm("ContractDetailList", "Contract", null,
+                new AjaxOptions
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "POST",
+                    OnFailure = "updateContractDetailFailure",
+                    OnSuccess = "updateContractDetailSuccess",
+                    LoadingElementId = "ajax-loader",
+                    UpdateTargetId = "contractDetailContainerDiv"
+                }, new { id = "updateContractDetailForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div>
+                        <input type="hidden" name="ErrorCode" id="ErrorCode" value="@ViewBag.ErrorCode" />
+
+                        @Html.HiddenFor(model => model.ContractDetail.ContractID)
+                        @Html.HiddenFor(model => model.ContractDetail.ID)
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ContractDetail.DetailType, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DropDownListFor(model => model.ContractDetail.DetailType, Model.ContractDetailTypeList, new { @class = "form-control" + ViewBag.Disabled })
+                            @Html.ValidationMessageFor(model => model.ContractDetail.DetailType, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ContractDetail.ContractAmount, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.ContractDetail.ContractAmount, new { htmlAttributes = new { @class = "form-control" + ViewBag.Disabled, type = "number", step = "any", min = "0", max = "5000000" } })
+                            @Html.ValidationMessageFor(model => model.ContractDetail.ContractAmount, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ContractDetail.ContractPercent, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.ContractDetail.ContractPercent, new { htmlAttributes = new { @class = "form-control" + ViewBag.Disabled, type = "percent", step = "any", min = "0", max = "1" } })
+                            @Html.ValidationMessageFor(model => model.ContractDetail.ContractPercent, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ContractDetail.ProjectedAmount, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.ContractDetail.ProjectedAmount, new { htmlAttributes = new { @class = "form-control" + ViewBag.Disabled, type = "number", step = "any", min = "0", max = "5000000" } })
+                            @Html.ValidationMessageFor(model => model.ContractDetail.ProjectedAmount, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ContractDetail.DetailDescription, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.TextAreaFor(model => model.ContractDetail.DetailDescription, new { @rows = 10, @class = "form-control" + ViewBag.Disabled, maxlength = "2500" })
+                            @Html.ValidationMessageFor(model => model.ContractDetail.DetailDescription, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12 pull-right" style="text-align:right; padding-top:15px;margin-bottom:20px;">
+                            @if (ViewBag.Disabled == "")
+                            {
+                                <input type="submit" name="SubmitAction" value="Save" class="btn btn-xs btn-info" />
+                            }
+                            &nbsp;
+                            <span class="btn btn-xs btn-info" onclick="editContractDetailInit(@Model.ContractDetail.ContractID,0)">Cancel</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center">
+                        <img id="ajax-loader" src="@Url.Content("~/Content/images/ajaxLoader.gif")" style="display:none;" />
+                    </div>
+                }
+            </div>
+            <table class="table table-hover table-striped table-responsive" id="contractDetailsTable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ContractDetailList[0].DetailType)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ContractDetailList[0].DetailDescription)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ContractDetailList[0].ContractAmount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ContractDetailList[0].ContractPercent)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ContractDetailList[0].ProjectedAmount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ContractDetailList[0].Status)
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ContractDetailList)
+                    {
+                        <tr>
+                            <td>
+                                <a href="#" onclick="editContractDetailInit(@item.ContractID, @item.ID)">@Html.DisplayFor(modelItem => item.DetailType)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DetailDescription)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContractAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContractPercent)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProjectedAmount)
+                            </td>
+                            <td>
+                                <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                            </td>
+                            <td>
+                                @if (ViewBag.Disabled == "")
+                                {
+                                    <span onclick="deleteContractDetail(@item.ContractID, @item.ID, '@item.DetailType')" class="btn btn-xs btn-danger">
+                                        X
+                                    </span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+        <!-- EDIT CONTACT INITIALIZATION FORM -->
+    <div id="editContractDetailInitFormDiv" style="display:block;">
+        @using (Ajax.BeginForm("ContractDetailList", "Contract", null,
+             new AjaxOptions
+             {
+                 InsertionMode = InsertionMode.Replace,
+                 HttpMethod = "GET",
+                 OnFailure = "editContractDetailInitFailure",
+                 OnSuccess = "editContractDetailInitSuccess",
+                 LoadingElementId = "ajax-loader",
+                 UpdateTargetId = "contractDetailContainerDiv"
+             }, new { id = "editContractDetailInitForm" }
+             ))
+        {
+            <input type="hidden" name="ContractID" id="editContractID" value="" />
+            <input type="hidden" name="ContractDetailID" id="editContractDetailID" value="" />
+        }
+    </div>
+    <!-- DELETE PROGRAM INITIALIZATION FORM -->
+    <div id="deleteContractDetailFormDiv" style="display:block;">
+        @using (Ajax.BeginForm("ContractDetailList", "Contract", new { ActionType = "D" },
+             new AjaxOptions
+             {
+                 InsertionMode = InsertionMode.Replace,
+                 HttpMethod = "GET",
+                 OnFailure = "deleteContractDetailFailure",
+                 OnSuccess = "deleteContractDetailSuccess",
+                 LoadingElementId = "ajax-loader",
+                 UpdateTargetId = "contractDetailContainerDiv"
+             }, new { id = "deleteContractDetailForm" }
+             ))
+        {
+            <input type="hidden" name="ContractID" id="deleteContractID" value="" />
+            <input type="hidden" name="ContractDetailID" id="deleteContractDetailID" value="" />
+        }
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteContractDetailModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Delete Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>
+                        Are you sure you want to Delete <span id="deleteContractDetailType"></span>?
+                    </h4>
+                    <br />
+                    <p>
+                        Deleting the Contract Detail can not be undone without contacting technical support.
+                    </p>
+                </div>
+                <div class="modal-footer">
+
+                    <div class="btn btn-info pull-left" data-dismiss="modal">Cancel without Deleting</div>
+                    <div class="btn btn-danger pull-right" onclick="deleteContractDetailConfirm()">Yes. Delete this Contract Detail</div>
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <script>
+
+        $(document).ready(function () {
+            initializeContractDetailsTable();
+            $.validator.unobtrusive.parse(updateContractDetailForm);
+            $('.disabled').attr("disabled", "disabled");
+        });
+
+        function initializeContractDetailsTable() {
+            $('#contractDetailsTable').dataTable(
+            {
+                "searching": false,
+                "bLengthChange": false,
+                "oLanguage": {
+                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                    "sLengthMenu": "Show _MENU_ rows per page",
+                    "sInfoEmpty": "0 records found",
+                    "sEmptyTable": "No details available to display"
+                }
+            });
+        };
+
+        function showAddContractDetailForm() {
+            $('#addContractDetailButton').hide();
+            $('#updateContractDetailFormDiv').show();
+        };
+
+        function editContractDetailInit(thisContractID, thisContractDetailID) {
+            $("#editContractID").val(thisContractID);
+            $("#editContractDetailID").val(thisContractDetailID);
+            $("#editContractDetailInitForm").submit();
+        };
+
+        function editContractDetailInitSuccess() {
+            if ($('#ContractDetail_ID').val() > 0) {
+                $('#addContractDetailButton').hide();
+                $('#updateContractDetailFormDiv').show();
+            }
+        };
+
+        function editContractDetailInitFailure() {
+            alert("Edit Contract Detail initialization failed");
+        };
+
+        function updateContractDetailSuccess() {
+            if ($('#ErrorCode').val() != 0) {
+                $('#addContractDetailButton').hide();
+                $('#updateContractDetailFormDiv').show();
+            }
+        };
+
+        function updateContractDetailFailure() {
+            alert("Update ContractDetail failed");
+        };
+
+        function deleteContractDetail(thisContractID, thisContractDetailID, thisContractDetailType) {
+            $("#deleteContractID").val(thisContractID);
+            $("#deleteContractDetailID").val(thisContractDetailID);
+            $('#deleteContractDetailModal').modal('show');
+            $("#deleteContractDetailType").html(thisContractDetailType);
+
+        };
+        function deleteContractDetailConfirm() {
+            $("#deleteContractDetailForm").submit();
+            $('#deleteContractDetailModal').modal('hide');
+        };
+
+        function deleteContractDetailSuccess() {
+        };
+
+        function deleteContractDetailFailure() {
+            alert("Delete ContractDetail failed");
+        };
+
+    </script>
+}
+

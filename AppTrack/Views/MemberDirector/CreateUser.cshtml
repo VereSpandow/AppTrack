@@ -1,0 +1,80 @@
+﻿
+    @model AppTrack.ViewModels.MemberDirectorListViewModel
+    <div id="companyContainerDiv">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <h2>Add Member Director Users</h2>
+
+    <table class="table table-hover table-striped table-responsive" id="memberDirectorTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.MemberDirectorList[0].AccountingID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MemberDirectorList[0].DisplayName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MemberDirectorList[0].Company)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MemberDirectorList[0].State)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MemberDirectorList[0].TaxID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MemberDirectorList[0].Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MemberDirectorList[0].Status)
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.MemberDirectorList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccountingID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DisplayName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Company)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.State)
+                    </td>
+                    <td>
+                        @Helpers.ShowLast4Digits(item.TaxID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("AccountProfile", "MemberDirector", new { id = item.CustID })"><span class="fa fa-fw fa-user"></span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+            <div class="col-sm-6">
+                <div class="col-sm-6 pull-right" style="text-align:right;padding-top:25px;">
+                    <input type="submit" value="Create Users" class="btn btn-info" />
+                </div>
+            </div>
+        }
+    </div>

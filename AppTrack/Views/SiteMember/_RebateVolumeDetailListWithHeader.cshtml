@@ -1,0 +1,103 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="commissionContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.VolumeDetailListViewModel
+
+    var SourceDateTitle = "";
+    var SourceNameTitle = "";
+    var SourceDescriptionTitle = "";
+    decimal total = 0.0m;
+    decimal salesTotal = 0.0m;
+
+    <div id="commissionContainerDiv">
+        <div class="col-sm-6">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+
+        <div style="clear:both"></div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-hover table-striped table-responsive" id="volumesTable" style="padding-top:10px;">
+                    <thead>
+                        <tr>
+                            <th width=20%>
+                                Period End Date
+                            </th>
+                            <th width="25%">
+                                Vendor
+                            </th>
+                            <th width="25%">
+                                Rebate Type
+                            </th>
+                            <th width="15%" style="text-align: right;">
+                                Sales Total
+                            </th>
+                            <th width="15%" style="text-align: right;">
+                                Amount
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.VolumeDetailList)
+                        {
+                            total = total + item.VolumeTotal;
+                            salesTotal = salesTotal + item.TotalSalesAmount;
+                            <tr>
+                                <td>
+                                    @item.SourceDate.ToString("MM/dd/yy")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SourceName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VolumeName)
+                                </td>
+                                <td style="text-align: right;">
+                                    @Html.DisplayFor(modelItem => item.TotalSalesAmount)
+                                </td>
+                                <td style="text-align: right;">
+                                    @Html.DisplayFor(modelItem => item.VolumeTotal)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td style="text-align: right;font-weight:bold;">Totals:</td>
+                            <td style="text-align: right;">@salesTotal.ToString("C2")</td>
+                            <td style="text-align: right;">@total.ToString("C2")</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        $(document).ready(function () {
+            $.validator.unobtrusive.parse(document);
+        });
+
+    </script>
+}
+
+
+

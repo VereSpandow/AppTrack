@@ -1,0 +1,121 @@
+﻿<div class="container" id="editSection" style="max-height:500px;overflow-y:scroll;">
+@{
+if ((1 == 1))
+{
+    //
+    //
+    //
+    //This page isn't used.  It was moved to _SiteLayout.cshtml
+    //
+    //
+    //
+    //
+    
+            <div class="CMSContentPanel" id="cmsContentPanel" style="position:fixed; top:-300px; left:50%;margin-left:-580px; width:1160px; height:400px; background-color:#fff; border:1px #369 solid; display:none;z-index:3;">
+                <div class="panel panel-danger panel-warning-dark">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            You are in page <span style="font-size:1.2em;">@ViewBag.Title</span> and are editing section. <span id="cmsSectionID"></span>
+                            <div class="btn btn-sm pull-right" id="cmsClose"><span style="font-size:1.5em">X</span></div>
+                        </div>
+                    </div>
+                    <div class="panel-body" style="min-height:350px;">
+                        @using (Ajax.BeginForm("CMSSaveContents", "CMSContents", null,
+                            new AjaxOptions
+                            {
+                            InsertionMode = InsertionMode.Replace,
+                            HttpMethod = "POST",
+                            OnSuccess = "OnSuccess",
+                            OnFailure = "OnFailure",
+                            LoadingElementId = "ajax-loader",
+                            UpdateTargetId = "cMSResults"
+                            }, new { id = "CMSScott" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="ViewName" id="ViewName" value="@ViewBag.Title" />
+                            <input type="hidden" id="SectionName" name="SectionName" value="" />
+                            <img id="ajax-loader" src="@Url.Content("~/Images/ajax-loader.gif")" style="display:none;" />
+                            <div class="col-md-12" id="cMSResultsToggleWrapper" style="display:none;">
+                                <div class="btn btn-sm btn-success col-md-3" id="cMSResultsToggle">Preview</div>
+                            </div>
+                            <div class="col-md-12">
+                                <textarea id="ContentValue" name="ContentValue" class="mceEditor" style="width:80%;">
+                                    Content Goes Here
+                                </textarea>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="Submit" name="Submit" value="Save" class="btn btn-sm btn-primary pull-right">
+                                </div>
+                            </div>
+                            }
+                    </div>
+                    <div class="panel-footer">
+                        copyright 2015 loyalty benefits, llc
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function OnSuccess(response) {
+                    $("#cMSResultsToggleWrapper").show();
+                }
+
+                function OnSuccess2(response) {
+                    // alert(response);
+                }
+
+                function OnFailure(response) {
+                    alert(response);
+                    alert("Whoops! That didn't go so well did it?");
+                }
+
+                $(document).ready(function () {
+                    $("#cMSResultsToggle").click(function (event) {
+                        $("#cMSResults").slideToggle();
+                    });
+
+                    $(".editable").click(function (event) {
+                        thisDiv = $(this).attr("id");
+                        thisString = $(this).html();
+
+                        $(".alphapagelayer").show();
+                        $("#editSection").show();
+                        $("#cmsContentPanel").show();
+
+                        $("#ContentValue").html(thisString);
+                        $("#cmsSectionID").html(thisDiv);
+                        $("#SectionName").val(thisDiv);
+                        $("#cmsContentPanel").animate({ top: "70px" }, 1000).delay(100).animate({ top: "50px" }, 500);
+
+                        // Replace the <textarea id="editor1"> with a CKEditor
+                        // instance, using default configuration.
+                        CKEDITOR.replace('ContentValue', {
+                        customConfig: '/Scripts/ckeditor/SD1config.js'
+                        });
+                    });
+                    // close content editor panel
+                    $("#cmsClose").click(function () {
+                        $("#cmsContentPanel").animate({ top: "-500px" }, 1000).delay(100).hide().delay(100);
+                        $(".alphapagelayer").hide();
+                    });
+
+                    // preview saved but not published
+
+                    $(".preview").click(function (event) {
+                        $.get("saveCMS.asp", function (data, status) {
+                            alert("Data: " + data + "\nStatus: " + status);
+                        });
+                    });
+
+                });
+            </script>
+            /*
+    end of isEditViewBag
+    */
+        }
+    }
+
+    <div class="alphapagelayer" style="position:fixed;top:0px; left:0px; width:100%; height:100%;background-color:#069; opacity: 0.4; filter: alpha(opacity=40);display:none;z-index:2;"></div>
+</div>
+

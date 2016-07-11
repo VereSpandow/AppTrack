@@ -1,0 +1,250 @@
+﻿@model AppTrack.ViewModels.MemberProgramViewModel
+
+@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-md-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+
+<div class="col-md-12 col-sm-12 pull-left">
+    <div class="panel panel-default" style="min-height:350px;box-shadow:#CCC 7px 7px;">
+        <div class=" panel-heading"><span class="h4">Membership</span></div>
+        <div class="panel-body">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @if (User.IsInRole("Accounting") || User.IsInRole("MemberServicesManager") || User.IsInRole("UpdateMembership"))
+        {
+            if (Model.IsIdoc > 0)
+            {
+                <div class="col-sm-6">
+                    <button class="btn btn-info" onclick="changeMembership()" id="changeMembershipButton">Change AppTrack Membership</button>
+                    <div style="display:none;" id="changeMembershipFormDiv">
+                        @using (Ajax.BeginForm("ProgramChange", "Member", null,
+                        new AjaxOptions
+                        {
+                          InsertionMode = InsertionMode.Replace,
+                          HttpMethod = "POST",
+                          OnSuccess = "changeAppTrackSuccess",
+                          OnFailure = "changeAppTrackFailure",
+                          LoadingElementId = "ajax-loader",
+                          UpdateTargetId = "updateProfileFormDiv"
+                        }, new { id = "changeAppTrack" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.AdminID)
+                            @Html.HiddenFor(model => model.CustID)
+                            @Html.HiddenFor(model => model.AutoshipID)
+
+                            <div class="col-md-12" style="margin-top:15px;">
+                                @Html.DropDownListFor(model => model.ItemID, Model.ProgramList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ItemID, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-12 pull-right" style="text-align:right;padding-top:25px;">
+                                <input type="submit" value="Update Membership" class="btn btn-primary" />
+                            </div>
+                        }
+                    </div>
+                </div>
+                if (Model.IsPrima == 0)
+                {
+                    <div class="col-sm-6">
+                        <button class="btn btn-success" onclick="addPrimaMembership()" id="addPrimaMembershipButton">Add Prima Membership</button>
+                        <div style="display:none;" id="addPrimaMembershipFormDiv">
+                            @using (Ajax.BeginForm("ProgramAdd", "Member", null,
+                            new AjaxOptions
+                            {
+                                InsertionMode = InsertionMode.Replace,
+                                HttpMethod = "POST",
+                                OnSuccess = "addPrimaSuccess",
+                                OnFailure = "addPrimaFailure",
+                                LoadingElementId = "ajax-loader",
+                                UpdateTargetId = "updateProfileFormDiv"
+                            }, new { id = "addPrima" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(model => model.AdminID)
+                                @Html.HiddenFor(model => model.CustID)
+                                @Html.HiddenFor(model => model.AutoshipID)
+
+                                <input type="hidden" name="ItemID" value="@Constants.PRIMAItemID" />
+
+                                <div class="col-md-12 pull-right" style="text-align:right;padding-top:15px;">
+                                    <input type="submit" value="Add Membership" class="btn btn-primary" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            if (Model.IsIdoc == 0 && Model.IsPrima > 0)
+            {
+                <div class="col-sm-6">
+                    <button class="btn btn-success" onclick="addAppTrackMembership()" id="addAppTrackMembershipButton">Add AppTrack Membership</button>
+                    <div style="display:none;" id="addAppTrackMembershipFormDiv">
+                        @using (Ajax.BeginForm("ProgramAdd", "Member", null,
+                    new AjaxOptions
+                    {
+                        InsertionMode = InsertionMode.Replace,
+                        HttpMethod = "POST",
+                        OnSuccess = "addAppTrackSuccess",
+                        OnFailure = "addAppTrackFailure",
+                        LoadingElementId = "ajax-loader",
+                        UpdateTargetId = "updateProfileFormDiv"
+                    }, new { id = "addAppTrack" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.AdminID)
+                            @Html.HiddenFor(model => model.CustID)
+                            @Html.HiddenFor(model => model.AutoshipID)
+
+                            <div class="col-md-12" style="margin-top:15px;">
+                                @Html.DropDownListFor(model => model.ItemID, Model.ProgramList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ItemID, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-12 pull-right" style="text-align:right;padding-top:15px;">
+                                <input type="submit" value="Add Membership" class="btn btn-primary" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            if (Model.IsIdoc > 0 && Model.IsPrima > 0)
+            {
+                <div style="clear:both;margin-top:20px;"><br /><br /></div>
+            
+                <div class="col-sm-6">
+                    <button class="btn btn-danger" onclick="cancelAppTrackMembership()" id="cancelAppTrackMembershipButton">Cancel AppTrack Membership</button>
+                    <div style="display:none;" id="cancelAppTrackMembershipFormDiv">
+                        @using (Ajax.BeginForm("ProgramCancel", "Member", null,
+                        new AjaxOptions
+                        {
+                        InsertionMode = InsertionMode.Replace,
+                        HttpMethod = "POST",
+                        OnSuccess = "cancelAppTrackSuccess",
+                        OnFailure = "cancelAppTrackFailure",
+                        LoadingElementId = "ajax-loader",
+                        UpdateTargetId = "updateProfileFormDiv"
+                        }, new { id = "cancelAppTrack" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.AdminID)
+                            @Html.HiddenFor(model => model.CustID)
+                            @Html.HiddenFor(model => model.AutoshipID)
+                            <input type="hidden" name="StoreID" value="@Constants.AppTrackStoreID" />
+
+                            <div class="col-md-12 pull-right" style="text-align:right;padding-top:15px;">
+                                <input type="submit" value="Cancel Membership" class="btn btn-primary" />
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn btn-danger" onclick="cancelPrimaMembership()" id="cancelPrimaMembershipButton">Cancel Prima Membership</button>
+                    <div style="display:none;" id="cancelPrimaMembershipFormDiv">
+                        @using (Ajax.BeginForm("ProgramCancel", "Member", null,
+                        new AjaxOptions
+                        {
+                          InsertionMode = InsertionMode.Replace,
+                          HttpMethod = "POST",
+                          OnSuccess = "cancelPrimaSuccess",
+                          OnFailure = "cancelPrimaFailure",
+                          LoadingElementId = "ajax-loader",
+                          UpdateTargetId = "updateProfileFormDiv"
+                        }, new { id = "cancelPrima" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.AdminID)
+                            @Html.HiddenFor(model => model.CustID)
+                            @Html.HiddenFor(model => model.AutoshipID)
+                            <input type="hidden" name="StoreID" value="@Constants.PRIMAStoreID" />
+
+                            <div class="col-md-12 pull-right" style="text-align:right;padding-top:15px;">
+                                <input type="submit" value="Cancel Membership" class="btn btn-primary" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+        </div>
+    </div>
+</div>
+}
+<script>
+
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse(document);
+    });
+
+    function changeMembership() {
+        $('#changeMembershipFormDiv').show();
+    };
+
+    function changeAppTrackSuccess() {
+    };
+
+    function changeAppTrackFailure() {
+        alert("Update AppTrack Membership failed");
+    };
+
+    function addPrimaMembership() {
+        $('#addPrimaMembershipFormDiv').show();
+    };
+
+    function addPrimaSuccess() {
+    };
+
+    function addPrimaFailure() {
+        alert("Add Prima Membership failed");
+    };
+
+    function addAppTrackMembership() {
+        $('#addAppTrackMembershipFormDiv').show();
+    };
+
+    function addAppTrackSuccess() {
+    };
+
+    function addAppTrackFailure() {
+        alert("Add AppTrack Membership failed");
+    };
+
+
+    function cancelAppTrackMembership() {
+        $('#cancelAppTrackMembershipFormDiv').show();
+    };
+
+    function cancelAppTrackSuccess() {
+    };
+
+    function cancelAppTrackFailure() {
+        alert("Cancel AppTrack Membership failed");
+    };
+
+    function cancelPrimaMembership() {
+        $('#cancelPrimaMembershipFormDiv').show();
+    };
+
+    function cancelPrimaSuccess() {
+    };
+
+    function cancelPrimaFailure() {
+        alert("Cancel Prima Membership failed");
+    };
+
+</script>
+

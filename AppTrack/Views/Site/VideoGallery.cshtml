@@ -1,0 +1,58 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.thisPage = "VideoGallery";
+    ViewBag.PageType = "VideoGallery";
+}
+<div class="row nopadding">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left hidden-xs hidden-sm" style="min-height:450px;">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding">
+            <div class="col-md-12 nopadding noteditable" id="VideoHeader">
+                <h1 class="text-info-dark">AppTrack Videos</h1>
+                <h2 class="text-info-dark">Learn about all of the benefits of AppTrack membership, including our educational opportunities!</h2>
+
+                <div class="row">
+                    <div class="col-md-12 nopadding" style="padding-top:10px;">
+                        <div class="col-md-6 editable" id="VideoRow1Col1">
+                           @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "VideoRow1Col1", status = "LIVE", viewName = "Video" });}
+                        </div>
+                        <div class="col-md-6 editable" id="VideoRow1Col2">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "VideoRow1Col2", status = "LIVE", viewName = "Video" });}
+                        </div>
+                        <p> </p>
+                    </div>
+                </div>
+
+                <div style="clear:both;height:30px;"></div>
+
+                <div class="row">
+                    <div class="col-md-12 nopadding" style="padding-top:10px;">
+                        <h4>Discover AppTrack Select, the membership option that helps your practice save and grow!</h4>
+                        <div class="col-md-6 editable" id="VideoRow2Col1">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "VideoRow2Col1", status = "LIVE", viewName = "Video" });}
+                        </div>
+                        <div class="col-md-6 editable" id="VideoRow2Col2">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "VideoRow2Col2", status = "LIVE", viewName = "Video" });}
+                        </div>
+                        <p> </p>
+                    </div>
+                </div>
+
+                <div style="clear:both;height:30px;"></div>
+
+                <div class="row" style="display:none;">
+                    Plus, you'll benefit from a dedicated members services team and, of course, our best-in-class <a href="/Site/Education" id="educationLinkInPage">educational opportunities.</a>
+                    <p> </p>
+                    <div class="nopadding editable" id="AppTrackSelectFooter">
+                        @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "AppTrackSelectFooter", status = "LIVE", viewName = "AppTrackSelect" });}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row nopadding" style="width:100%;height:25px;">
+        &nbsp;
+    </div>

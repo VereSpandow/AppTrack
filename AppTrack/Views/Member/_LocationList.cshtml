@@ -1,0 +1,177 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="meetingContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <div class="alert alert-info">
+                There are currently no additional locations associated with this Member.
+                <a class="btn btn-info pull-right" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#LocationTab" href="/Member/LocationCreate/?CustID=@ViewBag.ParentID">Add </a>
+            </div>
+            <br />
+<!--
+    
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+-->
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.LocationListViewModel
+
+    if (Model.LocationList == null)
+    {
+        <div class="alert alert-info">
+            There are currently no additional locations associated with this Member.
+              <a class="btn btn-info pull-right" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#LocationTab" href="/Member/LocationCreate/?CustID=@Model.LocationList[0].ParentID">Add </a>
+        </div>
+    }
+    else
+    {
+        if (Model.LocationList.Count() <= 0)
+        {
+            <div class="alert alert-info">
+                There are currently no additional locations associated with this Member.
+                <a class="btn btn-info pull-right" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#LocationTab" href="/Member/LocationCreate/?CustID=@Model.LocationList[0].ParentID">Add </a>
+            </div>
+        }
+
+    <div class="h3" style="float:left">Location List</div>
+    <div class="h2" style="float:right">
+        <a class="btn btn-info" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#LocationTab" href="/Member/LocationCreate/?CustID=@Model.LocationList[0].ParentID">Add </a>
+    </div>
+/*
+VHS Removed the search as any 1 Member will only have 20 locations at most and they don't need to search these
+ <div class="filterbar" style="display:block;clear:both;">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @using (Ajax.BeginForm("LocationList", "Member",
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "POST",
+                OnFailure = "locationListFailed",
+                LoadingElementId = "ajax-loader",
+                UpdateTargetId = "replaceMe"
+            }, new { id = "searchLocationForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.SearchLastName, htmlAttributes: new { @class = "control-label" })
+                        <br />
+                        @Html.EditorFor(model => model.SearchLastName, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                        @Html.ValidationMessageFor(model => model.SearchLastName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.SelectedStatus, htmlAttributes: new { @class = "control-label" })
+                        <br />
+                        @Html.DropDownListFor(model => model.SelectedStatus, Model.StatusList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SelectedStatus, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="control-label">&nbsp;</label>
+                        <br />
+                        <button class="btn btn-info" type="submit" value="Search">Search</button>
+                    </div>
+                </div>
+                <img id="ajax-loader" src="@Url.Content("~/Content/images/ajax-loader.gif")" style="display:none;" />
+            </div>
+        }
+    </div>
+    <hr />
+ */
+    <table class="table table-hover table-striped table-responsive" id="locationTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.LocationList[0].CustID)
+                </th>
+                <th>
+                    Practice Name &amp; Address
+                </th>
+                <th>
+                    Contact
+                </th>
+                <th>
+                    Phone &amp; Email
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LocationList[0].Status)
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.LocationList)
+            {
+                string thisStatus = item.Status;
+                if (thisStatus == null)
+                {
+                    thisStatus = "Active".ToString();
+                }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DisplayName)
+                        <br />
+                        @item.Address1
+                        @if (!String.IsNullOrEmpty(item.Address2))
+                        {
+                            <span>,</span> @item.Address2
+                        }
+                        <br />
+                        @item.City
+                        <span>,</span> @item.State @item.PostalCode
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName) &nbsp; @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Helpers.FormatPhone(@item.CompanyPhone)
+                        <br />
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        <span class="status-@thisStatus.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                    </td>
+                    <td>
+                        <a href="/Member/LocationProfileMain/@Html.DisplayFor(modelItem => item.CustID)"><span class="fa fa-fw fa-user"></span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+    
+        <script>
+            $(document).ready(function () {
+                $('#locationTable').dataTable(
+                {
+                    "searching": false,
+                    "bLengthChange": false,
+                    "oLanguage": {
+                        "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                        "sLengthMenu": "Show _MENU_ rows per page",
+                        "sInfoEmpty": "0 records found",
+                        "sEmptyTable": "No information available to display"
+                    }
+                });
+            });
+            function locationListFailed() {
+                alert("Attempt to generate list failed");
+            };
+        </script>
+}
+    

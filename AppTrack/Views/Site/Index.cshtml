@@ -1,0 +1,243 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayoutPage1.cshtml";
+    ViewBag.thisPage = "Index";
+    ViewBag.PageType = "Index";
+}
+<div class="row nopadding">
+    <div class="container nopadding">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width:100%;height:auto;">
+            <!-- Indicators -->
+            <ol class="carousel-indicators" style="margin-bottom:-10px;">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner nopadding" role="listbox">
+                <div class="item active">
+                    <img src="~/content/images/Carousel-MoreThanAlliance.png" alt="Optometric Alliance Group">
+                </div>
+                <div class="item">
+                    <img src="~/content/images/Carousel-EyeOnSavings.png" alt="Eye Care Savings">
+                </div>
+                <div class="item">
+                    <img src="~/content/images/Carousel-MorePowerToYou.png" alt="Practice Management Resources & Tools">
+                </div>
+            </div>
+            <!-- Left and right controls -->
+            <a1 class="left carousel-control" href="#myCarousel" id="cPrev" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a1>
+            <a2 class="right carousel-control" href="#myCarousel" id="cNext" role="button">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a2>
+         </div>
+    </div>
+</div>
+<div class="clearfix" style="height:25px;"></div>
+<div class="row hidden-lg hidden-md">
+    <div class="container-fluid" style="padding-bottom:20px;">
+        <div class="col-md-12 nopadding MembershipOptions" style="cursor: pointer; ">
+            <div class="col-md-10 pull-left" style="text-align:left;height:50px;">
+                <h1 class="indexBullet nopadding text-gray-dark" id="membershipOptionsText">
+                    Membership Options
+                </h1>
+            </div>
+            <div class="col-md-2 pull-right" style="text-align:right;height:50px;padding-top:10px;">
+                <span class="fa fa-2x fa-arrow-right  text-info-dark " style="color:#008ED3;"></span>
+            </div>
+        </div>
+        <div class="row"></div>
+        <div class="col-md-12 nopadding Education" style="border-top:1px #CCC solid;cursor: pointer;">
+            <div class="col-md-10 pull-left" style="text-align:left;height:50px;">
+                <h2 class="indexBullet nopadding text-gray-dark" id="educationText" style="margin-top:20px;">
+                    National & Regional Conferences
+                </h2>
+            </div>
+            <div class="col-md-2 pull-right" style="text-align:right;height:50px;padding-top:10px;">
+                <span class="fa fa-2x fa-arrow-right text-primary-dark "></span>
+            </div>
+        </div>
+        <div class="row"></div>
+        <div class="col-md-12 nopadding Education" style="border-top:1px #CCC solid;cursor: pointer;">
+            <div class="col-md-10 pull-left" style="text-align:left;height:50px;">
+                <h2 class="indexBullet nopadding text-gray-dark" id="educationText2" style="margin-top:20px;">
+                    Local Study Group Meetings
+                </h2>
+            </div>
+            <div class="col-md-2 pull-right" style="text-align:right;height:50px;padding-top:10px;">
+                <span class="fa fa-2x fa-arrow-right text-royalty-dark "></span>
+            </div>
+        </div>
+        <div class="row"></div>
+        <div class="col-md-12 nopadding SavingsAndRebates" style="border-top:1px #CCC solid;cursor: pointer;">
+            <div class="col-md-10 pull-left" style="text-align:left;height:50px;">
+                <h2 class="indexBullet nopadding text-gray-dark" id="savingsAndRebatesText" style="margin-top:20px;">
+                    Vendor Savings
+                </h2>
+            </div>
+            <div class="col-md-2 pull-right" style="text-align:right;height:50px;padding-top:10px;">
+                <span class="fa fa-2x fa-arrow-right text-success-dark "></span>
+            </div>
+        </div>
+    </div>
+</div>
+ <div class="row hidden-xs hidden-sm">
+    <div class="container nopadding" style="padding-bottom:20px;">
+        <div class=" pull-left col-md-4 nopadding">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding noteditable">
+            <div class="pull-right col-md-11 nopadding">
+                <div class="col-md-12 nopadding pull-right MembershipOptions" style="border-bottom:1px #CCC solid;cursor: pointer; ">
+                    <div class="col-md-2 pull-right nopadding" style="text-align:right;height:75px;padding-top:10px;">
+                        <span class="fa fa-3x fa-arrow-right  text-info-dark" style="color:#008ED3;"></span>
+                    </div>
+                    <div class="col-md-10 pull-right nopadding" style=";text-align:left;height:75px;">
+                        <h1 class="nopadding text-gray-dark" id="membershipOptionsText" style="font-size:32px;">
+                            Membership Options
+                        </h1>
+                    </div>
+                </div>
+                <div class="col-md-12 nopadding Education" style="border-bottom:1px #CCC solid;cursor: pointer; ">
+                    <div class="col-md-2 pull-right nopadding" style="text-align:right;height:75px;padding-top:10px;">
+                        <span class="fa fa-3x fa-arrow-right text-primary-dark"></span>
+                    </div>
+                    <div class="col-md-10 pull-right nopadding " style=";text-align:left;height:75px;">
+                        <h2 class="nopadding text-gray-dark" id="educationText" style="font-size:32px;margin-top:20px;">
+                            National and Regional Conferences
+                        </h2>
+                    </div>
+                </div>
+                <div class="col-md-12 nopadding Education" style="border-bottom:1px #CCC solid;cursor: pointer; ">
+                    <div class="col-md-2 pull-right nopadding" style="text-align:right;height:75px;padding-top:10px;">
+                        <span class="fa fa-3x fa-arrow-right text-royalty-dark"></span>
+                    </div>
+                    <div class="col-md-10 pull-right nopadding" "style=" ;text-align:left;height:75px;">
+                        <h2 class="nopadding text-gray-dark" id="educationText2" style="font-size:32px;margin-top:20px;">
+                            Local Study Group Meetings
+                        </h2>
+                    </div>
+                </div>
+                <div class="col-md-12 nopadding SavingsAndRebates" style="cursor: pointer; ">
+                    <div class="col-md-2 pull-right nopadding" style="text-align:right;height:75px;padding-top:10px;">
+                        <span class="fa fa-3x fa-arrow-right text-success-dark"></span>
+                    </div>
+                    <div class="col-md-10 pull-right nopadding " style=";text-align:left;height:75px;">
+                        <h2 class="nopadding text-gray-dark" id="savingsAndRebatesText" style="font-size:32px;margin-top:20px;">
+                            Vendor Savings
+                        </h2>
+                    </div>
+                </div>
+                <div class="col-md-12 nopadding">
+                    <h4>Featuring programs from industry-leading vendor partners:</h4>
+                    <br />
+                    <div class="col-md-4" style="padding-top:30px;;text-align:center;">
+                        <img src="/Images/ABBLogo.jpg" style="width:188px;height:auto;" alt="ABB Optical - Optometric Vendor Partner" />
+                    </div>
+                    <div class="col-md-4" style="padding-top:30px;text-align:center;">
+                        <img src="/Images/AlconLogo.jpg" style="width:186px;height:auto;" alt="Alcon - Optometric Vendor Partner" />
+                    </div>
+                    <div class="col-md-4" style="padding-top:5px;text-align:center;">
+                        <img src="/Images/CoopervisionLogo.jpg" style="width:133px;height:auto;" alt="Coopervision - Optometric Vendor Partner" />
+                    </div>
+                    <div class="col-md-4" style="padding-top:10px;text-align:center;">
+                        <img src="/Images/EssilorLogo.jpg" style="width:130px;height:auto;" alt="Essilor - Optometric Vendor Partner" />
+                    </div>
+                    <div class="col-md-4" style="padding-top:30px;text-align:center;">
+                        <img src="/Images/HoyaLogo.jpg" style="width:188px;height:auto;" alt="Hoya - Optometric Vendor Partner" />
+                    </div>
+                    <div class="col-md-4" style="padding-top:10px;text-align:center;">
+                        <img src="/Images/OOGPLogo.jpg" style="width:187px;height:auto;" alt="OOGP - Optometric Vendor Partner" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row hidden-md hidden-lg">
+    <div class="row nopadding" style="width:100%;height:5px;">
+        <img src="../../images/VideoBar.png" class="nopadding" style="width:100%;height:5px;margin-top:-10px;" />
+    </div>
+    <div class="row" style="background-color:#CCC;width:100%;text-align:center;">
+        <span style="color:#6E6E6E;font-size:0.9em;">
+            <a href="/Site/VideoGallery">View more videos ></a>
+        </span>
+        <div class="col-md-12 nopadding">
+            <iframe src="https://player.vimeo.com/video/99263235" width="257" height="144" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        </div>
+        <div class="col-md-12 nopadding">
+            <iframe width="257" height="144" src="https://www.youtube.com/embed/sia_N2UGKfI?rel=0" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="col-md-12 nopadding">
+            <iframe src="https://www.youtube.com/embed/MwlntDKHghg?rel=0" width="257" height="142" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+<div class="row hidden-xs hidden-sm">
+    <div class="row nopadding" style="width:100%;height:5px;">
+        <img src="../../images/VideoBar.png" class="nopadding" style="width:100%;height:5px;margin-top:-10px;" alt="Video Bar - AppTrack Optometric Alliance" />
+    </div>
+    <div class="row" style="background-color:#CCC;border-top:4px #939 solid; height:185px;padding-top:20px;padding-bottom:15px;margin-bottom:-5px">
+        <div class="container">
+            <div class="col-md-12 nopadding">
+                <div class="col-md-2 nopadding text-info-darkbold" style="text-align:left;">
+                    <span style="font-size:1.1em;">
+                        Hear from our team
+                    </span>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <span style="color:#6E6E6E;font-size:0.9em;">
+                        <a href="/Site/VideoGallery">View more videos ></a>
+                    </span>
+                </div>
+                <div class="col-md-10" style="text-align:center;">
+                    <div class="col-md-4 nopadding pull-right" style="text-align:right;">
+                        <iframe src="https://player.vimeo.com/video/99263235" width="257" height="144" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                    </div>
+                    <div class="col-md-4 pull-right" style="text-align:right;">
+                        <iframe width="257" height="144" src="https://www.youtube.com/embed/sia_N2UGKfI?rel=0" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="col-md-4 pull-right" style="text-align:right;">
+                        <iframe src="https://www.youtube.com/embed/MwlntDKHghg?rel=0" width="257" height="142" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+        $(document).ready(function () {
+            $(".Education").click(function () {
+                window.location.href = '/Site/Education';
+                return false;
+            });
+            $(".SavingsAndRebates").click(function () {
+                window.location.href = '/Site/SavingsAndRebates';
+                return false;
+            });
+            $(".MembershipOptions").click(function () {
+                window.location.href = '/Site/MembershipOptions';
+                return false;
+            });
+            $("#cNext").click(function () {
+                $("#myCarousel").carousel('next');
+            });
+            $(".fa").hover(function () {
+                $(this).css("text-shadow", "5px 5px #CCC");
+                $(this).css("margin-top", "-5px");
+                $(this).css("border", "1px #CCC dashed");
+            }, function () {
+                $(this).css("text-shadow", "0px 0px #FFF");
+                $(this).css("margin-top", "0px");
+                $(this).css("border", "0px");
+            });
+
+        });
+    </script>

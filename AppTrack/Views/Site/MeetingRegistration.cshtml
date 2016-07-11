@@ -1,0 +1,161 @@
+﻿@model AppTrack.ViewModels.MeetingRegistrationViewModel
+@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.PageType = "Education";
+    ViewBag.thisPage = "Registration";
+}
+<div class="row nopadding">
+    <div class="container no-offset nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left hidden-xs hidden-sm" style="min-height:450px;">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+        </div>
+        <div class="col-md-8 col-sm-12 col-xs-12 pull-left no-offset nopadding" style="padding-top:20px;">
+            <div class="col-md-6 col-sm-12 col-xs-12 pull-left no-offset nopadding">
+                <h1 class="text-primary-dark">
+                    @Html.DisplayFor(model => @model.meetingEvent.EventTitle)
+                </h1>
+                <h4 class="text-primary-dark">
+                    @if (!String.IsNullOrEmpty(Model.meetingEvent.LocationTitle))
+                    {
+                        @Model.meetingEvent.LocationTitle
+                    }
+                    <br />
+                    @Model.meetingEvent.Address1.ToString().Replace('#', ' ')
+                    @if (!String.IsNullOrEmpty(Model.meetingEvent.Address2))
+                    {
+                        <br />@Model.meetingEvent.Address2.ToString().Replace('#',' ')
+                    }
+                    <br />
+                    @Html.DisplayFor(model => @model.meetingEvent.City), @Html.DisplayFor(model => @model.meetingEvent.State)
+                </h4>
+                <h4 class="text-primary-dark">
+                    @Model.meetingEvent.EventStartDate.ToString("MM/dd/yyyy") at @Model.meetingEvent.EventStartDate.ToString("h:mm tt")
+                </h4>
+                <h4 class="text-primary-dark">
+                    Hosted By:  @Html.DisplayFor(model => @model.meetingEvent.HostName)
+                </h4>
+                <p>
+                    @Html.DisplayFor(model => @model.meetingEvent.EventDescription)
+                </p>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12 nopadding pull-right">
+                <div style="overflow:hidden;height:300px;width:500px;max-width:100%;">
+                    <div id="gmap_canvas" style="height:300px;width:500px;max-width:100%;">
+                        <iframe style="height:100%;width:100%;border:0;" frameborder="0" src="https://www.google.com/maps/embed/v1/place?q=@Model.meetingEvent.Address1.ToString().Replace('#', ' '),+@Model.meetingEvent.City,+@Model.meetingEvent.State,+United+States&key=AIzaSyAN0om9mFmy1QN6Wf54tXAowK4eT0ZUPrU"></iframe>
+                    </div>
+                    <style>
+                        #gmap_canvas img {
+                            max-width: none !important;
+                            background: none !important;
+                        }
+                    </style>
+                    <script src="https://www.embed-map.com/google-maps-authorization.js?id=10de2bfe-5fc8-e40a-d2a5-dfa29d8f0af8" defer="defer" async="async"></script>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12 nopadding" id="meetingRegRightCol2" style="padding-top:20px;">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        @if (Model.meetingEvent.Status.ToUpper() == "POSTPONED")
+                        {
+                            <span class="status-CANCELLED" style="font-weight:bold">This meeting has been postponed</span>
+                            <p>A new meeting will be listed once this meeting is rescheduled.</p>
+                        }
+                        else
+                        {
+                            if (ViewBag.Message != "")
+                            {
+                                <p class="text-primary-dark">@ViewBag.Message</p>
+                                <a href="~/Site/Education"><div class="btn btn-sm btn-success pull-right" style="margin-top:-35px;">No Additional Guests?</div></a>
+                            }
+                            else
+                            {
+                                <p>
+                                    You are invited to join fellow ODs at a local study group focused on best practices in Optometry. Share ideas and solutions to the issues facing all independent practitioners today. Ask your colleagues what strategies they have successfully implemented to help their practices thrive in this challenging environment.
+                                </p>
+                                <p>
+                                    Please fill in the fields below to register and join us in our informative local meetings.
+                                    <br /><br />
+                                    <span style="font-size:smaller;color:#808080">* required fields</span>
+                                </p>
+                            }
+                            using (Html.BeginForm("MeetingRegistration", "Site", FormMethod.Post, new { id = "meetingRegForm1", @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.HiddenFor(model => model.meetingRegistration.EventID)
+                                @Html.HiddenFor(model => model.meetingRegistration.CustID)
+                                @Html.HiddenFor(model => model.meetingRegistration.SponsorID)
+                                @Html.AntiForgeryToken()
+
+                                <div class="col-md-12 nopadding">
+
+                                    <div class="col-md-2" style="margin-top:5px;">
+                                        @Html.LabelFor(model => model.meetingRegistration.NameTitle, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                                        @Html.DropDownListFor(model => model.meetingRegistration.NameTitle, Model.NameTitleList, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.meetingRegistration.NameTitle, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-md-5" style="margin-top:5px;">
+                                        * @Html.LabelFor(model => model.meetingRegistration.FirstName, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                                        @Html.EditorFor(model => model.meetingRegistration.FirstName, new { htmlAttributes = new { @class = "form-control", maxlength = "40" } })
+                                        @Html.ValidationMessageFor(model => model.meetingRegistration.FirstName, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-md-5" style="margin-top:5px;">
+                                        *  @Html.LabelFor(model => model.meetingRegistration.LastName, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                                        @Html.EditorFor(model => model.meetingRegistration.LastName, new { htmlAttributes = new { @class = "form-control", maxlength = "40" } })
+                                        @Html.ValidationMessageFor(model => model.meetingRegistration.LastName, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-md-12" style="margin-top:5px;">
+                                        * @Html.LabelFor(model => model.meetingRegistration.JobTitle, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                                        @Html.EditorFor(model => model.meetingRegistration.JobTitle, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+                                        @Html.ValidationMessageFor(model => model.meetingRegistration.JobTitle, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-md-12" style="margin-top:5px;">
+                                        * @Html.LabelFor(model => model.meetingRegistration.Email, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                                        @Html.EditorFor(model => model.meetingRegistration.Email, new { htmlAttributes = new { @class = "form-control", maxlength = "100", type = "email" } })
+                                        @Html.ValidationMessageFor(model => model.meetingRegistration.Email, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-md-12" style="margin-top:5px;">
+                                        @Html.LabelFor(model => model.meetingRegistration.SponsorName, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;margin-bottom:-3px;" })
+                                        @Html.EditorFor(model => model.meetingRegistration.SponsorName, new { htmlAttributes = new { @class = "form-control col-md-8", maxlength = "100" } })
+                                        @Html.ValidationMessageFor(model => model.meetingRegistration.SponsorName, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-md-6" style="margin-top:5px;">
+                                        @Html.LabelFor(model => model.meetingRegistration.Phone, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                                        @Html.EditorFor(model => model.meetingRegistration.Phone, new { htmlAttributes = new { @class = "form-control", type = "tel", id = "Phone" } })
+                                        @Html.ValidationMessageFor(model => model.meetingRegistration.Phone, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-md-6" style="margin-top:5px;">
+                                        <label class="control-label" style="font-weight:200;color:#333;  margin-bottom:-3px;">Are you an AppTrack member?</label>
+                                        <br />
+                                        @Html.RadioButtonFor(model => model.meetingRegistration.Flag1, 1) Yes
+                                        &nbsp;&nbsp;&nbsp;
+                                        @Html.RadioButtonFor(model => model.meetingRegistration.Flag1, 0) No
+                                    </div>
+
+                                    <div class="col-md-12" style="margin-top:5px;">
+                                        <div class="form-group">
+                                            <input type="Submit" name="Submit" value="Register" class="btn btn-sm btn-primary pull-right">
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    $(document).ready(function () {
+        $("#Phone").mask("(999)999‐9999?x9999");
+    });
+</script>

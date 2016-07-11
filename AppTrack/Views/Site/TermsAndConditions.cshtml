@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.thisPage = "TermsAndConditions";
+    ViewBag.PageType = "TermsAndConditions";
+    ViewBag.callbackURL = "~/Site/TermsAndConditions.cshtml";
+}
+
+
+
+<style>
+    .bg-gray {
+        padding: 5px;
+    }
+</style>
+<div class="row">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left hidden-xs hidden-sm" style="min-height:450px;">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+        </div>
+        <div class="col-md-8 pull-right nopadding noteditable">
+            <div class="col-md-11 pull-right nopadding noteditable">
+                <h1 class="text-info-dark">
+                    MEMBERSHIP AGREEMENT: 
+                </h1>
+                    <h4>
+                        THIS CONTRACT IS MADE AND ENTERED INTO, BY AND BETWEEN AppTrack, LCC, AND THE MEMBER WHO AGREE TO THE TERMS AND CONDITIONS OF MEMBERSHIP AS OUTLINED BELOW.
+                    </h4>
+                    <div class="bg-gray editable" style="min-height:100px;" id="termsAndConditions">
+                        @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "TermsAndConditions", status = "LIVE", viewName = "@ViewBag.PageType" });}
+                    </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="row nopadding" style="width:100%;height:25px;">
+    &nbsp;
+</div>

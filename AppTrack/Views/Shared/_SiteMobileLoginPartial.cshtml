@@ -1,0 +1,23 @@
+﻿
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+        @if (User.IsInRole("MemberDirector"))
+        {
+            <li style="padding-top:7px;"><a href="@Url.Action("Index", "SiteIMD")">My Account</a></li>
+        }
+        else
+        {
+            <li style="padding-top:7px;"><a href="@Url.Action("Index", "SiteMember")">My Account</a></li>
+        }
+    <li style="padding-top:7px;"><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+}
+else
+{
+    <li style="padding-top:7px;">@Html.ActionLink("Join AppTrack", "Index", "Enrollment", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+    <li style="padding-top:7px;">@Html.ActionLink("Member Login", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+}
+@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+{
+    @Html.AntiForgeryToken()
+}

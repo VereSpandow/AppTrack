@@ -1,0 +1,162 @@
+﻿@model AppTrack.ViewModels.SalesRepProfileViewModel
+
+@{
+    ViewBag.Title = "Sales Rep Account Profile";
+}
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+@if (ViewBag.message != "")
+{
+    <p class="text-danger">@ViewBag.Message</p>
+}
+
+@if (ViewBag.errorCode == 0)
+{
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-9">
+                <h2>@(Model.SalesRepRecord.DisplayName)</h2>
+                <div class="row">
+                    <div class="col-sm-3" style="color:#333; text-align:right; font-weight: bold; ">
+                        Email:
+                    </div>
+                    <div class="col-sm-9">
+                        @(Model.SalesRepRecord.Email)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3" style="color:#333; text-align:right; font-weight: bold;">
+                        Sales ForceID:
+                    </div>
+                    <div class="col-sm-9">
+                        @(Model.SalesRepRecord.SalesForceID)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3" style="color:#333; text-align:right; font-weight: bold;">
+                        Tax Id:
+                    </div>
+                    <div class="col-sm-9">
+                        @(Model.SalesRepRecord.TaxID)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3" style="color:#333; text-align:right; font-weight: bold;">
+                        Status:
+                    </div>
+                    <div class="col-sm-9">
+                        <span class="status-@Model.SalesRepRecord.Status.ToUpper()">@(Model.SalesRepRecord.Status)</span> as of @Html.DisplayFor(model => model.SalesRepRecord.StatusDate)
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 pull-right" style="padding-top:30px;">
+                @if (Model.SalesRepRecord.StatusID == 1)
+                {
+                    <div class="pull-right">
+                        @if (Model.SalesRepRecord.Status.ToUpper() == "SUSPENDED")
+                        {
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#unsuspendModal">
+                                UNSUSPEND
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#suspendModal">
+                                SUSPEND
+                            </button>
+
+                        }
+                    </div>
+                    <div class="pull-right" style="padding-right:15px;">
+                        <button class="btn btn-info" onclick="location.href = '/SalesRep/Edit/@Model.SalesRepRecord.CustID';">
+                            EDIT
+                        </button>
+                    </div>
+                }
+            </div>
+            <div class="col-sm-12">
+                @{Html.RenderAction("NotesList", "CustomerNotes", new { ID = Model.SalesRepRecord.CustID });}
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="suspendModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Confirm Suspend</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>
+                        Are you sure you want to Suspend <strong>@(Model.SalesRepRecord.DisplayName)</strong>?
+                    </h4>
+                    <br />
+                </div>
+                <div class="modal-footer">
+
+                    <div class="btn btn-info pull-left" data-dismiss="modal">No, Do Not Suspend</div>
+                    @using (Html.BeginForm("Suspend", "SalesRep"))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.SalesRepRecord.CustID)
+                        <button type="submit" value="Delete" class="btn btn-danger pull-right">Yes. Suspend this Sales Rep</button>
+                    }
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="suspendModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Confirm UnSuspend</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>
+                        Are you sure you want to make <strong>@(Model.SalesRepRecord.DisplayName)</strong> active again?
+                    </h4>
+                    <br />
+                </div>
+                <div class="modal-footer">
+
+                    <div class="btn btn-info pull-left" data-dismiss="modal">No, Do Not UnSuspend</div>
+                    @using (Html.BeginForm("UnSuspend", "SalesRep"))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.SalesRepRecord.CustID)
+                        <button type="submit" value="Delete" class="btn btn-danger pull-right">Yes. UnSuspend this Sales Rep</button>
+                    }
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalNote" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <h2>Enter your quick note</h2>
+                    <p>
+                        <textarea class="form-control" cols="80" rows="10"></textarea>
+                    </p>
+                </div>
+                <div class="modal-footer">
+
+                    <div class="btn btn-info pull-left" data-dismiss="modal">Cancel without Saving</div>
+                    <button type="submit" value="Delete" class="btn btn-warning pull-right">Save This Note.</button>
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    // This section modifies the data table in SaleRepNotes.cshtml
+}

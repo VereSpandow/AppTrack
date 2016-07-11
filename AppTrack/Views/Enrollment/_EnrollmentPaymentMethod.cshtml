@@ -1,0 +1,112 @@
+﻿@model AppTrack.ViewModels.EnrollmentPaymentMethod
+
+<div id="enrollRightCol4">
+    <div class="panel panel-info panel-info-dark">
+        <div class="panel-heading">
+            <div class="panel-title">
+                Step 3 OF 4. Your Payment Information
+            </div>
+        </div>
+        <div class="panel-body" style="background-color:#fff;">
+            <div class="col-md-12" style="background-color:#fff;">
+                <p>
+                    Please provide your preferred payment method.  You will not be billed today.
+                </p>
+                <p>
+                    <br />
+                    <span style="font-size:smaller;color:#808080">* required fields</span>
+                </p>
+                @using (Ajax.BeginForm("EnrollmentPaymentMethod", "Enrollment", null,
+                         new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            HttpMethod = "POST",
+                            OnSuccess = "OnSuccess4",
+                            OnFailure = "OnFailure4",
+                            LoadingElementId = "ajax-loader",
+                            UpdateTargetId = "enrollRightCol4"
+                        }, new { id = "paymentMethod" }))
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.AntiForgeryToken()
+                    <img id="ajax-loader" src="@Url.Content("~/Images/ajax-loader.gif")" style="display:none;" />
+                    <div class="col-md-12">
+                        @Html.HiddenFor(model => model.CustID)
+                        @Html.HiddenFor(model => model.PaymentProfile)
+                        <input type="hidden" name="CustomerProfile" id="CustomerProfile" value="@ViewBag.CustomerProfile" />
+
+                        <div class="col-md-12" style="margin-top:5px;">
+                            *@Html.LabelFor(model => model.PName, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;margin-bottom:-3px;" })
+                            @Html.EditorFor(model => model.PName, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+                            @Html.ValidationMessageFor(model => model.PName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-4" style="margin-top:5px;">
+                           * @Html.LabelFor(model => model.PCardType, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;margin-bottom:-3px;" })
+                            @Html.DropDownListFor(model => model.PCardType, Model.CardTypeList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.PCardType, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-8" style="margin-top:5px;">
+                            *@Html.LabelFor(model => model.PCCNumber, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;margin-bottom:-3px;" })
+                            @Html.EditorFor(model => model.PCCNumber, new { htmlAttributes = new { @class = "form-control", maxlength = "16" } })
+                            @Html.ValidationMessageFor(model => model.PCCNumber, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-4" style="margin-top:5px;">
+                            *@Html.LabelFor(model => model.PExpMonth, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;margin-bottom:-3px;" })
+                            @Html.DropDownListFor(model => model.PExpMonth, Model.CardExpMonthList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.PExpMonth, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-4" style="margin-top:5px;">
+                            *@Html.LabelFor(model => model.PExpYear, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;margin-bottom:-3px;" })
+                            @Html.DropDownListFor(model => model.PExpYear, Model.CardExpYearList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.PExpYear, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-4" style="margin-top:5px;">
+                            @Html.LabelFor(model => model.CardCode, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;margin-bottom:-3px;" })
+                            <br />
+                            @Html.EditorFor(model => model.CardCode, new { htmlAttributes = new { @class = "form-control", maxlength = "4" } })
+                            @Html.ValidationMessageFor(model => model.CardCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <p>
+                            I agree to the <a href="~/Documents/MemberAgreementTermsAndConditions.pdf" target="_blank">Terms & Conditions of AppTrack membership.</a>
+                            <br />
+                            <br />
+                            @Html.CheckBoxFor(model => model.Agreement)
+                            @Html.ValidationMessageFor(model => model.Agreement, "", new { @class = "text-danger" })
+                            By submitting this form, I hereby authorize AppTrack to charge the monthly AppTrack Membership dues to the credit card I provided.  Membership will automatically renew each month unless notification is given 30 days in advance. 
+                        </p>
+                        <div class="form-group">
+                            <div id="primarySubmit" class="btn btn-sm btn-primary pull-right">Save</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $.validator.unobtrusive.parse(document);
+    function OnSuccess4() {
+    }
+    function OnFailure4() {
+    }
+
+    $("#primarySubmit").click(function () {
+        if ($("#Agreement").is(":checked") == true) {
+            $("#primarySubmit").hide();
+            $("#paymentMethod").submit();
+        }
+        else {
+            alert("Please acknowledge your agreement to the terms and conditions.");
+        }
+    });
+
+
+</script>

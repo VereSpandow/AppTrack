@@ -1,0 +1,77 @@
+﻿@helper FormatPhone(string phoneNumber)
+{
+
+    if (phoneNumber != null && phoneNumber.Length > 0)
+    {
+        List<char> digits = (from c in phoneNumber where Char.IsDigit(c) select c).ToList<char>();
+        string cleanPhoneNumber = string.Empty;
+        foreach (var digit in digits)
+        {
+            cleanPhoneNumber += digit;
+        }
+
+        if (cleanPhoneNumber.Length == 10)
+        {
+            <span>
+                @string.Format("({0}) {1}-{2}",
+                @cleanPhoneNumber.Substring(0, 3),
+                @cleanPhoneNumber.Substring(3, 3),
+                @cleanPhoneNumber.Substring(6, 4))
+            </span>
+        }
+
+        if (cleanPhoneNumber.Length > 10)
+        {
+            <span>
+                @string.Format("({0}) {1}-{2}-{3}",
+                @cleanPhoneNumber.Substring(0, 3),
+                @cleanPhoneNumber.Substring(3, 3),
+                @cleanPhoneNumber.Substring(6, 4),
+                @cleanPhoneNumber.Substring(10, cleanPhoneNumber.Length - 10))
+            </span>
+        }
+
+        if (cleanPhoneNumber.Length == 7)
+        {
+            <span>
+                @string.Format("{0}-{1}",
+                @cleanPhoneNumber.Substring(0, 3),
+                @cleanPhoneNumber.Substring(3, 4))
+            </span>
+        }
+    }
+}
+@helper ShowLast4Digits(string inputString)
+{
+
+    if (inputString != null && inputString.Length > 0)
+    {
+        List<char> digits = (from c in inputString where Char.IsDigit(c) select c).ToList<char>();
+        string cleanString = string.Empty;
+        foreach (var digit in digits)
+        {
+            cleanString += digit;
+        }
+        if (cleanString.Length >= 4)
+        {
+            string starString = string.Empty;
+            for (int i = 0; i < cleanString.Length; i++)
+            {
+                starString += "*";
+            }
+            <span>
+                @starString
+                @string.Format("{0}",
+                @cleanString.Substring(cleanString.Length - 4, 4))
+            </span>
+
+        }
+        else
+        {
+            <span>
+                @string.Format("{0}",
+                @cleanString)
+            </span>
+        }
+    }
+}

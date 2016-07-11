@@ -1,0 +1,2 @@
+Error	1	Cannot implicitly convert type 'System.Collections.Generic.List<IDOC.Models.LB_GetSalesRepList_Result>' to 'System.Collections.Generic.List<IDOC.ViewModels.SalesRepList>'	C:\Development\LoyaltyBenefits\MVCIDOC\IDOC\IDOC\Controllers\SalesRepController.cs	46	32	IDOC
+

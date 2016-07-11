@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.PageType = "Education";
+    ViewBag.thisPage = "Education";
+}
+<div class="row nopadding">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-12 pull-right nopadding">
+            @if (ViewBag.Page == 1)
+            {
+                <div class="col-md-12 nopadding" style="margin-top:15px;">
+                    <img src="~/Images/2016_National_Conference_electronic.jpg" alt="2016 Conference Agenda" border="0" width=100% />
+                </div>
+                <div class="col-md-12 nopadding" style="text-align:center;">
+                    <a href="https://events.r20.constantcontact.com/register/eventReg?llr=jgizjscab&oeidk=a07ec2p76vc4f5a7683" target="_blank"><img src="~/Images/RegisterButton.gif" alt="Register" border="0" style="width:auto;" /></a>
+                </div>
+                <span style ="font-size:1.2em;font-weight:bold">&nbsp;<br />We are offering 2 full day tracks on Thursday and Saturday. To learn more <a href="/Site/NationalConference2016?page=2">click here.</a></span>
+            }
+            else
+            {
+                <div class="col-md-12 nopadding" style="margin-top:15px;">
+                    <br /><br />
+                    <img src="~/Images/OBC_2-ProgramSheet.jpg" alt="OBC Program Sheet" border="0" width=100% />
+                </div>
+                <div class="col-md-6 nopadding" style="margin-top:15px;">
+                    <a href="http://dbc14.wix.com/great-game-optometry" target="_blank"><img src="~/Images/OBCButtonLeft.png" alt="OBC Register" border="0" width=100% /></a>
+                </div>
+                <div class="col-md-6 nopadding" style="margin-top:15px;">
+                    <a href="mailto:edolan@AppTrack.net" target="_blank"><img src="~/Images/OBCButtonRight.png" alt="OBC eMail" border="0" width=100% /></a>
+                </div>
+                <span style="font-size:1.2em;font-weight:bold"><br /><br /><a href="/Site/NationalConference2016">Click here</a> to return to the conference agenda.</span>
+            }
+        </div>
+    </div>
+</div>
+<div class="row nopadding" style="width:100%;height:25px;">
+    &nbsp;
+</div>

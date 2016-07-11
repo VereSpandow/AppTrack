@@ -1,0 +1,45 @@
+﻿<div>
+    <div class="bg-primary" style="position:fixed; top:0px; left:50%; margin-left:-100px; height:40px; width:120px;">
+        <ul class="nav navbar-nav navbar-left">
+            <li class="">
+                <div class="btn btn-lbtopnav" id="toggleSideBar">
+                    <i class="fa fa-fw fa-2x fa-bars"></i>
+                </div>
+            </li>
+            @if (Request.IsAuthenticated)
+            {
+                <li>
+                    <div class="btn btn-lbnav" id="toggleTopPanelLogOutf">
+                        <i class="fa fa-fw fa-2x fa-sign-out" onclick="javascript: document.getElementById('logoutForm').submit()"></i>
+                    </div>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <div>
+                        <a href="/Account/Login" class="btn btn-lbnav">
+                            <i class="fa fa-fw fa-2x fa-sign-in fa-flip-horizontal"></i>
+                        </a>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+<div class="clearfix" style="height:40px;text-align: right; clear: both">
+    @if (Request.IsAuthenticated)
+    {
+        <h4 style="padding-right:15px;">Welcome @ViewBag.DisplayName</h4>
+    }
+    else
+    {
+        <span>&nbsp;</span>
+    }
+</div>
+
+@using (Html.BeginForm("Logoff", "Account", FormMethod.Post, new { id = "logoutForm", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+}

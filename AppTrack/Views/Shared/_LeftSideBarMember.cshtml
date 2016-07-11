@@ -1,0 +1,180 @@
+﻿@{
+    var IndexStyle = "";
+    var AccountStyle = "";
+    var EditAccountStyle = "";
+    var ProgramsStyle = "";
+    var OrdersStyle = "";
+    var RebatesStyle = "";
+    var VendorsStyle = "";
+    var MyVendorsStyle = "";
+    var ResetPasswordStyle = "";
+    var ResourcesStyle = "";
+    if (ViewBag.PageType == "Index")
+    {
+        IndexStyle = "nav-bg-info-dark";
+    }
+    if (ViewBag.PageType == "AccountProfile")
+    {
+        AccountStyle = "nav-bg-info-dark";
+    }
+    if (ViewBag.PageType == "EditAccount")
+    {
+        EditAccountStyle = "nav-bg-info-dark";
+    }
+    if (ViewBag.PageType == "ProfileUpdate")
+    {
+        ProgramsStyle = "nav-bg-info-dark";
+    }
+    if (ViewBag.PageType == "OrderList")
+    {
+        OrdersStyle = "nav-bg-info-dark";
+    }
+    if (ViewBag.PageType == "RebateCommissionList")
+    {
+        RebatesStyle = "nav-bg-info-dark";
+    }
+    if (ViewBag.PageType == "MemberVendorList")
+    {
+        VendorsStyle = "nav-bg-info-dark";
+    }
+    if (ViewBag.PageType == "MemberVendorSelect")
+    {
+        MyVendorsStyle = "nav-bg-info-dark";
+    }
+    if (ViewBag.PageType == "ResetPasswordList")
+    {
+        ResetPasswordStyle = "nav-bg-info-dark";
+    }
+    if (ViewBag.PageType == "ResourceList")
+    {
+        ResourcesStyle = "nav-bg-info-dark";
+    }
+}
+<div class="pull-left col-md-8 nopadding" style="padding-top:15px;">
+    <a href="@Url.Action("Index", "SiteMember")">
+        <div class="pull-right idocsubnav @IndexStyle" style="width:100%;border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+            Home
+        </div>
+    </a>
+    <a href="@Url.Action("AccountProfile", "SiteMember")">
+        <div class="pull-right idocsubnav @AccountStyle" style="width:100%;border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+            My Account Profile
+        </div>
+    </a>
+    <a href="@Url.Action("EditAccount", "SiteMember")">
+        <div class="pull-right idocsubnav @EditAccountStyle" style="width:100%;border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+            Edit My Account
+        </div>
+    </a>
+    <a href="@Url.Action("RequestResetPassword", "Account")">
+        <div class="pull-right idocsubnav @ResetPasswordStyle" style="width:100%;border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+            Update Password
+        </div>
+    </a>
+    <a href="@Url.Action("ProfileUpdate", "SiteMember")">
+        <div class="pull-right idocsubnav @ProgramsStyle" style="width:100%; border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+            My Membership
+        </div>
+    </a>
+    <a href="@Url.Action("OrderList", "SiteMember")">
+        <div class="pull-right idocsubnav @OrdersStyle" style="width:100%; border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+            My Billing History
+        </div>
+    </a>
+    <a href="@Url.Action("RebateCommissionList")">
+        <div class="pull-right idocsubnav @RebatesStyle" style="width:100%; border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+            My Rebates
+        </div>
+    </a>
+    <a href="@Url.Action("MemberVendorList", "SiteMember")">
+        <div class="pull-right idocsubnav @VendorsStyle" style="width:100%; border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+            Vendor Programs
+        </div>
+    </a>
+    @*
+        Removed for now will put back after we clean up the vendor member data relationships
+            <a href="@Url.Action("MemberVendorSelect", "SiteMember")">
+            <div class="pull-right idocsubnav @MyVendorsStyle" style="width:100%; border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+                My Vendors
+            </div>
+        </a>
+    *@
+    <a href="@Url.Action("Resources")">
+            <div class="pull-right idocsubnav @ResourcesStyle" style="width:100%; border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+                Education Resources
+            </div>
+        </a>
+        <a href="http://AppTrack.net/eVendorBook/2016-Q2/index.html" target="_blank">
+            <div class="pull-right idocsubnav" style="width:100%; border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+                Q2 eVendor Book
+            </div>
+        </a>
+
+@*
+    <a href="#" onclick="showReferralModal()">
+        <div class="pull-right idocsubnav @ResourcesStyle" style="height:auto;width:100%; border:1px #333 solid;margin-top:10px;color:white;background-color:#008ed6" id="SavingsAndRebatesStyle">
+            Refer A Colleague and Save
+            <br />
+            <span style="font-size:.8em;">
+                Have colleagues that would benefit from AppTrack? Let us know and receive a FREE month of Membership for every person that joins !
+            </span>
+            <div style="clear:both;">Click Here<br /><br /></div>
+        </div>
+    </a>
+*@
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="referralModal" tabindex="-1" role="dialog" aria-labelledby="referralModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-info-dark">
+                    <span style="color:white;font-size=1.2em;">Refer a Colleague and Save</span>
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="color:white;">&times;</span></button>
+                </div>
+                <div class="modal-footer" id="referralResults" style="text-align:left;padding-left:20px;">
+                    <div class="col-md-6 col-md-offset-3" style="margin-top:5px;padding:5px;">
+                        <img id="ajax-loader-referral" src="@Url.Content("~/Images/ajax-loader.gif")" style="display:none;" />
+
+                        @using (Ajax.BeginForm("MemberReferral", "SiteMember", null,
+                            new AjaxOptions
+                            {
+                                InsertionMode = InsertionMode.Replace,
+                                HttpMethod = "POST",
+                                LoadingElementId = "ajax-loader-referral",
+                                UpdateTargetId = "referralResults"
+                            }, new { id = "Referral" }))
+                        {
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.AntiForgeryToken()
+                            <div style="margin-top:5px;padding:5px;">
+                                <input type="text" name="contactDisplayName" id="contactDisplayName" class="form-control" placeholder="Colleague's Name" required style="color:#930fa5;padding:3px;font-size:0.9em;">
+                            </div>
+                            <div style="padding:5px;">
+                                <input type="tel" name="contactPhone" id="contactPhone" class="form-control phone" placeholder="Colleague's Phone" required style="color:#930fa5;padding:3px;font-size:0.9em;">
+                            </div>
+                            <div style="padding:5px;">
+                                <input type="email" name="contactEmail" id="contactEmail" class="form-control email" placeholder="Colleague's Email (optional)" style="color:#930fa5;padding:3px;font-size:0.9em;">
+                            </div>
+                            <input type="submit" class="btn btn-info pull-right" name="submit" value="Send">
+                        }
+                    </div><!-- Model content-->
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script>
+
+        function showReferralModal() {
+            $('#referralModal').modal('show');
+        };
+        function successReferral() {
+            alert("success");
+        }
+
+        function failureReferral() {
+            alert("failed");
+        }
+
+    </script>
+

@@ -1,0 +1,146 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayoutMember.cshtml";
+    ViewBag.PageType = "ContactList";
+}
+@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="meetingContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.ContactListViewModel
+
+    <div class="col-md-12 nopadding" style="padding-top:20px;">
+
+        <ul id="tabstrip" class="nav nav-tabs" role="tablist">
+            <li><a class="AccountLink" href="@Url.Action("EditAccount", "SiteMember")" role="tab">Practice Information</a></li>
+            <li><a class="PaymentLink" href="@Url.Action("MemberPaymentMethod", "SiteMember")" role="tab">Payment Information</a></li>
+            <li><a class="LocationLink" href="@Url.Action("LocationList", "SiteMember")" role="tab">Additional Locations</a></li>
+            <li class="active"><a class="ContactLink" href="@Url.Action("ContactList", "SiteMember")" role="tab">Additional Contacts</a></li>
+        </ul>
+
+        <div class="panel panel-default" style="min-height:275px; box-shadow:#CCC 7px 7px;">
+            <div class="panel-body nopadding">
+                <div class="col-sm-12 pull-left">
+                    <div class="col-sm-6 pull-left">
+                        <h4>Additional Contacts</h4>
+                    </div>
+                    <div class="col-sm-6 pull-right" style="margin-top:10px;">
+                        <a href="/SiteMember/ContactCreate">
+                            <div style="float:right;" class="btn btn-xs btn-info">Add New</div>
+                        </a>
+                    </div>
+
+                    <table class="table table-hover table-striped table-responsive" id="ContactTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Contact Name
+                                </th>
+                                <th>
+                                    Contact Type
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Phone
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.ContactList)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FirstName)<span>&nbsp;</span>@Html.DisplayFor(modelItem => item.LastName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ContactType)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        @Helpers.FormatPhone(@item.DayPhone)
+                                    </td>
+                                    <td>
+                                        <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                                    </td>
+                                    <td>
+                                        <a href="/SiteMember/ContactEdit?ContactID=@item.CustID">
+                                            <span class="fa fa-fw fa-edit"></span>
+                                        </a>
+                                        <a href="#" onclick="deleteContact(@item.CustID, '@item.FirstName', '@item.LastName')"><span class="fa fa-fw fa-trash"></span></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-12 pull-left">
+                    <br />
+                    To update the Primary Contact at your main office, click on the Practice Information tab.
+                    <br />
+                    To update the Primary Contact at any of your other locations, click on the Additional Locations tab.
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteContactModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4>
+                        Are you sure you want to delete <span id="deleteFirstName"></span>&nbsp;<span id="deleteLastName"></span> ?
+                    </h4>
+                </div>
+                <div class="modal-footer">
+                    @using (Html.BeginForm("ContactDelete", "SiteMember", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "deleteContactForm" }))
+                    {
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden" name="ContactID" id="deleteCustID" value="" />
+                        <span class="btn btn-info pull-left" data-dismiss="modal">NO</span>
+                        <input type="submit" class="btn btn-danger pull-right" name="submit" value="YES">
+                    }
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+}
+<script>
+
+    function deleteContact(thisCustID, thisFirstName, thisLastName) {
+        $("#deleteCustID").val(thisCustID);
+        $('#deleteContactModal').modal('show');
+        $("#deleteFirstName").html(thisFirstName);
+        $("#deleteLastName").html(thisLastName);
+    };
+
+</script>
+

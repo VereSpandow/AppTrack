@@ -1,0 +1,7 @@
+﻿<div class="h2" style="float:left">Commission Detail</div>
+
+<div class="col-md-12">
+    @{
+        Html.RenderAction("CommissionList", "Commission", new {startPeriodID = ViewBag.StartPeriodID, endPeriodID = ViewBag.EndPeriodID, searchCommissionID = ViewBag.CommissionID});
+    }
+</div>

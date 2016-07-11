@@ -1,0 +1,337 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="programContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.VendorProgramViewModel
+    if (User.IsInRole("VendorAdmin"))
+    {
+        ViewBag.Disabled = "";
+    }
+    else
+    {
+        ViewBag.Disabled = " disabled";
+    }
+
+    <div id="programContainerDiv">
+        <div class="col-sm-6">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+
+        @if (ViewBag.Disabled == "")
+        {
+            <div class="col-sm-6 pull-right" style="text-align:right;">
+                &nbsp;<button class="btn btn-xs btn-info" onclick="showAddProgramForm()" id="addProgramButton">
+                    Add Program
+                </button>
+            </div>
+        }
+        <div style="clear:both"></div>
+
+        <div class="row" style="padding-top:10px;">
+
+            <div class="filterbar" id="updateProgramFormDiv" style="display:none;">
+                @using (Ajax.BeginForm("ProgramList", "Vendor", null,
+                new AjaxOptions
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "POST",
+                    OnFailure = "updateProgramFailure",
+                    OnSuccess = "updateProgramSuccess",
+                    LoadingElementId = "ajax-loader",
+                    UpdateTargetId = "programContainerDiv"
+                }, new { id = "updateProgramForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div>
+                        <input type="hidden" name="ErrorCode" id="ErrorCode" value="@ViewBag.ErrorCode" />
+
+                        @Html.HiddenFor(model => model.vendorProgram.CustID)
+                        @Html.HiddenFor(model => model.vendorProgram.ProgramID, new { @id = "vendorProgramID" })
+
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.vendorProgram.C_ProgramID, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DropDownListFor(model => model.vendorProgram.C_ProgramID, Model.CompanyProgramList, new { @class = "form-control" + ViewBag.Disabled })
+                            @Html.ValidationMessageFor(model => model.vendorProgram.ProgramID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-9">
+                            @Html.LabelFor(model => model.vendorProgram.ProgramName, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.vendorProgram.ProgramName, new { htmlAttributes = new { @class = "form-control" + ViewBag.Disabled, maxlength = "100" } })
+                            @Html.ValidationMessageFor(model => model.vendorProgram.ProgramName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12">
+                            <label class="control-label">Program Summary</label>
+                            <br />
+                            @Html.TextAreaFor(model => model.vendorProgram.ProgramSummary, new { @rows = 10, @class = "form-control" + ViewBag.Disabled, maxlength = "2500" })
+                            @Html.ValidationMessageFor(model => model.vendorProgram.ProgramSummary, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.vendorProgram.ProgramRequirements, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.TextAreaFor(model => model.vendorProgram.ProgramRequirements, new { @rows = 20, @class = "form-control" + ViewBag.Disabled, maxlength = "2500" })
+                            @Html.ValidationMessageFor(model => model.vendorProgram.ProgramRequirements, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12">
+                            <label class="control-label">Program Details</label>
+                            <br />
+                            @Html.TextAreaFor(model => model.vendorProgram.ProgramDescription, new { @rows = 40, @class = "mceEditor" + ViewBag.Disabled, maxlength = "8000", id="ProgramDescription"})
+                            @Html.ValidationMessageFor(model => model.vendorProgram.ProgramDescription, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12">
+                            <label class="control-label">Getting Started</label>
+                            <br />
+                            @Html.TextAreaFor(model => model.vendorProgram.ProgramDirections, new { @rows = 10, @class = "form-control" + ViewBag.Disabled, maxlength = "2500" })
+                            @Html.ValidationMessageFor(model => model.vendorProgram.ProgramDirections, "", new { @class = "text-danger" })
+                        </div>
+                        @if (ViewBag.Disabled == "")
+                        {
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.vendorProgram.MemberRebate, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.vendorProgram.MemberRebate, new { htmlAttributes = new { @class = "form-control" + ViewBag.Disabled, type = "number", step = "any", min = "0", max = "50" } })
+                                @Html.ValidationMessageFor(model => model.vendorProgram.MemberRebate, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.vendorProgram.CorporateRebate, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.vendorProgram.CorporateRebate, new { htmlAttributes = new { @class = "form-control" + ViewBag.Disabled, type = "number", step = "any", min = "0", max = "50" } })
+                                @Html.ValidationMessageFor(model => model.vendorProgram.CorporateRebate, "", new { @class = "text-danger" })
+                            </div>
+                        }
+                            <div class="col-md-8" style="padding-top:10px;">
+                                <span class="control-label" style="font-weight: bold">Is Member participation required for this program?</span>
+                                @Html.RadioButtonFor(model => model.vendorProgram.MemberParticipationRequired, 1, Model.vendorProgram.MemberParticipationRequired == 1 ? new { Checked = "checked", Class = "" + ViewBag.Disabled } : null) Yes
+                                @Html.RadioButtonFor(model => model.vendorProgram.MemberParticipationRequired, 0, Model.vendorProgram.MemberParticipationRequired == 0 ? new { Checked = "checked", Class = "" + ViewBag.Disabled } : null) No
+                                @Html.ValidationMessageFor(model => model.vendorProgram.MemberParticipationRequired, "", new { @class = "text-danger" })
+                            </div>
+
+
+                        <div class="col-md-12 pull-right" style="text-align:right; padding-top:15px;margin-bottom:20px;">
+                            @if (ViewBag.Disabled == "")
+                            {
+                                <input type="submit" name="SubmitAction" value="Save" class="btn btn-xs btn-info" />
+                            }
+                            &nbsp;
+                            <span class="btn btn-xs btn-info" onclick="editProgramInit(@Model.vendorProgram.CustID,0)">Cancel</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center">
+                        <img id="ajax-loader" src="@Url.Content("~/Content/images/ajaxLoader.gif")" style="display:none;" />
+                    </div>
+                }
+            </div>
+            <table class="table table-hover table-striped table-responsive" id="programsTable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorProgramList[0].C_ProgramName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorProgramList[0].ProgramName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorProgramList[0].ProgramSummary)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorProgramList[0].StartDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorProgramList[0].Status)
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.VendorProgramList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.C_ProgramName)
+                            </td>
+                            <td >
+                                <a href="#" onclick="editProgramInit(@item.CustID, @item.ProgramID)">@Html.DisplayFor(modelItem => item.ProgramName)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProgramSummary)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StartDate)
+                            </td>
+                            <td>
+                                <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                            </td>
+                            <td>
+                                @if (ViewBag.Disabled == "")
+                                {
+                                    <span onclick="deleteProgram(@item.CustID, @item.ProgramID, '@item.ProgramName')" class="btn btn-xs btn-danger">
+                                        X
+                                    </span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+        <!-- EDIT CONTACT INITIALIZATION FORM -->
+    <div id="editProgramInitFormDiv" style="display:block;">
+        @using (Ajax.BeginForm("ProgramList", "Vendor", null,
+             new AjaxOptions
+             {
+                 InsertionMode = InsertionMode.Replace,
+                 HttpMethod = "GET",
+                 OnFailure = "editProgramInitFailure",
+                 OnSuccess = "editProgramInitSuccess",
+                 LoadingElementId = "ajax-loader",
+                 UpdateTargetId = "programContainerDiv"
+             }, new { id = "editProgramInitForm" }
+             ))
+        {
+            <input type="hidden" name="VendorID" id="editProgramVendorID" value="" />
+            <input type="hidden" name="ProgramID" id="editProgramID" value="" />
+        }
+    </div>
+    <!-- DELETE PROGRAM INITIALIZATION FORM -->
+    <div id="deleteProgramFormDiv" style="display:block;">
+        @using (Ajax.BeginForm("ProgramList", "Vendor", new { ActionType = "D" },
+             new AjaxOptions
+             {
+                 InsertionMode = InsertionMode.Replace,
+                 HttpMethod = "GET",
+                 OnFailure = "deleteProgramFailure",
+                 OnSuccess = "deleteProgramSuccess",
+                 LoadingElementId = "ajax-loader",
+                 UpdateTargetId = "programContainerDiv"
+             }, new { id = "deleteProgramForm" }
+             ))
+        {
+            <input type="hidden" name="VendorID" id="deleteProgramVendorID" value="" />
+            <input type="hidden" name="ProgramID" id="deleteProgramID" value="" />
+        }
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteProgramModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Delete Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>
+                        Are you sure you want to Delete <span id="deleteProgramName"></span>?
+                    </h4>
+                    <br />
+                    <p>
+                        Deleting the Program can not be undone without contacting technical support.
+                    </p>
+                </div>
+                <div class="modal-footer">
+
+                    <div class="btn btn-info pull-left" data-dismiss="modal">Cancel without Deleting</div>
+                    <div class="btn btn-danger pull-right" onclick="deleteProgramConfirm()">Yes. Delete this Program</div>
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            initializeProgramsTable();
+            $.validator.unobtrusive.parse(updateProgramForm);
+            $('.disabled').attr("disabled", "disabled");
+            CKEDITOR.replace('ProgramDescription', {
+                customConfig: '/Scripts/ckeditor/SD1config.js'
+            });
+        });
+
+        function initializeProgramsTable() {
+            $('#programsTable').dataTable(
+            {
+                "searching": false,
+                "bLengthChange": false,
+                "oLanguage": {
+                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                    "sLengthMenu": "Show _MENU_ rows per page",
+                    "sInfoEmpty": "0 records found",
+                    "sEmptyTable": "No programs available to display"
+                }
+            });
+        };
+
+        function showAddProgramForm() {
+            $('#addProgramButton').hide();
+            $('#updateProgramFormDiv').show();
+        };
+
+        function editProgramInit(thisVendorID, thisProgramID) {
+            $("#editProgramVendorID").val(thisVendorID);
+            $("#editProgramID").val(thisProgramID);
+            $("#editProgramInitForm").submit();
+        };
+
+        function editProgramInitSuccess() {
+            if ($('#vendorProgramID').val() > 0) {
+                $('#addProgramButton').hide();
+                $('#updateProgramFormDiv').show();
+            }
+        };
+
+        function editProgramInitFailure() {
+            alert("Edit Program initialization failed");
+        };
+
+        function updateProgramSuccess() {
+            if ($('#ErrorCode').val() != 0) {
+                $('#addProgramButton').hide();
+                $('#updateProgramFormDiv').show();
+            }
+        };
+
+        function updateProgramFailure() {
+            alert("Update Program failed");
+        };
+
+        function deleteProgram(thisVendorID, thisProgramID, thisProgramDisplayName) {
+            $("#deleteProgramVendorID").val(thisVendorID);
+            $("#deleteProgramID").val(thisProgramID);
+            $('#deleteProgramModal').modal('show');
+            $("#deleteProgramName").html(thisProgramDisplayName);
+
+        };
+        function deleteProgramConfirm() {
+            $("#deleteProgramForm").submit();
+            $('#deleteProgramModal').modal('hide');
+        };
+
+        function deleteProgramSuccess() {
+        };
+
+        function deleteProgramFailure() {
+            alert("Delete Program failed");
+        };
+
+    </script>
+}

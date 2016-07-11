@@ -1,0 +1,18 @@
+        public int SponsorID { get; set;  }
+        public string Company { get; set; }
+        public string TaxID { get; set; }
+        public string NameTitle { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public string Address1 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string PostalCode { get; set; }
+        public string CompanyPhone { get; set; }
+        public string Email { get; set; }
+        public string VariantData1 { get; set; }
+        public Nullable<int> SourceID { get; set; }
+        public Nullable<int> Flag1 { get; set; }
+        public Nullable<decimal> Volume1 { get; set; }
+]}

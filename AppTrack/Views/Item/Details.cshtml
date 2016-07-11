@@ -1,0 +1,202 @@
+﻿@model AppTrack.Models.C_Item
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>C_Item</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ParentID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParentID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemImage1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemImage1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemImage2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemImage2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemDetailPage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemDetailPage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemVideo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemVideo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsShip)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsShip)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MinQuantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MinQuantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxQuantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxQuantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ToItemID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToItemID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FromItemID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FromItemID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isAutoShip)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isAutoShip)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isShipping)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isShipping)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPrePackaged)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPrePackaged)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DisplayFlag)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DisplayFlag)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ItemID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,116 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayoutMemberNoNav.cshtml";
+    ViewBag.Title = "Vendor Detail";
+    ViewBag.thisPage = "Vendor Detail";
+    ViewBag.PageType = "Vendor Detail";
+}
+@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="meetingContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.VendorDetaiLViewModel
+    <style>
+        hr {
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <div class="col-xs-12 pull-right no-offset nopadding" style="text-align:right;margin-top:10px;">
+        <a href="@Url.Action("MemberVendorList", "SiteIMD")"><span class="btn btn-xs btn-info">Back To Vendor Programs</span></a>
+    </div>
+    <div class="col-xs-12 pull-right no-offset nopadding">
+        <div class="pull-left col-sm-2 col-sm-offset-1 col-xs-12">
+            @if (!String.IsNullOrEmpty(@Model.Logo))
+            {
+                <img src="~/images/@Model.Logo" style="width:100%;height:auto;" />
+                <hr />
+            }
+            @if (!String.IsNullOrEmpty(@Model.CompanyPhone))
+            {
+                @:Customer Service Phone:
+                <br />
+                <strong>@Model.CompanyPhone</strong>
+                <hr />
+            }
+            @if (!String.IsNullOrEmpty(@Model.LastName))
+            {
+                @:Contact:
+                <br />
+                <strong>@Model.FirstName</strong><span>&nbsp;</span><strong>@Model.LastName</strong>
+                <hr />
+            }
+            @if (!String.IsNullOrEmpty(@Model.SiteName))
+            {
+                @:Website:
+                <br />
+                <a href="http://@Model.SiteName.ToString().Replace("http://", "")"><strong>@Model.SiteName.ToString().Replace("http://", "")</strong></a>
+                <hr />
+            }
+            <br /><br />
+        </div>
+        <div class="col-sm-7 col-sm-offset-1 col-xs-12" style="margin-bottom:30px;">
+            <h2>@Html.Raw(@Model.ProgramName)</h2>
+            <br />
+            <h4 style="margin:0;color:#930FA5">Program Summary</h4>
+            <hr />
+            @Html.Raw(@Model.ProgramSummary)
+            @if (!String.IsNullOrEmpty(Model.ProgramRequirements))
+            {
+                <br />
+                <br />
+                @Html.Raw(@Model.ProgramRequirements)
+            }
+            <br />
+            <br />
+            <br />
+            <h4 style="margin:0;color:#337ab7">Program Details</h4>
+            <hr />
+            @Html.Raw(@Model.ProgramDescription)
+            @if (!String.IsNullOrEmpty(Model.ProgramDirections))
+            {
+                <br />
+                <br />
+                <br />
+                <h4 style="margin:0;color:#52aa45">Get Started</h4>
+                <hr />
+                @Html.Raw(@Model.ProgramDirections)
+            }
+
+            @if (Model.documentList.Count() > 0)
+            {
+                <br />
+                <br />
+                <br />
+                <h4 style="margin:0;color:#0094ff">Downloads</h4>
+                <hr />
+                foreach (var item in Model.documentList)
+                {
+                    if ((item.FileName != null) && (item.DocumentName != null) && (item.DocumentName != "None"))
+                    {
+                        <div class='col-xs-6 pull-left nopadding' style='padding-right:5px;'>
+                            <a href="@Constants.siteURL/Documents/Vendor/@item.CustID/@Html.DisplayFor(modelItem => item.FileName)" target="_blank">
+                                @Html.DisplayFor(modelItem => item.DocumentName)
+                            </a>
+                        </div>
+                    }
+                }
+                <br />
+                <br />
+            }
+        </div>
+    </div>
+}

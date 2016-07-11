@@ -1,0 +1,123 @@
+﻿@model IEnumerable<AppTrack.Models.C_Notes>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CustID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoteType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoteReason)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoteText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AssignedTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AssignedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ResultCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ResultDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StatusDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StatusID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccessLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AdminID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoteType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoteReason)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoteText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AssignedTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AssignedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ResultCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ResultDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StatusDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StatusID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccessLevel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdminID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.NoteID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.NoteID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.NoteID })
+        </td>
+    </tr>
+}
+
+</table>

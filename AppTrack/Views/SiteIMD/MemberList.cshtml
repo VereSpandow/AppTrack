@@ -1,0 +1,170 @@
+﻿@{
+    ViewBag.Title = "MemberList";
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.PageType = "Members";
+    }
+<div class="row nopadding">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left" style="min-height:450px;">
+            @{Html.RenderPartial("/Views/Shared/_LeftSideBarIMD.cshtml");}
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding">
+            <div class="col-md-12 nopadding">
+
+                @if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+                {
+                    <div id="memberContainerDiv">
+                        <div class="col-sm-12" style="font-size: 1.5em">
+                            <br />
+                            <br />
+                            The following unexpected error was encountered:
+                            <br />
+                            <br />
+                            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+                            <br />
+                            <br />
+                            Please contact technical support.
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @model AppTrack.ViewModels.MemberDirectorMemberListViewModel
+
+                    <div id="memberContainerDiv">
+                        <div class="col-sm-6 nopadding">
+                            <h3>Members</h3>
+                        </div>
+
+                        <div class="col-sm-6 nopadding pull-right" style="text-align:right;padding-top:15px;">
+                            <button class="btn btn-xs btn-info" onclick="showSearchMemberForm()">
+                                Search Members
+                            </button>
+                        </div>
+
+                        <div class="col-sm-12 nopadding">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        </div>
+                        <div style="clear:both"></div>
+
+                            <div class="row" style="padding-top:10px;">
+
+                                <!-- SEARCH FORM -->
+                                <div class="filterbar" id="searchMemberFormDiv" style="display:none;">
+                                    @using (Html.BeginForm("MemberList", "SiteIMD", FormMethod.Post, new { id = "formMemberList" }))
+                                {
+                                        @Html.AntiForgeryToken()
+                                        <div>
+                                            <div class="col-sm-4">
+                                                @Html.LabelFor(model => model.SearchDisplayName, htmlAttributes: new { @class = "control-label" })
+                                                <br />
+                                                @Html.EditorFor(model => model.SearchDisplayName, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.SearchDisplayName, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-sm-4">
+                                                @Html.LabelFor(model => model.SearchLastName, htmlAttributes: new { @class = "control-label" })
+                                                <br />
+                                                @Html.EditorFor(model => model.SearchLastName, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.SearchLastName, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-sm-2">
+                                                @Html.LabelFor(model => model.SelectedStatus, htmlAttributes: new { @class = "control-label" })
+                                                <br />
+                                                @Html.DropDownListFor(model => model.SelectedStatus, Model.StatusList, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.SelectedStatus, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-sm-2 pull-right" style="text-align:right;">
+                                                <label class="control-label">&nbsp;</label>
+                                                <br />
+                                                <button class="btn btn-sm btn-info" type="submit" value="Search">Search</button>
+                                            </div>
+                                        </div>
+                                }
+                                </div>
+                            </div>
+                            <table class="table table-hover table-striped table-responsive" id="memberTable" style="padding-top:10px;">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Enrolled
+                                        </th>
+                                        <th>
+                                            Member
+                                        </th>
+                                        <th>
+                                            Practice
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.MemberList)
+                                {
+                                        <tr>
+                                            <td>
+                                                @item.StartDate.Value.ToString("MM/dd/yy")
+                                            </td>
+                                            <td>
+                                                @item.FirstName @item.LastName
+                                            </td>
+                                            <td>
+                                                @item.DisplayName
+                                                <br />
+                                                @item.Address1
+                                                @if (!String.IsNullOrEmpty(item.Address2))
+                                                {
+                                                    <span>,</span> @item.Address2
+                                                }
+                                                @item.City<span>,</span> @item.State @item.PostalCode
+                                            </td>
+                                            <td>
+                                                <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                                            </td>
+                                        </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    <script>
+
+                        $(document).ready(function () {
+                            initializeMemberTable();
+                            $.validator.unobtrusive.parse(document);
+                        });
+
+                        function initializeMemberTable() {
+                            $('#memberTable').dataTable(
+                            {
+                                "searching": false,
+                                "bLengthChange": false,
+                                "oLanguage": {
+                                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                                    "sLengthMenu": "Show _MENU_ rows per page",
+                                    "sInfoEmpty": "0 records found",
+                                    "sEmptyTable": "No members found to display"
+                                },
+                                "order": [[0, "desc"]],
+                            });
+                        };
+
+                        function showSearchMemberForm() {
+                            $('#addMemberButton').show();
+                            $('#updateMemberFormDiv').hide();
+                            $('#searchMemberFormDiv').show();
+                        }
+
+                        function memberListFailed() {
+                            alert("Search members failed");
+                        }
+
+                    </script>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+

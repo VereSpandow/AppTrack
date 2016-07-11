@@ -1,0 +1,337 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="requirementContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.VendorRequirementViewModel
+    if (User.IsInRole("VendorAdmin"))
+    {
+        ViewBag.Disabled = "";
+    }
+    else
+    {
+        ViewBag.Disabled = " disabled";
+    }
+
+    <div id="requirementContainerDiv">
+        <div class="col-sm-6">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+
+@if (ViewBag.Disabled == "")
+        {
+        <div class="col-sm-6 pull-right" style="text-align:right;">
+            &nbsp;<button class="btn btn-xs btn-info" onclick="showAddRequirementForm();" id="addRequirementButton">
+                Add Requirement
+            </button>
+        </div>
+}
+        <div style="clear:both"></div>
+
+        <div class="row" style="padding-top:10px;">
+            <div class="filterbar" id="updateRequirementFormDiv" style="display:none;">
+
+                @using (Ajax.BeginForm("RequirementList", "Vendor", null,
+                new AjaxOptions
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "POST",
+                    OnFailure = "updateRequirementFailure",
+                    OnSuccess = "updateRequirementSuccess",
+                    LoadingElementId = "ajax-loader",
+                    UpdateTargetId = "requirementContainerDiv",
+                }, new { id = "updateRequirementForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div>
+                        <input type="hidden" name="ErrorCode" id="ErrorCode" value="@ViewBag.ErrorCode" />
+
+                        @Html.HiddenFor(model => model.vendorRequirement.CustID, new { @id = "vendorRequirementCustID" })
+                        @Html.HiddenFor(model => model.vendorRequirement.RequirementID, new { @id = "vendorRequirementID" })
+
+                        @if (Model.vendorRequirement.RequirementID == 0)
+                        {
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.vendorRequirement.ProgramID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.vendorRequirement.ProgramID, Model.VendorProgramList, new { @class = "form-control" + ViewBag.Disabled })
+                                @Html.ValidationMessageFor(model => model.vendorRequirement.ProgramID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.vendorRequirement.RequirementType, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.vendorRequirement.RequirementType, Model.VendorRequirementTypeList, new { @class = "form-control" + ViewBag.Disabled, @Id = "requirementTypeList" })
+                                @Html.ValidationMessageFor(model => model.vendorRequirement.RequirementType, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6" id="documentListDiv" style="display:none;">
+                                @Html.LabelFor(model => model.vendorRequirement.DocumentID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.vendorRequirement.DocumentID, Model.VendorDocumentList, new { @class = "form-control" + ViewBag.Disabled })
+                                @Html.ValidationMessageFor(model => model.vendorRequirement.DocumentID, "", new { @class = "text-danger" })
+                            </div>
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(model => model.vendorRequirement.RequirementType)
+                        }
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.vendorRequirement.RequirementName, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.vendorRequirement.RequirementName, new { htmlAttributes = new { @class = "form-control" + ViewBag.Disabled, maxlength = "100" } })
+                            @Html.ValidationMessageFor(model => model.vendorRequirement.RequirementName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.vendorRequirement.RequirementDescription, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.TextAreaFor(model => model.vendorRequirement.RequirementDescription, new { @rows = 3, @class = "form-control" + ViewBag.Disabled, maxlength = "500" })
+                            @Html.ValidationMessageFor(model => model.vendorRequirement.RequirementDescription, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12 pull-right" style="text-align:right;padding-top:15px;margin-bottom:20px;">
+                        @if (ViewBag.Disabled == "")
+                        {
+                            <input type="submit" name="SubmitAction" value="Save" class="btn btn-xs btn-info" />
+                        }
+                            &nbsp;
+                            <span class="btn btn-xs btn-info" onclick="editRequirementInit(@Model.vendorRequirement.CustID,0)">Cancel</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center">
+                        <img id="ajax-loader" src="@Url.Content("~/Content/images/ajaxLoader.gif")" style="display:none;" />
+                    </div>
+                }
+            </div>
+            <table class="table table-hover table-striped table-responsive" id="requirementsTable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorRequirementList[0].ProgramName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorRequirementList[0].RequirementType)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorRequirementList[0].RequirementName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorRequirementList[0].DocumentName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorRequirementList[0].StartDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorRequirementList[0].Status)
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.VendorRequirementList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProgramName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RequirementType)
+                            </td>
+                            <td>
+                                <a href="#" onclick="editRequirementInit(@item.CustID, @item.RequirementID)">@Html.DisplayFor(modelItem => item.RequirementName)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DocumentName)
+
+                                @if (!String.IsNullOrEmpty(item.FileName))
+                                {
+                                    <br />
+                                    <span>@item.FileName</span>
+                                }
+                                @if (!String.IsNullOrEmpty(item.TemplateID))
+                                {
+                                    <br />
+                                    <span>@item.TemplateID</span>
+                                }
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StartDate)
+                            </td>
+                            <td>
+                                <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                            </td>
+                            <td>
+                            @if (ViewBag.Disabled == "")
+                            {
+                                <span onclick="deleteRequirement(@item.CustID, @item.RequirementID, '@item.RequirementName')" class="btn btn-xs btn-danger">
+                                    X
+                                </span>
+                            }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+        <!-- EDIT Requirement INITIALIZATION FORM -->
+    <div id="editRequirementInitFormDiv" style="display:block;">
+        @using (Ajax.BeginForm("RequirementList", "Vendor", null,
+             new AjaxOptions
+             {
+                 InsertionMode = InsertionMode.Replace,
+                 HttpMethod = "GET",
+                 OnFailure = "editRequirementInitFailure",
+                 OnSuccess = "editRequirementInitSuccess",
+                 LoadingElementId = "ajax-loader",
+                 UpdateTargetId = "requirementContainerDiv"
+             }, new { id = "editRequirementInitForm" }
+             ))
+        {
+            <input type="hidden" name="VendorID" id="editRequirementVendorID" value="" />
+            <input type="hidden" name="RequirementID" id="editRequirementID" value="" />
+        }
+    </div>
+    <!-- DELETE Requirement INITIALIZATION FORM -->
+    <div id="deleteRequirementFormDiv" style="display:block;">
+        @using (Ajax.BeginForm("RequirementList", "Vendor", new { ActionType = "D" },
+             new AjaxOptions
+             {
+                 InsertionMode = InsertionMode.Replace,
+                 HttpMethod = "GET",
+                 OnFailure = "deleteRequirementFailure",
+                 OnSuccess = "deleteRequirementSuccess",
+                 LoadingElementId = "ajax-loader",
+                 UpdateTargetId = "requirementContainerDiv"
+             }, new { id = "deleteRequirementForm" }
+             ))
+        {
+            <input type="hidden" name="VendorID" id="deleteRequirementVendorID" value="" />
+            <input type="hidden" name="RequirementID" id="deleteRequirementID" value="" />
+        }
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteRequirementModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Delete Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>
+                        Are you sure you want to Delete <span id="deleteRequirementName"></span>?
+                    </h4>
+                    <br />
+                    <p>
+                        Deleting the Requirement can not be undone without contacting technical support.
+                    </p>
+                </div>
+                <div class="modal-footer">
+
+                    <div class="btn btn-info pull-left" data-dismiss="modal">Cancel without Deleting</div>
+                    <div class="btn btn-danger pull-right" onclick="deleteRequirementConfirm()">Yes. Delete this Requirement</div>
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script>
+
+        $(document).ready(function () {
+            initializeRequirementsTable();
+            $.validator.unobtrusive.parse(updateRequirementForm);
+            $("#requirementTypeList").change(function () {
+                if (this.value == 'Document') {
+                    $('#documentListDiv').show();
+                }
+                else {
+                    $('#documentListDiv').hide();
+                };
+            });
+            $('.disabled').attr("disabled", "disabled");
+        });
+
+        function initializeRequirementsTable() {
+            $('#requirementsTable').dataTable(
+            {
+                "searching": false,
+                "bLengthChange": false,
+                "oLanguage": {
+                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                    "sLengthMenu": "Show _MENU_ rows per page",
+                    "sInfoEmpty": "0 records found",
+                    "sEmptyTable": "No requirements available to display"
+                }
+            });
+        };
+
+        function showAddRequirementForm() {
+            $('#addRequirementButton').hide();
+            $('#updateRequirementFormDiv').show();
+        };
+
+        function editRequirementInit(thisVendorID, thisRequirementID) {
+            $("#editRequirementVendorID").val(thisVendorID);
+            $("#editRequirementID").val(thisRequirementID);
+            $("#editRequirementInitForm").submit();
+        };
+
+        function editRequirementInitSuccess() {
+            if ($('#vendorRequirementID').val() > 0) {
+                $('#addRequirementButton').hide();
+                $('#updateRequirementFormDiv').show();
+            }
+        };
+
+        function editRequirementInitFailure() {
+            alert("Edit Requirement initialization failed");
+        };
+
+        function updateRequirementSuccess() {
+            if ($('#ErrorCode').val() != 0) {
+                $('#addRequirementButton').hide();
+                $('#updateRequirementFormDiv').show();
+            }
+        };
+
+        function updateRequirementFailure() {
+            alert("Update Requirement failed");
+        };
+
+        function deleteRequirement(thisVendorID, thisRequirementID, thisRequirementName) {
+            $("#deleteRequirementVendorID").val(thisVendorID);
+            $("#deleteRequirementID").val(thisRequirementID);
+            $('#deleteRequirementModal').modal('show');
+            $("#deleteRequirementName").html(thisRequirementName);
+
+        };
+
+        function deleteRequirementConfirm() {
+            $("#deleteRequirementForm").submit();
+            $('#deleteRequirementModal').modal('hide');
+        };
+
+        function deleteRequirementSuccess() {
+        };
+
+        function deleteRequirementFailure() {
+            alert("Delete Requirement failed");
+        };
+
+    </script>
+
+}

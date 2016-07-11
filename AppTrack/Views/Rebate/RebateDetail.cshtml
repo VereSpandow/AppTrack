@@ -1,0 +1,164 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.RebateDetailViewModel
+
+    <div id="profileContainerDiv">
+        <div class="h2" style="float:left;width:70%;">Rebate Detail</div>
+
+        <div class="filterbar" style="display:block;clear:both;">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div id="searchFormDiv">
+                @using (Html.BeginForm("RebateDetail", "Rebate", FormMethod.Post, new { id = "formOrderList" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.StartPeriodID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.StartPeriodID, Model.PeriodList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.StartPeriodID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.EndPeriodID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.EndPeriodID, Model.PeriodList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.EndPeriodID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.CommissionID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.CommissionID, Model.CommissionList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CommissionID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.VendorID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.VendorID, Model.VendorList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.VendorID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.VolumeID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.VolumeID, Model.VolumeList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.VolumeID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.CustID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.CustID, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.CustID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-9" style="text-align:right;padding-top:15px;">
+                                <input class="btn btn-info" type="submit" name="submitAction" value="Search">
+                            </div>
+                        </div>
+                    </div>
+                }
+                <hr />
+            </div>
+        </div>
+
+        <table class="table table-hover table-striped table-responsive" id="thisTable">
+            <thead>
+                <tr>
+                    <th>
+                        Member ID
+                    </th>
+                    <th>
+                        Payee Name
+                    </th>
+                    <th>
+                        Period
+                    </th>
+                    <th>
+                        Invoice #
+                    </th>
+                    <th>
+                        Vendor Name
+                    </th>
+                    <th>
+                        Rebate Type
+                    </th>
+                    <th style="text-align:right">
+                        Rebate Amount
+                    </th>
+                    <th style="text-align:right">
+                        Paid
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.RebateDetailList)
+                {
+                    <tr >
+                        <td>
+                            <a href="@Url.Action("AccountProfile", "Member", new { id = item.CustID})">
+                                @Html.DisplayFor(modelItem => item.CustID)
+                            </a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PayeeName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PeriodName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CDID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VendorName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VolumeName)
+                        </td>
+                        <td style="text-align:right">
+                            @Html.DisplayFor(modelItem => item.Commission)
+                        </td>
+                        <td style="text-align:right">
+                            @if (item.PayoutID > 0)
+                            {
+                                <span class="fa fa-dollar"></span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $.validator.unobtrusive.parse(document);
+            $('#thisTable').dataTable(
+            {
+                "searching": false,
+                "bLengthChange": false,
+                "iDisplayLength": 100,
+                "oLanguage": {
+                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                    "sLengthMenu": "Show _MENU_ rows per page",
+                    "sInfoEmpty": "0 records found",
+                    "sEmptyTable": "No batch records found to display"
+                }
+            });
+        });
+    </script>
+}

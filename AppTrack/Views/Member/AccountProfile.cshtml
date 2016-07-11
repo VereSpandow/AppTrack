@@ -1,0 +1,908 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.MemberProfileViewModel
+
+    int thisAutoshipID = 0;
+    DateTime futureDate = new DateTime(2099, 12, 1);
+    
+    if(Model.AutoshipBasicList.Count == 0) 
+    {
+        thisAutoshipID = 0;
+    }
+    else
+    {
+        thisAutoshipID = Model.AutoshipBasicList[0].AutoshipID;        
+    } 
+        
+    
+    <h2>@(Model.MemberRecord.DisplayName) (@Model.MemberRecord.CustID)</h2>
+
+    <div class="col-md-12">
+        <ul id="tabstrip" class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="@Url.Action("AccountProfile", "Member", new { @id = Model.MemberRecord.CustID })">Profile</a></li>
+            <li><a class="AccountLink" href="#AccountTab" role="tab" data-toggle="tab">Account</a></li>
+            <li><a class="LocationLink" href="#LocationTab" role="tab" data-toggle="tab">Locations</a></li>
+            <li><a class="ContactsLink" href="#ContactsTab" role="tab" data-toggle="tab">Contacts</a></li>
+            <li><a class="VendorLink" href="#VendorTab" role="tab" data-toggle="tab">Vendors</a></li>
+            <li><a class="AutoshipLink" href="#AutoshipTab" role="tab" data-toggle="tab">Membership</a></li>
+            <!--
+                        <li><a class="ProgramLink" href="#ProgramTab" role="tab" data-toggle="tab">Program</a></li>
+                        <li><a class="PaymentMethodLink" href="#PaymentMethodTab" role="tab" data-toggle="tab">Payment Method</a></li>
+            -->
+            <li><a class="OrderLink" href="#OrderTab" role="tab" data-toggle="tab">Order</a></li>
+            <li><a class="RebateLink" href="#RebateTab" role="tab" data-toggle="tab">Rebates</a></li>
+            <li><a class="PayeeLink" href="#PayeeTab" role="tab" data-toggle="tab">Payee</a></li>
+            <li><a class="NotesLink" href="#NotesTab" role="tab" data-toggle="tab">Notes</a></li>
+            <li><a class="ActivitiesLink" href="#ActivitiesTab" role="tab" data-toggle="tab">Activities</a></li>
+            <!--
+            <li><a class="ReviewLink" href="#ReviewTab" role="tab" data-toggle="tab">Review</a></li>
+            -->
+        </ul>
+
+        <!-- Tab Content Containers -->
+        <div class="tab-content nopadding" style="padding-top:15px;">
+            <div class="tab-pane fade in active nopadding" id="Profile">
+                <div class="col-md-6 col-sm-12 pull-left" style="margin-left:-15px;">
+                    <div class="panel panel-default" style="min-height:275px; box-shadow:#CCC 7px 7px;">
+                        <div class=" panel-heading">
+                            <span class="h4">Contact Information</span>
+                            <span id="contactPanel" class="fa fa-expand pull-right"></span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-sm-4">Name:</div>
+                            <div class="col-sm-8">@Model.MemberRecord.NameTitle @Model.MemberRecord.FirstName @Model.MemberRecord.LastName</div>
+                            <div class="col-sm-4" style="clear:both">TIN Name:</div>
+                            <div class="col-sm-8">@Model.MemberRecord.Company</div>
+                            <div class="col-sm-4" style="clear:both">Address:</div>
+                            <div class="col-sm-8">
+                                @if (Model.MemberRecord.Address1 != "")
+                                {
+                                    @Model.MemberRecord.Address1
+                                    if (!String.IsNullOrEmpty(Model.MemberRecord.Address2))
+                                    {
+                                        <span>,</span> @Model.MemberRecord.Address2
+                                    }
+                                    <br />
+                                    @Model.MemberRecord.City<span>,</span> @(Model.MemberRecord.State)@:&nbsp;   @(Model.MemberRecord.PostalCode)
+                                    <br />
+                                }
+                            </div>
+                            <div class="col-sm-4" style="clear:both">Phone:</div>
+                            <div class="col-sm-8">@Helpers.FormatPhone(@Model.MemberRecord.DayPhone)</div>
+                            <div class="col-sm-4" style="clear:both">Email:</div>
+                            <div class="col-sm-8">@Model.MemberRecord.Email</div>
+                            <div class="col-sm-4" style="clear:both">Member ID:</div>
+                            <div class="col-sm-8">@Model.MemberRecord.CustID </div>
+                            <div class="col-sm-4" style="clear:both">Join Date:</div>
+                            <div class="col-sm-8">@Model.MemberRecord.StartDate.Value.ToString("MM/dd/yy")</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 pull-right" style="margin-right:-15px;">
+                    @{
+                                var panelClass = "panel-default";
+                                if (Model.MemberRecord.Status.ToUpper() == "CANCELLED")
+                                { panelClass = "panel-danger-dark"; }
+                                if (Model.MemberRecord.Status.ToUpper() == "SUSPENDED")
+                                { panelClass = "panel-warning-dark"; }
+                    }
+                    <div class="panel panel-default @panelClass" style="min-height:275px; box-shadow:#CCC 7px 7px;">
+                        <div class="panel-heading">
+                            <span class="h4">Membership</span>
+                            <span id="autoshipPanel" class="fa fa-expand pull-right"></span>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:.8em">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Start Date
+                                        </th>
+                                        <th>
+                                            End Date
+                                        </th>
+                                        <th>
+                                            Next Bill Date
+                                        </th>
+                                        <th>
+                                            Amount
+                                        </th>
+                                        <th>
+                                            
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.AutoshipBasicList.Count() > 0)
+                                    {
+
+                                        foreach (var item in Model.AutoshipBasicList)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.StartDate)
+                                                </td>
+                                                <td>
+                                                    @if (item.EndDate > futureDate)
+                                                    {
+                                                        <span>n/a</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DisplayFor(modelItem => item.EndDate)
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (item.NextDate >= item.EndDate)
+                                                    {
+                                                        <span>n/a</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DisplayFor(modelItem => item.NextDate)
+                                                    }
+                                                </td>
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.OrderTotal)
+                                                </td>
+                                                <td>
+                                                    <span class="fa fa-search" onclick="viewMembershipDetail(@item.AutoshipID)" id="view@(item.AutoshipID)"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="8" style="background-color:#F5F5F5;">
+                                                    <div id="row@(item.AutoshipID)"></div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="4" style="text-align:center;">
+                                                <div class="alert alert-danger" style="width:80%;margin:0 auto;">
+                                                    A Valid Billing Profile does not exist for this member
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+
+                            </table>
+                            <div class="col-sm-12">                                
+                                <img id="ajax-loader" src="@Url.Content("~/Images/ajax-loader.gif")" style="display:none;" />
+                            </div>
+
+                            <div class="col-sm-12" style="padding-bottom:20px;">
+                                Membership <span class="status-@Model.MemberRecord.Status.ToUpper()">@(Model.MemberRecord.Status)</span> as of @Html.DisplayFor(model => model.MemberRecord.StatusDate)
+                            </div>
+
+                            @if (User.IsInRole("MemberServicesManager"))
+                            {
+                                <div style="clear:both;"></div>
+                                <div class="col-sm-12" style="position:absolute;left:0px;bottom:30px;">
+                                    @if (@Model.MemberRecord.Status.ToUpper() == "NEW")
+                                    {
+                                        <div class="btn btn-success btn-sm pull-right" id="activeLink" style="margin-right:25px;">
+                                            Make Active
+                                        </div>
+                                    }
+                                    @if (@Model.MemberRecord.Status.ToUpper() != "CANCELLED" && @Model.MemberRecord.Status.ToUpper() != "SUSPENDED")
+                                    {
+                                        <div class="btn btn-danger btn-sm pull-right" id="cancelLink" style="margin-right:25px;">
+                                            Cancel
+                                        </div>
+                                        <div class="btn btn-warning btn-sm pull-right" id="suspendLink" style="margin-right:25px;">
+                                            Suspend
+                                        </div>
+                                    }
+                                    @if (@Model.MemberRecord.Status.ToUpper() == "SUSPENDED")
+                                    {
+                                        <div class="btn btn-danger btn-sm pull-right" id="cancelLink" style="margin-right:25px;">
+                                            Cancel
+                                        </div>
+                                        <div class="btn btn-success btn-sm pull-right" id="unsuspendLink" style="margin-right:25px;">
+                                            Un-Suspend
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            <div style="clear:both;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" style="height:15px;">
+                </div>
+                <div class="col-md-6 col-sm-12 pull-left" style="margin-left:-15px;">
+                    <div class="panel panel-default" style="min-height:275px; box-shadow:#CCC 7px 7px;">
+                        <div class=" panel-heading">
+                            <span class="h4">Rebates</span>
+                            <span id="rebatePanel" class="fa fa-expand pull-right"></span>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:.8em">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Period
+                                        </th>
+                                        <th>
+                                            Payee
+                                        </th>
+                                        <th>
+                                            Amount
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.CommissionHeaderList)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PeriodName)
+                                            </td>
+                                            <td>
+                                                @if (item.CustomerType == 66)
+                                                {
+                                                    <span>L-</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>M-</span>
+                                                }
+                                                @Html.DisplayFor(modelItem => item.DisplayName)
+                                                @if (item.CheckNumber != null)
+                                                {
+                                                    <span> Chk#:</span>
+                                                    @Html.DisplayFor(modelItem => item.CheckNumber)
+                                                }
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Commission)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 pull-right" style="margin-right:-15px;">
+                    <div class="panel panel-default" style="min-height:275px; box-shadow:#CCC 7px 7px;">
+                        <div class=" panel-heading">
+                            <span class="h4">Order History</span>
+                            <span id="orderPanel" class="fa fa-expand pull-right"></span>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:.8em">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Total
+                                        </th>
+                                        <th>
+                                            Balance
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.OrderBasicList)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.OrderDate.ToString("MM/dd/yyyy")
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Name)
+                                            </td>
+                                            <td>
+                                                @item.OrderTotal.ToString("C2")
+                                            </td>
+                                            <td>
+                                                @item.BalanceDue.ToString("C2")
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="tab-pane fade" id="AccountTab"></div>
+            <div class="tab-pane fade" id="ContactsTab"></div>
+            <div class="tab-pane fade" id="LocationTab"></div>
+            <div class="tab-pane fade" id="ProgramTab"></div>
+            <div class="tab-pane fade" id="SubLocationTab"></div>
+            <div class="" id="LocationProfileTab"></div>
+            <div class="tab-pane fade" id="VendorTab"></div>
+            <div class="tab-pane fade" id="AutoshipTab"></div>
+            <div class="tab-pane fade" id="BillingTab"></div>
+            <div class="tab-pane fade" id="OrderTab"></div>
+            <div class="tab-pane fade" id="RebateTab"></div>
+            <div class="tab-pane fade" id="PaymentMethodTab"></div>
+            <div class="tab-pane fade" id="PayeeTab"></div>
+            <div class="tab-pane fade" id="NotesTab"></div>
+            <div class="tab-pane fade" id="ActivitiesTab"></div>
+        </div>
+    </div>
+
+
+    <div id="suspendPanel" style="position:fixed; top:-300px; left:50%;margin-left:-350px; width:700px; height:400px; background-color:#fff; border:1px #369 solid; display:none;z-index:3;">
+        <div class="panel panel-warning-dark" style="min-height:250px;">
+            <div class=" panel-heading">
+                <h3 style="color:#FFF;">SUSPEND @Model.MemberRecord.DisplayName</h3>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("UpdateStatus", "Member", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.CustID)
+                    <input type="hidden" name="StatusID" value="2" />
+                    <input type="hidden" name="Status" value="Suspended" />
+                    <div class="clearfix"></div>
+                    <div class="col-sm-6" style="margin-top:15px;">
+                        Reason (If Cancelling):
+                        @Html.DropDownListFor(model => model.cancelReasonCode, Model.CancelReasonCodesList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.cancelReasonCode, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-12" style="margin-top:15px;margin-bottom:20px;">
+                        Comments
+                        <br />
+                        <textarea name="comments" rows="5" cols="60"></textarea>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-6">
+                            <div class="btn btn-sm btn-default" id="cancelSuspend">Close Without Suspend</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="btn btn-sm bg-warning-dark" id="saveSuspend">Confirm Suspend</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div id="activePanel" style="position:fixed; top:-300px; left:50%;margin-left:-350px; width:700px; height:400px; background-color:#fff; border:1px #369 solid; display:none;z-index:3;">
+        <div class="panel panel-warning-dark" style="min-height:250px;">
+            <div class=" panel-heading">
+                <h3 style="color:#FFF;">Make @Model.MemberRecord.DisplayName Active</h3>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("UpdateStatus", "Member", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.CustID)
+                    @Html.HiddenFor(model => model.cancelReasonCode)
+                    <input type="hidden" name="StatusID" value="1" />
+                    <input type="hidden" name="Status" value="Active" />
+                    <input type="hidden" name="comments" value=" " />
+                    <div class="clearfix"></div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-6">
+                            <div class="btn btn-sm btn-default" id="cancelSuspend">Close Window</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="btn btn-sm bg-warning-dark" id="saveSuspend">Set Member to Active</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+
+    <div id="cancelPanel" style="position:fixed; top:-300px; left:50%;margin-left:-350px; width:700px; height:400px; background-color:#fff; border:1px #369 solid; display:none;z-index:3;">
+        <div class="panel panel-danger-dark" style="min-height:250px;">
+            <div class=" panel-heading">
+                <h3 style="color:#FFF;">CANCEL @Model.MemberRecord.DisplayName </h3>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("UpdateStatus", "Member", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.CustID)
+                    <input type="hidden" name="StatusID" value="3" />
+                    <input type="hidden" name="Status" value="Cancelled" />
+                    <div class="clearfix"></div>
+                    <div class="col-sm-6" style="margin-top:15px;">
+                        Reason (If Cancelling):
+                        @Html.DropDownListFor(model => model.cancelReasonCode, Model.CancelReasonCodesList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.cancelReasonCode, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-12" style="margin-top:15px;margin-bottom:20px;">
+                        Comments
+                        <br />
+                        <textarea name="comments" rows="5" cols="60"></textarea>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-6">
+                            <div class="btn btn-sm btn-default" id="cancelCancel">Close without Cancelling</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="btn btn-sm bg-danger-dark" id="saveCancel">Confirm Cancel</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div id="unsuspendPanel" style="position:fixed; top:-300px; left:50%;margin-left:-350px; width:700px; height:400px; background-color:#fff; border:1px #369 solid; display:none;z-index:3;">
+        <div class="panel panel-success-dark" style="min-height:250px;">
+            <div class=" panel-heading">
+                <h3 style="color:#FFF;">UNSUSPEND @Model.MemberRecord.DisplayName</h3>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("UpdateStatus", "Member", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.CustID)
+                    <input type="hidden" name="StatusID" value="1" />
+                    <input type="hidden" name="Status" value="Active" />
+                    <div class="clearfix"></div>
+                    <div class="col-sm-12" style="margin-top:15px;margin-bottom:20px;">
+                        Comments
+                        <br />
+                        <textarea name="comments" rows="5" cols="60"></textarea>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-6">
+                            <div class="btn btn-sm btn-default" id="cancelUnsuspend">Close without Unsuspending</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="btn btn-sm bg-success-dark" id="saveUnsuspend">Confirm Unsuspend</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+            var viewTab = "@ViewBag.Tab";
+            switch (viewTab)
+            {
+                case "Vendor":
+                    $("#tabstrip .VendorLink").click();
+                    break;
+                case "Activities":
+                    $("#tabstrip .ActivitiesLink").click();
+                    break;
+            }
+        });
+
+        $("#activeLink,#cancelActive").click(function () {
+            if ($("#activePanel").css("display") == "none") {
+                $(".alphapagelayer").show();
+                $("#activePanel").show();
+                $("#activePanel").animate({ top: "70px" }, 1000).delay(100).animate({ top: "50px" }, 500);
+            }
+            else {
+                $("#activePanel").animate({ top: "-500px" }, 1000).delay(100).hide().delay(100);
+                $("#activePanel").hide();
+                $(".alphapagelayer").hide();
+            }
+        });
+        $("#suspendLink,#cancelSuspend").click(function () {
+            if ($("#suspendPanel").css("display") == "none") {
+                $(".alphapagelayer").show();
+                $("#suspendPanel").show();
+                $("#suspendPanel").animate({ top: "70px" }, 1000).delay(100).animate({ top: "50px" }, 500);
+            }
+            else {
+                $("#suspendPanel").animate({ top: "-500px" }, 1000).delay(100).hide().delay(100);
+                $("#suspendPanel").hide();
+                $(".alphapagelayer").hide();
+            }
+        });
+
+        $("#cancelLink,#cancelCancel").click(function () {
+            if ($("#cancelPanel").css("display") == "none") {
+                $(".alphapagelayer").show();
+                $("#cancelPanel").show();
+                $("#cancelPanel").animate({ top: "70px" }, 1000).delay(100).animate({ top: "50px" }, 500);
+            }
+            else {
+                $("#cancelPanel").animate({ top: "-500px" }, 1000).delay(100).hide().delay(100);
+                $("#cancelPanel").hide();
+                $(".alphapagelayer").hide();
+            }
+        });
+
+        $("#unsuspendLink,#cancelUnsuspend").click(function () {
+            if ($("#unsuspendPanel").css("display") == "none") {
+                $(".alphapagelayer").show();
+                $("#unsuspendPanel").show();
+                $("#unsuspendPanel").animate({ top: "70px" }, 1000).delay(100).animate({ top: "50px" }, 500);
+            }
+            else {
+                $("#unsuspendPanel").animate({ top: "-500px" }, 1000).delay(100).hide().delay(100);
+                $("#unsuspendPanel").hide();
+                $(".alphapagelayer").hide();
+            }
+        });
+
+        $('#tabstrip .AccountLink').click(function (e) {
+            var tabID = $(this).attr("href").substr(1);
+            if ($("#" + tabID).html() == "") {
+                e.preventDefault()
+                $(this).tab('show')
+                $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+                $.ajax({
+                    url: "/Member/EditAccount?CustID=@Model.MemberRecord.CustID",
+                    cache: false,
+                    type: "get",
+                    dataType: "html",
+                    success: function (result) {
+                        $("#" + tabID).html(result);
+                        $.validator.unobtrusive.parse(document);
+                    },
+                    failure: function () {
+                        alert("Ooops - something went wrong");
+                    }
+                });
+            }
+        });
+
+        $('#contactPanel').click(function () {
+            $("#tabstrip .ContactsLink").click();
+        });
+
+        $('#tabstrip .ContactsLink').click(function (e) {
+            var tabID = $(this).attr("href").substr(1);
+            // alert("Scott");
+            if ($("#" + tabID).html() == "") {
+                e.preventDefault()
+                $(this).tab('show')
+                $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+                $.ajax({
+                    url: "/Member/ContactList/@Model.MemberRecord.CustID",
+                    cache: false,
+                    type: "get",
+                    dataType: "html",
+                    success: function (result) {
+                        //             alert("Scott");
+                        $("#" + tabID).html(result);
+                        $.validator.unobtrusive.parse(document);
+                    },
+                    failure: function () {
+                        alert("Ooops - something went wrong");
+                    }
+                });
+            }
+        });
+
+        $('#tabstrip .LocationLink').click(function (e) {
+            var tabID = $(this).attr("href").substr(1);
+            if ($("#" + tabID).html() == "") {
+                e.preventDefault()
+                $(this).tab('show')
+                $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+                $.ajax({
+                    url: "/Member/LocationList/@Model.MemberRecord.CustID",
+                    cache: false,
+                    type: "get",
+                    dataType: "html",
+                    success: function (result) {
+                        // alert("Scott");
+                        $("#" + tabID).html(result);
+                        $.validator.unobtrusive.parse(document);
+                    },
+                    failure: function () {
+                        alert("Ooops - something went wrong");
+                    }
+                });
+            }
+        });
+
+        $('#tabstrip .VendorLink').click(function (e) {
+            var tabID = $(this).attr("href").substr(1);
+            if ($("#" + tabID).html() == "") {
+                e.preventDefault()
+                $(this).tab('show')
+                $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+                $.ajax({
+                    url: "/Member/MemberVendorSelect/@Model.MemberRecord.CustID",
+                    cache: false,
+                    type: "get",
+                    dataType: "html",
+                    success: function (result) {
+                        $("#" + tabID).html(result);
+                        $.validator.unobtrusive.parse(document);
+                    },
+                    failure: function () {
+                        alert("Ooops - something went wrong");
+                    }
+                });
+            }
+        });
+
+
+        $('#autoshipPanel').click(function () {
+            $(".AutoshipLink").click();
+        });
+
+        $('.AutoshipLink').click(function (e) {
+            if (@thisAutoshipID == 0)
+            {
+                alert('A valid membership profile does not exist for this member')
+            }
+            else
+            {
+                var tabID = $(this).attr("href").substr(1);
+                if ($("#" + tabID).html() == "") {
+                    e.preventDefault()
+                    $(this).tab('show')
+                    $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+                    $.ajax({
+                        url: "/Member/ProfileUpdate/@thisAutoshipID",
+                        cache: false,
+                        type: "get",
+                        dataType: "html",
+                        success: function (result) {
+                            $("#" + tabID).html(result);
+                            $.validator.unobtrusive.parse(document);
+                        },
+                        failure: function () {
+                            alert("Ooops - something went wrong");
+                        }
+                    });
+                }
+            }
+        });
+
+        $('.ProgramLink').click(function (e) {
+            var tabID = $(this).attr("href").substr(1);
+            if ($("#" + tabID).html() == "") {
+                e.preventDefault()
+                $(this).tab('show')
+                $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+                $.ajax({
+                    url: "/Member/ProgramChange/@Model.MemberRecord.CustID",
+                    cache: false,
+                    type: "get",
+                    dataType: "html",
+                    success: function (result) {
+                        $("#" + tabID).html(result);
+                        $.validator.unobtrusive.parse(document);
+                    },
+                    failure: function () {
+                        alert("Ooops - something went wrong");
+                    }
+                });
+            }
+        });
+
+        $('#orderPanel').click(function () {
+            $("#tabstrip .OrderLink").click();
+        });
+
+        $('#tabstrip .OrderLink').click(function (e) {
+            var tabID = $(this).attr("href").substr(1);
+            if ($("#" + tabID).html() == "") {
+                e.preventDefault()
+                $(this).tab('show')
+                $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+                $.ajax({
+                    url: "/Member/OrderList?CustID=@Model.MemberRecord.CustID",
+                    cache: false,
+                    type: "get",
+                    dataType: "html",
+                    success: function (result) {
+                        $("#" + tabID).html(result);
+                        $.validator.unobtrusive.parse(document);
+                    },
+                    failure: function () {
+                        alert("Ooops - something went wrong");
+                    }
+                });
+            }
+        });
+
+        $('#tabstrip .PaymentMethodLink').click(function (e) {
+            var tabID = $(this).attr("href").substr(1);
+            if ($("#" + tabID).html() == "") {
+                // alert("Scott");
+                e.preventDefault()
+                $(this).tab('show')
+                $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+                $.ajax({
+                    url: "/Member/MemberPaymentMethod/@Model.MemberRecord.CustID",
+                    cache: false,
+                    type: "get",
+                    dataType: "html",
+                    success: function (result) {
+                        // alert("Ooops - something went right");
+                        $("#" + tabID).html(result);
+                        $.validator.unobtrusive.parse(document);
+                        $("#SearchStartDate").datepicker();
+                        $("#SearchEndDate").datepicker();
+                    },
+                    failure: function () {
+                        alert("Ooops - something went wrong");
+                    }
+                });
+            }
+        });
+
+        $('#rebatePanel').click(function () {
+            $("#tabstrip .RebateLink").click();
+        });
+
+
+
+        $('#tabstrip .RebateLink').click(function (e) {
+            var tabID = $(this).attr("href").substr(1);
+            if ($("#" + tabID).html() == "") {
+                e.preventDefault()
+                $(this).tab('show')
+                $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+                $.ajax({
+                    url: "/Member/RebateCommissionList/@Model.MemberRecord.CustID",
+                    cache: false,
+                    type: "get",
+                    dataType: "html",
+                    success: function (result) {
+                        $("#" + tabID).html(result);
+                        $.validator.unobtrusive.parse(document);
+                    },
+                    failure: function () {
+                        alert("Ooops - something went wrong");
+                    }
+                });
+            }
+        });
+
+        $('#tabstrip .PayeeLink').click(function (e) {
+            var tabID = $(this).attr("href").substr(1);
+            // alert("scott1");
+            if ($("#" + tabID).html() == "") {
+                // alert("scott2");
+                e.preventDefault()
+                $(this).tab('show')
+                $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+                $.ajax({
+                    url: "/Member/RebatePayee/@Model.MemberRecord.CustID",
+                    cache: false,
+                    type: "get",
+                    dataType: "html",
+                    success: function (result) {
+                        // alert("scott3");
+                        $("#" + tabID).html(result);
+                        $.validator.unobtrusive.parse(document);
+                        $("#SearchStartDate").datepicker();
+                        $("#SearchEndDate").datepicker();
+                    },
+                    failure: function () {
+                        alert("Ooops - something went wrong");
+                    }
+                });
+            }
+        });
+
+        $('#tabstrip .ReviewLink').click(function (e) {
+            var tabID = $(this).attr("href").substr(1);
+            if ($("#" + tabID).html() == "") {
+                e.preventDefault()
+                $(this).tab('show')
+                // alert("Scott");
+                $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+                $.ajax({
+                    url: "/Member/Review/@Model.MemberRecord.CustID",
+                    cache: false,
+                    type: "get",
+                    dataType: "html",
+                    success: function (result) {
+                        // alert("Scott1");
+                        $("#" + tabID).html(result);
+                        $.validator.unobtrusive.parse(document);
+                    },
+                    failure: function () {
+                        alert("Ooops - something went wrong");
+                    }
+                });
+            }
+        });
+
+        $('#tabstrip .NotesLink').click(function (e) {
+            var tabID = $(this).attr("href").substr(1);
+            if ($("#" + tabID).html() == "") {
+                e.preventDefault()
+                $(this).tab('show')
+                $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+                $.ajax({
+                    url: "/CustomerNotes/NotesList/@Model.MemberRecord.CustID",
+                    cache: false,
+                    type: "get",
+                    dataType: "html",
+                    success: function (result) {
+                        $("#" + tabID).html(result);
+                        $.validator.unobtrusive.parse(document);
+                        $("#SearchStartDate").datepicker();
+                        $("#SearchEndDate").datepicker();
+                    },
+                    failure: function () {
+                        alert("Ooops - something went wrong");
+                    }
+                });
+            }
+        });
+
+        $('#tabstrip .ActivitiesLink').click(function (e) {
+            var tabID = $(this).attr("href").substr(1);
+            if ($("#" + tabID).html() == "") {
+                e.preventDefault()
+                $(this).tab('show')
+                // alert("Scott");
+                $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+                $.ajax({
+                    url: "/MemberActivity/ActivityList/@Model.MemberRecord.CustID",
+                    cache: false,
+                    type: "get",
+                    dataType: "html",
+                    success: function (result) {
+                        // alert("Scott1");
+                        $("#" + tabID).html(result);
+                        $.validator.unobtrusive.parse(document);
+                    },
+                    failure: function () {
+                        alert("Ooops - something went wrong");
+                    }
+                });
+            }
+        });
+
+        function viewMembershipDetail(thisAID) {
+            $("#view" + thisAID).removeClass("fa-search");
+            $("#view" + thisAID).addClass("fa-arrow-left");
+            $.ajax({
+                    url: "/Member/ViewMembershipDetail/"+thisAID,
+                    cache: false,
+                    type: "get",
+                    dataType: "html",
+                    loadingElementId: "ajax-loader",
+                    success: function (result) {
+                        $("#row" + thisAID).html(result);
+                    },
+                    failure: function () {
+                        alert("Ooops - something went wrong");
+                    }
+                });
+        };
+    </script>
+}

@@ -1,0 +1,104 @@
+﻿@model AppTrack.SharedModels.ContactMe
+
+<div class="col-sm-12 col-md-8 nopadding" style="background-color:#666;padding:15px; color:#fff; ">
+    @if (Request.IsAuthenticated)
+    {
+        <span id="contactMeResults">Contact Member Services by Email:</span>
+    }
+    else
+    {
+        <span id="contactMeResults">I'm interested in learning more about AppTrack. Please contact me:</span>
+    }
+    <br />
+    @using (Ajax.BeginForm("ContactMe", "Site", null,
+            new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            OnSuccess = "successContactMe()",
+            OnFailure = "failureContactMe()",
+            LoadingElementId = "ajax-loader2a",
+            UpdateTargetId = "contactMeResults"
+        }, new { id = "ContactMe" }))
+    {
+        @Html.AntiForgeryToken()
+        <img id="ajax-loader2a" src="@Url.Content("~/Images/ajax-loader.gif")" style="display:none;" alt="Loading - AppTrack Optometric Alliance" />
+        <div class="col-md-12" style="margin-top:5px;padding:5px;">
+            <input type="text" name="contactDisplayName" id="contactDisplayName" class="form-control" placeholder="Name" required style="color:#930fa5;padding:3px;font-size:0.9em;">
+        </div>
+        <div class=" col-md-12" style="padding:5px;">
+            <input type="email" name="contactEmail" id="contactEmail" class="form-control" placeholder="Email" required style="color:#930fa5;padding:3px;font-size:0.9em;">
+        </div>
+        <div class="col-md-12" style="padding:5px;">
+            <input type="text" name="contactSubject" id="contactSubject" class="form-control" placeholder="Subject" required style="color:#930fa5;padding:3px;font-size:0.9em;">
+        </div>
+        <div class="col-md-12" style="padding:5px;">
+            <textarea id="contactMessage" name="contactMessage" class="form-control" required style="color:#930fa5;padding:3px;font-size:0.9em;">Message</textarea>
+        </div>
+        <div class="col-md-12" style="padding:5px;">
+            <input type="Submit" name="Submit" value="Send" class="btn btn-sm btn-default pull-right">
+            <div class="row"></div>
+        </div>
+    }
+</div>
+@*
+<div class="col-md-8 nopadding" style="margin-top:10px; font-size:1em;color:#333;">
+    <a href="/Site/News"><img src="~/Images/PRIMA_button_only_blue.jpg" style="width: 100%;" /></a>
+</div>
+<div class="col-md-8 nopadding" style="background-color:#fff;padding-top:0px;  margin-top:5px; color:#333; ">
+    <div id="subscribeResults">
+        Sign up to receive the AppTrack Quarterly.
+    </div>
+    @using (Ajax.BeginForm("Subscribe", "Site", null,
+                                new AjaxOptions
+                            {
+                                InsertionMode = InsertionMode.Replace,
+                                HttpMethod = "POST",
+                                OnSuccess = "successContactMe()",
+                                OnFailure = "failureContactMe()",
+                                LoadingElementId = "ajax-loader3",
+                                UpdateTargetId = "subscribeResults"
+                            }, new { id = "Subscribe" }))
+    {
+        @Html.AntiForgeryToken()
+        <img id="ajax-loader3" src="@Url.Content("~/Images/ajax-loader.gif")" style="display:none;" />
+        <div class="col-md-12" style="margin-top:5px;padding:5px;">
+            <input type="email" name="contactEmail" id="subscribeMeEmail" class="form-control" placeholder="* Email" required style="color:#333;padding:2px;font-size:12px;background-color:#e6e6e6;">
+        </div>
+        <div class="col-md-7  nopadding" style="margin-top:5px; font-size:0.8em;color:#333;padding-right:10px;padding-top:2px;">
+            <a href="/Site/AppTrackQuarterly"> View recent issues</a>
+        </div>
+        <div class="col-md-4 pull-right" style="margin-top:5px;margin-left:10px;">
+            <input type="Submit" name="Submit" value="Subscribe" class="btn btn-sm btn-gray pull-right" style="border:1px #fff solid; background-color:#B7B7B7;color:#333; margin-top:-5px;">
+        </div>
+    }
+</div>
+<div class="col-md-8" style="background-color:#666;padding:10px; margin-top:15px; color:#fff; max-width:225px; display:none;">
+    <div class="col-md-8" style="padding-top:6px;padding-left:0px;"><a href="~/Site/Blog"><span style="color:#FFF;tex">Read Our Blog</span></a></div>
+    <div class="col-md-4"><span class="fa fa-2x fa-arrow-right pull-right"></span></div>
+</div>
+*@
+<script>
+    function successContactMe() {
+    }
+
+    function failureContactMe() {
+        alert("An Error was encountered. Please try again");  //undefined
+    }
+
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#contactMessage").focus(function () {
+            var msgString = $("#contactMessage").val();
+            msgString = msgString.trim();
+            if (msgString == "Message") {
+                $("#contactMessage").val("");
+            }
+            return false;
+        });
+
+    });
+</script>

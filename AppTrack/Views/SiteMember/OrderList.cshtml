@@ -1,0 +1,122 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayoutMember.cshtml";
+    ViewBag.PageType = "OrderList";
+}
+@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.OrderListViewModel
+
+    <style>
+        @@media only screen and (max-width: 768px) {
+            table, th, td {
+                padding: 3px;
+                font-size: .7em;
+            }
+        }
+    </style>
+    <div class="col-md-12 nopadding" style="padding-top:20px;">
+        <div class="panel panel-default" style="min-height:275px; box-shadow:#CCC 7px 7px;">
+            <div class="panel-body nopadding">
+                <div class="col-sm-12 pull-left">
+
+                    <h4>Billing History</h4>
+
+                    <table class="table table-hover table-striped table-responsive" id="thisTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Amount
+                                </th>
+                                <th>
+                                    Discount
+                                </th>
+                                <th>
+                                    Paid
+                                </th>
+                                <th>
+                                    Due
+                                </th>
+                                <th class="hidden-xs">
+                                    Order By
+                                </th>
+                                <th class="hidden-xs">
+                                    Status
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderHeaderList)
+                            {
+                                var dueClass = "";
+
+                                if (item.BalanceDue > 0)
+                                { dueClass = "status-OPEN"; }
+                                if (item.BalanceDue < 0)
+                                { dueClass = "status-CANCELLED"; }
+
+                                <tr>
+                                    <td>
+                                        @(item.OrderDate != null ? item.OrderDate.Value.ToString("MM/dd/yy") : "")
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OrderTotal)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Discount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Paid)
+                                    </td>
+                                    <td class="@dueClass">
+                                        @Html.DisplayFor(modelItem => item.BalanceDue)
+                                    </td>
+                                    <td class="hidden-xs">
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                        <br />
+                                        @item.Address1
+                                        @if (item.Address2 != "" && item.Address2 != null)
+                                        {
+                                            <span>,</span> @item.Address2
+                                        }
+                                        @item.City<span>,</span> @item.State @item.PostalCode
+                                    </td>
+                                    <td class="hidden-xs">
+                                        <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    @if (Model.OrderHeaderList.Count() == 0)
+                    {
+                        <span>There is no billing activity to display.</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $.validator.unobtrusive.parse(document);
+        });
+    </script>
+}

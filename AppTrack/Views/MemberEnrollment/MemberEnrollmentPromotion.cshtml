@@ -1,0 +1,111 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-md-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.MemberEnrollmentPrep
+    <div class="col-md-12" id="enrollRightCol4">
+        <div class="panel panel-info panel-info-dark">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    Select the Program and Promotion
+                </div>
+            </div>
+            <div class="panel-body" style="min-height:300px;">
+                @using (Ajax.BeginForm("MemberEnrollmentPromotion", "MemberEnrollment", null,
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "POST",
+                OnSuccess = "OnSuccess1",
+                OnFailure = "OnFailure1",
+                LoadingElementId = "ajax-loader",
+                UpdateTargetId = "enrollRightCol4"
+            }, new { id = "memberEnrollmentForm3" }))
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.AntiForgeryToken()
+                    <div class="col-md-12">
+                        <input type="hidden" name="ItemID" id="ItemID" value="1" />
+                        <div class="col-md-7" style="margin-top:5px;">
+                            <span class="control-label" style="font-weight:bold;">Membership Type</span>
+                            <br />
+                            <div class="btn-group btn-lg btn-primary active" style="margin-right:10px;" id="memberButtonI" onclick="setMembership('1')">AppTrack</div>
+                            <div class="btn-group btn-lg btn-primary" style="margin-right:10px;" id="memberButtonP" onclick="setMembership('24')">PRIMA</div>
+                            <div class="btn-group btn-lg btn-primary" style="margin-right:10px;" id="memberButtonB" onclick="setMembership('124')">AppTrack & PRIMA</div>
+                        </div>
+                        <div class="col-md-5" style="margin-top:5px;" id="promotionListDiv">
+                            @{ Html.RenderAction("GetPromotionList", new { id = 1}); }
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <br />
+                            <input type="submit" name="button" value="Next" class="btn btn-sm btn-info pull-right">
+                        </div>
+                        <img id="ajax-loader" src="@Url.Content("~/Images/ajax-loader.gif")" style="display:none;" />
+                    </div>
+                }
+            </div>
+            <div class="panel-footer">
+                Next Step -->  Select the Sales Rep and IMD
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    function setMembership(thisItemID) {
+        switch (thisItemID) {
+            case '1':
+                $("#ItemID").val(thisItemID);
+                $("#memberButtonI").addClass("active")
+                $("#memberButtonP").removeClass("active")
+                $("#memberButtonB").removeClass("active")
+                break;
+            case '24':
+                $("#ItemID").val(thisItemID);
+                $("#memberButtonI").removeClass("active")
+                $("#memberButtonP").addClass("active")
+                $("#memberButtonB").removeClass("active")
+                break;
+            case '124':
+                $("#ItemID").val(thisItemID);
+                $("#memberButtonI").removeClass("active")
+                $("#memberButtonP").removeClass("active")
+                $("#memberButtonB").addClass("active")
+                break;
+        }
+        $.ajax({
+            url: "/MemberEnrollment/GetPromotionList/" + thisItemID,
+            cache: false,
+            type: "get",
+            dataType: "html",
+            success: function (result) {
+                $("#promotionListDiv").html(result);
+            },
+            failure: function () {
+                alert("Error Generating Promotion List");
+            }
+        });
+
+    }
+    function OnSuccess1() {
+    }
+    function OnFailure1() {
+    }
+</script>

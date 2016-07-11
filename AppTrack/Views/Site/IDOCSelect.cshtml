@@ -1,0 +1,92 @@
+﻿ @{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.thisPage = "AppTrackSelect";
+    ViewBag.PageType = "AppTrackSelect";
+}
+<div class="row nopadding">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left hidden-xs hidden-sm" style="min-height:450px;">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding">
+            <div class="no-offset nopadding" style="background-color:#c0d0e6;width:100%;padding:0px;margin:0px;min-height:350px;text-align:center;">
+                <iframe width="100%" height="350px;" src="https://www.youtube.com/embed/ox73A1ySs-8?rel=0" frameborder="0" allowfullscreen></iframe>
+                <img class="img-responsive" src="../../Images/AppTrackSelectVideoFooter.jpg" style="height:auto; width:100%; padding:0px;margin-top:-10px;" />
+            </div>
+            <div class="col-md-12 nopadding noteditable" id="AppTrackSelectHeader">
+                <h1 class="text-success-dark">AppTrack Select</h1>
+
+                <div class="nopadding editable" id="AppTrackSelectMain">
+                    @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "AppTrackSelectMain", status = "LIVE", viewName = "AppTrackSelect" });}
+
+                </div>
+                <div style="clear:both;height:30px;"></div>
+
+                 <div class="row">
+                     <div class="col-md-2 nopadding"><img src="../../images/MeasureAndGrow.jpg" style="float:left; height:auto; width:95px" alt="Optometry Practice Growth" /></div>
+
+                        <div class="col-md-10 nopadding" style="padding-top:10px;">
+
+                            <span style="color:rgb(0, 142, 214); font-size:16px;"><strong>Measure & Grow</strong></span>
+                            <br />
+                            <div class="nopadding editable" id="AppTrackSelectMeasure">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "AppTrackSelectMeasure", status = "LIVE", viewName = "AppTrackSelect" });}
+                            </div>
+                                <p> </p>
+                       </div>
+                </div>
+
+                <div style="clear:both;height:30px;"></div>
+
+                <div class="row">
+                    <div class="col-md-2 nopadding"><img src="../../images/CollaborateAndGrow.jpg" style="float:left; height:auto; width:95px" alt="Grow Optometric Practice" /></div>
+
+                        <div class="col-md-10 nopadding" style="padding-top:10px;">
+
+                            <span style="color:rgb(147, 15, 165);font-size:16px;"><strong>Collaborate & Grow</strong></span>
+                            <br />
+                            <div class="nopadding editable" id="AppTrackSelectCollaborate">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "AppTrackSelectCollaborate", status = "LIVE", viewName = "AppTrackSelect" });}
+                            </div>
+
+                                <p> </p>
+
+                        </div>
+               </div>
+
+                    <div style="clear:both;height:30px;"></div>
+
+                    <div class="row">
+                        <div class="col-md-2 nopadding"><img src="../../images/SaveAndGrow.jpg" style="float:left; height:auto; width:95px" alt="Practice Savings" /></div>
+
+                        <div class="col-md-10 nopadding" style="padding-top:10px;">
+
+                            <span style="color:rgb(140, 214, 0);font-size:16px;"><strong>Save & Grow</strong></span>
+                            <br />
+                            <div class="nopadding editable" id="AppTrackSelectSave">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "AppTrackSelectSave", status = "LIVE", viewName = "AppTrackSelect" });}
+                            </div>
+
+
+                            <p> </p>
+
+                       </div>
+                    </div>
+
+                    <div style="clear:both;height:30px;"></div>
+
+                <div class="row">
+                    Plus, you'll benefit from a dedicated members services team and, of course, our best-in-class <a href="/Site/Education" id="educationLinkInPage">educational opportunities.</a>
+
+                    <p> </p>
+                    <div class="nopadding editable" id="AppTrackSelectFooter">
+                        @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "AppTrackSelectFooter", status = "LIVE", viewName = "AppTrackSelect" });}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row nopadding" style="width:100%;height:25px;">
+        &nbsp;
+    </div>

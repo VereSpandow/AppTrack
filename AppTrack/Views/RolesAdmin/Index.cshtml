@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
+
+@{
+    ViewBag.Title = "User Roles";
+}
+
+<div class="h2" style="float:left">@ViewBag.Title</div>
+
+<div class="h2" style="float:right;"><a href="@Url.Action("Create")"><button class="btn btn-info">Add New</button></a></div>
+
+<table class="table table-hover table-striped table-responsive" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", "RolesAdmin", new { id = item.Id })"><span class="fa fa-fw fa-search"></span></a>
+                    <a href="@Url.Action("Edit", "RolesAdmin", new { id = item.Id })"><span class="fa fa-fw fa-edit"></span></a>
+                    &nbsp;
+                    <a href="@Url.Action("Delete", "RolesAdmin", new { id = item.Id })"><span class="btn btn-xs btn-danger" style="padding:1px 2px;line-height:1;">x</span></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script>
+            $(document).ready(function () {
+                $('#myTable').dataTable(
+                {
+                    "searching": false,
+                    "iDisplayLength": 100,
+                    "bLengthChange": false,
+                    "oLanguage": {
+                        "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                        "sLengthMenu": "Show _MENU_ rows per page",
+                        "sInfoEmpty": "0 records found",
+                        "sEmptyTable": "No information available to display"
+                    }
+                });
+            });
+    </script>
+}

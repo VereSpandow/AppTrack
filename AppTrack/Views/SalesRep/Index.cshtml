@@ -1,0 +1,112 @@
+﻿@model AppTrack.ViewModels.SalesRepListViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+    <div class="h2" style="float:left">Sales Rep List</div>
+    <div class="h2" style="float:right"><a class="btn btn-info" href="@Url.Action("Create","SalesRep")">Add New</a></div>
+    <div class="filterbar" style="display:block;clear:both;">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.SearchLastName, htmlAttributes: new { @class = "control-label" })
+                        <br />
+                        @Html.EditorFor(model => model.SearchLastName, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                        @Html.ValidationMessageFor(model => model.SearchLastName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.SelectedStatus, htmlAttributes: new { @class = "control-label" })
+                        <br />
+                        @Html.DropDownListFor(model => model.SelectedStatus, Model.StatusList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SelectedStatus, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="control-label">&nbsp;</label>
+                        <br />
+                        <button class="btn btn-info" type="submit" value="Search">Search</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <hr />
+
+    <table class="table table-hover table-striped table-responsive" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.SalesRepList[0].SalesForceID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SalesRepList[0].FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SalesRepList[0].LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SalesRepList[0].TaxID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SalesRepList[0].Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SalesRepList[0].Status)
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.SalesRepList)
+            {
+                <tr onclick="location.href = 'SalesRep/AccountProfile/@item.CustID';">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SalesForceID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TaxID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("AccountProfile", "SalesRep", new { id = item.CustID })"><span class="fa fa-fw fa-user"></span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                $('#myTable').dataTable(
+                {
+                    "searching": false,
+                    "bLengthChange": false,
+                    "oLanguage": {
+                        "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                        "sLengthMenu": "Show _MENU_ rows per page",
+                        "sInfoEmpty": "0 records found",
+                        "sEmptyTable": "No information available to display"
+                    }
+                });
+            });
+        </script>
+    }

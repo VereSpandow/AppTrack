@@ -1,0 +1,144 @@
+﻿@model AppTrack.ViewModels.AutoShipHeaderUpdateViewModel
+
+<div id="updateProfileFormDiv">
+
+    @using (Ajax.BeginForm("ProfileUpdate", "Billing", null,
+                new AjaxOptions
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "POST",
+                    OnFailure = "updateProfileFailure",
+                    OnSuccess = "updateProfileSuccess",
+                    LoadingElementId = "ajax-loader",
+                    UpdateTargetId = "updateProfileFormDiv"
+                }, new { id = "updateProfileForm" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="col-sm-12" style="padding:0">
+            <input type="hidden" name="ErrorCode" id="ErrorCode" value="@ViewBag.ErrorCode" />
+
+            @Html.HiddenFor(model => model.AutoShipHeader.AutoShipID)
+
+            <div class="col-sm-12">
+                <div class="panel panel-default" style="min-height:200px;">
+                    <div class=" panel-heading"><span class="h4">Billing Profile Update</span></div>
+                    <div class="panel-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="col-sm-6 pull-left" style="padding:0;">
+
+                            <div class="col-sm-4" style="font-weight:bold;text-align:right;">Bill To: </div>
+                            <div class="col-sm-8">@Html.DisplayFor(model => model.AutoShipHeader.ShipName) &nbsp;</div>
+                            <div class="col-sm-4" style="font-weight:bold;text-align:right;">Last Bill Date: </div>
+                            <div class="col-sm-8">@(Model.AutoShipHeader.LastDate != null ? Model.AutoShipHeader.LastDate.ToString() : "n/a") &nbsp;</div>
+                            <div class="col-sm-4" style="font-weight:bold;text-align:right;">Billng Period: </div>
+                            <div class="col-sm-8">@Html.DisplayFor(model => model.AutoShipHeader.Interval)&nbsp;@Html.DisplayFor(model => model.AutoShipHeader.IntervalUnit)</div>
+                            <div class="col-sm-4" style="font-weight:bold;text-align:right;">Next Bill Date: </div>
+                            <div class="col-sm-4">
+                                @Html.JQueryUI().DatepickerFor(model => model.EditNextDate, new { @class = "form-control" })
+                                <br />
+                                @Html.ValidationMessageFor(model => model.EditNextDate, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-4" style="font-weight:bold;text-align:right;">&nbsp;</div>
+                            <div class="col-sm-4" style="font-weight:bold;text-align:right;clear:both;">Status: </div>
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(model => model.EditStatus, Model.EditStatusList, new { @class = "form-control" })
+                                <br />
+                                @Html.ValidationMessageFor(model => model.EditStatus, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-12" style="padding:0;">
+                                <div class="col-sm-6 pull-left" style="text-align:left;">
+                                    <span class="btn btn-sm btn-danger" onclick="cancelUpdate()">Cancel</span>
+                                </div>
+                                <div class="col-sm-6 pull-right">
+                                    <input type="submit" name="SubmitAction" value="Update" class="btn btn-sm btn-info" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 pull-left" style="padding:0;">
+                            <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:.8em">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Product
+                                        </th>
+                                        <th>
+                                            Qty
+                                        </th>
+                                        <th>
+                                            Unit Price
+                                        </th>
+                                        <th>
+                                            Ext Price
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.AutoShipDetailList)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ItemTitle)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Quantity)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UnitPrice)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ExtPrice)
+                                            </td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td colspan="3">
+                                            Total:
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => model.AutoShipHeader.OrderTotal)
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width:100%;text-align: center">
+            <img id="ajax-loader" src="@Url.Content("~/Content/images/ajaxLoader.gif")" style="display:none;" />
+        </div>
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse(document);
+        var dateToday = new Date();
+        $("#EditNextDate").datepicker({ minDate: dateToday });
+    });
+
+    function cancelUpdate() {
+        $('#updateProfileFormDiv').hide();
+        $('#searchFormDiv').show();
+    };
+
+    function updateProfileSuccess() {
+        if ($('#ErrorCode').val() == 0) {
+            $('#formProfileList').submit();
+        }
+        else
+        {
+            $('#updateProfileFormDiv').show();
+            $('#searchFormDiv').hide();
+        }
+    };
+
+    function updateProfileFailure() {
+        alert("Update Profile failed");
+    };
+
+</script>

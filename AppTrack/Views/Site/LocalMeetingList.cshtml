@@ -1,0 +1,58 @@
+﻿@model AppTrack.ViewModels.LocalMeetingList
+
+@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.thisPage = "LocalMeetingList";
+    ViewBag.PageType = "AppTrack";
+}
+
+<h2>Local Meetings</h2>
+<table class="table">
+    <tr>
+        <th>
+            City
+        </th>
+        <th>
+            State 
+        </th>
+        <th>
+            Topic 
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Time
+        </th>
+        <th>
+        </th>
+    </tr>
+
+    @foreach (var item in Model.localMeetings)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventEndDate)
+            </td>
+            <td>
+                @Html.ActionLink("MeetingDetails", "Site", new { id = item.ID }) |
+            </td>
+        </tr>
+    }
+
+</table>
+<div class="row nopadding" style="width:100%;height:25px;">
+    &nbsp;
+</div>

@@ -1,0 +1,54 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayoutMember.cshtml";
+    ViewBag.Title = "SiteMemberIndex";
+    ViewBag.thisPage = "SiteMemberIndex";
+    ViewBag.PageType = "Index";
+}
+<div class="col-md-12 pull-right no-offset nopadding">
+    <div class="col-md-12 nopadding noteditable" id="SiteMemberIndexHeader">
+        <h4 style="margin-top:20px;">Important Messages from AppTrack</h4>
+        <div style="clear:both;height:10px;"></div>
+        <div id="myCarousel" class="carousel slide nopadding" data-ride="carousel" data-interval="8000">
+            <!-- Indicators -->
+            <ol>
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <div class="item active" style="padding:5px;">
+                    <div class="col-xs-12 col-sm-12 col-md-7"><a href="https://www.myalcon.com/products/contact-lenses/air-optix/aqua-technology.shtml" target="_blank"><img src="@Constants.siteURL/images/1412C03-US-AOA-banner.jpg" width=100% /></a></div>
+                    <div class="col-xs-12 col-sm-12 col-md-5"><a href="@Url.Action("AppTrackSelect","Site")"><img src="@Constants.siteURL/images/AppTrackSelect-banner.jpg" width=100% /></a></div>
+                </div>
+                <div class="item" style="padding:5px;">
+                    @*<div class="col-xs-12 col-sm-12 col-md-7"><a href="https://www.myalcon.com/products/contact-lenses/air-optix/colors-ourscience.shtml" target="_blank"><img src="@Constants.siteURL/images/1412C09G-AOC-banner.jpg" width=100% /></a></div>*@
+                    <div class="col-xs-12 col-sm-12 col-md-7"><a href="http://www.ecpally.com" target="_blank"><img src="@Constants.siteURL/images/HOYA-banner.jpg" width=100% /></a></div>
+                    <div class="col-xs-12 col-sm-12 col-md-5"><a href="https://www.dailies.com/products/dailies-aquacomfort-plus-toric.shtml" target="_blank"><img src="@Constants.siteURL/images/1503C31E-DACP-banner.jpg" width=100% /></a></div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#fader div:not(:first)').hide();
+        $('#fader div').css('position', 'absolute');
+        $('#fader div').css('top', '0px');
+        $('#fader div').css('left', '0');
+
+        var pause = false;
+
+        function fadeNext() {
+            $('#fader div').first().fadeOut().appendTo($('#fader'));
+            $('#fader div').first().fadeIn();
+        }
+
+        function fadePrev() {
+            $('#fader div').first().fadeOut();
+            $('#fader div').last().prependTo($('#fader')).fadeIn();
+        }
+
+        var rotate = setInterval(fadeNext, 4000);
+    });
+</script>

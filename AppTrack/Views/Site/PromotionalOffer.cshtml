@@ -1,0 +1,71 @@
+﻿@model AppTrack.SharedModels.PromoContact
+@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.thisPage = "PromotionalOffer";
+    ViewBag.PageType = "PromotionalOffer";
+}
+
+
+<div class="row nopadding">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left  hidden-xs hidden-sm" style="min-height:450px;">
+
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding" style="margin-top:20px;">
+
+            <div class="col-md-6 nopadding">
+                <h2 class="text-info-dark" style="line-height:38px;">Contact us to learn more about AppTrack and how to get your first THREE MONTHS FREE!*</h2>
+                @if (ViewBag.Message == "Success")
+                {
+                    <br />
+                    <span>Thank you for your interest in AppTrack.  We will be in contact shortly.</span>
+                }
+            </div>
+
+            <div class="col-md-6 nopadding">
+                <div style="font-size: 14px;">
+                @if (ViewBag.Message == null || ViewBag.Message == "")
+                {
+                    using (Html.BeginForm("PromotionalOffer", "Site", FormMethod.Post, new { id = "EditAccount", @class = "form-horizontal", role = "form" }))
+                    {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="contactSource" value="Join by Dec 31 2105 get 3 months free">
+                            <div class="col-md-8" style="margin-top:5px;padding:5px;">
+                                @Html.EditorFor(model => model.contactName, new { htmlAttributes = new { @class = "form-control", placeholder = "Name", maxlength = "40"  } })
+                                @Html.ValidationMessageFor(model => model.contactName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-8" style="margin-top:5px;padding:5px;">
+                                @Html.EditorFor(model => model.contactDisplayName, new { htmlAttributes = new { @class = "form-control", placeholder = "Practice Name", maxlength = "100" } })
+                                @Html.ValidationMessageFor(model => model.contactDisplayName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class=" col-md-8" style="padding:5px;">
+                                @Html.EditorFor(model => model.contactEmail, new { htmlAttributes = new { @class = "form-control", placeholder = "Email", maxlength = "100" } })
+                                @Html.ValidationMessageFor(model => model.contactEmail, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-8" style="padding:5px;">
+                                @Html.EditorFor(model => model.contactPhone, new { htmlAttributes = new { @class = "form-control", id="contactPhone", placeholder = "Phone", maxlength = "20" } })
+                                @Html.ValidationMessageFor(model => model.contactPhone, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-8" style="padding:5px;">
+                                <input type="Submit" name="Submit" value="Submit" class="btn btn-sm btn-info pull-right">
+                                <div class="row"></div>
+                            </div>
+                        }
+                    }
+               </div>
+            </div>
+            <div class="row clear"></div>
+            <br /><br /><br />
+            <p>*Offer valid through December 31, 2015 for new AppTrack members only.</p>
+        </div>
+        <div class="row nopadding" style="width:100%;height:25px;">
+            &nbsp;
+        </div>
+    </div>
+</div>
+<script>
+        $(document).ready(function () {
+            $("#contactPhone").mask("(999)999‐9999?x9999");
+        });
+</script>
+

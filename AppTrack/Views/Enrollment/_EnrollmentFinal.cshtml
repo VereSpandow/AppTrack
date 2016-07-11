@@ -1,0 +1,71 @@
+﻿@model AppTrack.ViewModels.EnrollmentFinal
+<div id="enrollRightCol5">
+    <div class="panel panel-info panel-info-dark">
+        <div class="panel-heading">
+            <div class="panel-title">
+                You're Done
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12" style="background-color:#fff;">
+                <p>
+                    Please take a few moments to answer the following questions.
+                </p>
+                @using (Ajax.BeginForm("EnrollmentFinal", "Enrollment", null,
+                    new AjaxOptions
+                    {
+                        InsertionMode = InsertionMode.Replace,
+                        HttpMethod = "POST",
+                        OnSuccess = "OnSuccess5",
+                        OnFailure = "OnFailure5",
+                        LoadingElementId = "ajax-loader",
+                        UpdateTargetId = "enrollRightCol5"
+                    }, new { id = "Scottloc5" }))
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.AntiForgeryToken()
+                    <img id="ajax-loader" src="@Url.Content("~/Images/ajax-loader.gif")" style="display:none;" />
+                    <div class="col-md-12">
+                        @Html.HiddenFor(model => model.CustID)
+                        <div class="col-md-12" style="margin-top:5px;">
+                            <div class="col-md-6 pull-left" style="margin-left:-15px;">
+                                Have you attended a Study Group Meeting?
+                                @Html.ValidationMessageFor(model => model.StudyGroup, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6 pull-left left" style="margin-left:-15px;">
+                                @Html.RadioButtonFor(model => model.StudyGroup, "Yes") Yes
+                                <br />
+                                @Html.RadioButtonFor(model => model.StudyGroup, "No")  No
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="margin-top:5px;">
+                            @Html.LabelFor(model => model.ParentID, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;margin-bottom:-3px;" })
+                            @Html.DropDownListFor(model => model.ParentID, Model.IMDList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ParentID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12" style="margin-top:5px;">
+                            @Html.LabelFor(model => model.PracticeSize, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;margin-bottom:-3px;" })
+                            @Html.DropDownListFor(model => model.PracticeSize, Model.PracticeSizeList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.PracticeSize, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <p>
+                            <div class="form-group">
+                                <input type="submit" name="button" value="Save" class="btn btn-sm btn-primary pull-right">
+                            </div>
+                    </div>
+
+    <script>
+        function OnSuccess5() {
+        }
+        function OnFailure5() {
+        }
+    </script>
+
+                
+                }
+            </div>
+        </div>
+    </div>
+</div>

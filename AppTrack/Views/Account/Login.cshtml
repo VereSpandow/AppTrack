@@ -1,0 +1,65 @@
+﻿@using AppTrack.Models
+@model LoginViewModel
+@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.Title = "Login";
+}
+<div class="row nopadding">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left hidden-xs hidden-sm" style="min-height:450px;">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding">
+            <div class="col-md-12 nopadding noteditable" id="GrowthSolutionsMain">
+                <h1 class="text-success-dark">Log In</h1>
+                @if (ViewBag.errorMessage != "")
+                {
+                    <p class="text-danger">@ViewBag.errorMessage</p>
+                }
+                else
+                {
+                    <p>
+                        If this is your first time logging into the new Member Portal, please enter your email address in both the email <strong>and</strong> password fields below.
+                        If you have any problems logging in, don’t hesitate to call us at 203.853.3333 or email <a href="mailto:memberservices@AppTrack.net">memberservices@AppTrack.net</a>. Thank you.
+                    </p>
+                }
+                <section id="loginForm">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Password, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                @Html.CheckBoxFor(m => m.RememberMe) &nbsp;&nbsp;Remember Me
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <input type="submit" value="Log in" class="btn btn-info" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                            </div>
+                        </div>
+                    }
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

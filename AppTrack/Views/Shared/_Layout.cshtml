@@ -1,0 +1,251 @@
+﻿@using AppTrack;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @if (Constants.siteURL != "http://AppTrack.net")
+    {
+        <meta name="robots" content="noindex">
+    }
+    <title>@PageData{"CompanyName"}|</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.lb.css">
+    <style>
+        .pagination {
+            margin: 0;
+        }
+    </style>
+    @Scripts.Render("~/bundles/modernizr")
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+     @Scripts.Render("~/bundles/ie")
+     <![endif]-->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+</head>
+<body style="padding:0;">
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-lg-2 col-md-2 col-sm-2 bg-primary sidebar-menu-expanded" id="sidebar" style="min-height:900px;padding:0">
+                <div style="clear:both;height:5px;"></div>
+                @if (@Html.IsSelected(controller: "Home") == "active open")
+                {
+                    <span>&nbsp;</span>
+                }
+                else
+                {
+                    Html.RenderPartial("_LeftSideBarBasic");
+
+                }
+                    <div style="clear:both;height:5px;"></div>
+                </div>
+
+                    <div class="col-lg-10  col-md-10 col-sm-10">
+                        @Html.Partial("_Header")
+                        <div class="col-lg-12  col-md-12 col-sm-12" style="overflow-x:auto;">
+                            @RenderBody()
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+                    @RenderSection("scripts", required: false)
+                    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+                    <script type="text/javascript" src="https://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+                    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+
+                    <script>
+                        $(document).ready(function () {
+
+                            $.extend($.fn.dataTable.defaults, {
+                                "searching": false
+                            });
+
+                            $.validator.unobtrusive.parse(document);
+
+                            if ($("#toppanelcreate").length <= 0) {
+                                $('#toppanelcreateDefault').attr('id', 'toppanelcreate');
+                            }
+                            if ($("#toppanelcontent").length <= 0) {
+                                $('#toppanelcontentDefault').attr('id', 'toppanelcontent');
+                            }
+                            if ($("#toppanelsearch").length <= 0) {
+                                $('#toppanelsearchDefault').attr('id', 'toppanelsearch');
+                            }
+                            $('.collapse.active.open').collapse('show');
+
+                            $("#toggleSideBar").click(function () {
+                                if ($("#sidebar").hasClass("sidebar-menu-collapsed") == true) {
+                                    $("#sidebar").removeClass("sidebar-menu-collapsed").addClass("sidebar-menu-expanded");
+                                    $(".sidebarText").show();
+                                }
+                                else {
+                                    $("#sidebar").removeClass("sidebar-menu-expanded").addClass("sidebar-menu-collapsed");
+                                    $(".sidebarText").hide();
+                                }
+                            });
+
+                            $("#toggleTopPanelContent").click(function () {
+                                if ($("#toppanelcontent").css("display") == "none") {
+                                    $(".alphapagelayer").show();
+                                    $("#toppanellogout").hide();
+                                    $("#toppanelcreate").hide();
+                                    $("#toppanelsearch").hide();
+                                    $("#toppanelcreate").animate({ top: "-500px" });
+                                    $("#toppanelsearch").animate({ top: "-500px" });
+                                    $("#toppanellogout").animate({ top: "-500px" });
+                                    $("#toppanelcontent").show();
+                                    $("#toppanelcontent").animate({ top: "70px" }, 1000).delay(100).animate({ top: "50px" }, 500);
+                                }
+                                else {
+                                    $("#toppanelcontent").animate({ top: "-500px" }, 1000).delay(100).hide().delay(100);
+                                    $(".alphapagelayer").hide();
+                                }
+                            });
+                            $("#toggleTopPanelCreate").click(function () {
+                                if ($("#toppanelcreate").css("display") == "none") {
+                                    $(".alphapagelayer").show();
+                                    $("#toppanelcontent").hide();
+                                    $("#toppanelsearch").hide();
+                                    $("#toppanellogout").hide();
+                                    $("#toppanelcontent").animate({ top: "-500px" });
+                                    $("#toppanelsearch").animate({ top: "-500px" });
+                                    $("#toppanellogout").animate({ top: "-500px" });
+                                    $("#toppanelcreate").show();
+                                    $("#toppanelcreate").animate({ top: "70px" }, 1000).delay(100).animate({ top: "50px" }, 500);
+                                }
+                                else {
+                                    $("#toppanelcreate").animate({ top: "-500px" }, 1000).delay(100).hide().delay(100);
+                                    $(".alphapagelayer").hide();
+                                }
+                            });
+                            $("#toggleTopPanelSearch").click(function () {
+                                if ($("#toppanelsearch").css("display") == "none") {
+                                    $(".alphapagelayer").show();
+                                    $("#toppanelcontent").hide();
+                                    $("#toppanelcreate").hide();
+                                    $("#toppanellogout").hide();
+                                    $("#toppanelcontent").animate({ top: "-500px" });
+                                    $("#toppanelcreate").animate({ top: "-500px" });
+                                    $("#toppanellogout").animate({ top: "-500px" });
+                                    $("#toppanelsearch").show();
+                                    $("#toppanelsearch").animate({ top: "70px" }, 1000).delay(100).animate({ top: "50px" }, 500);
+                                }
+                                else {
+                                    $("#toppanelsearch").animate({ top: "-500px" }, 1000).delay(100).hide().delay(100);
+                                    $(".alphapagelayer").hide();
+                                }
+                            });
+                            $("#toggleTopPanelLogOut").click(function () {
+                                if ($("#toppanellogout").css("display") == "none") {
+                                    $(".alphapagelayer").show();
+                                    $("#toppanelcontent").hide();
+                                    $("#toppanelcreate").hide();
+                                    $("#toppanelsearch").hide();
+                                    $("#toppanelcontent").animate({ top: "-500px" });
+                                    $("#toppanelcreate").animate({ top: "-500px" });
+                                    $("#toppanelsearch").animate({ top: "-500px" });
+                                    $("#toppanellogout").show();
+                                    $("#toppanellogout").animate({ top: "70px" }, 1000).delay(100).animate({ top: "50px" }, 500);
+                                }
+                                else {
+                                    $("#toppanellogout").animate({ top: "-500px" }, 1000).delay(100).hide().delay(100);
+                                    $(".alphapagelayer").hide();
+                                }
+                            });
+                        });
+
+                    </script>
+
+
+                    <div id="toppanellogout" style="position:fixed; top:-300px; left:50%;margin-left:-350px; width:700px; height:400px; background-color:#fff; border:1px #369 solid; display:none;z-index:3;">
+                        <div class="panel panel-danger panel-danger-dark">
+                            <div class="panel-heading">
+                                <div class="panel-title">
+                                    @ViewBag.UserName Sign Out
+                                </div>
+                            </div>
+                            <div class="panel-body" style="min-height:350px;">
+                                @if (Request.IsAuthenticated)
+                {
+                                    @ViewBag.UserName;
+                                     using (Html.BeginForm("LogOff", "Account"))
+                                     {
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" value="Logoff" class="btn btn-danger"><i class="fa fa-fw fa-2x fa-sign-out"></i>Sign Out</button>
+                                     }
+                }
+                else
+                {
+                                    <a class="btn btn-success" href="/Account/Login"><i class="fa fa-fw fa-2x fa-sign-out"></i>Sign in</a>
+                }
+                            </div>
+                            <div class="panel-footer">
+                                copyright 2015 loyalty benefits, llc
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="toppanelcreateDefault" id="toppanelcreateDefault" style="position:fixed; top:-300px; left:50%;margin-left:-350px; width:700px; height:400px; background-color:#fff; border:1px #369 solid; display:none;z-index:3;">
+                        <div class="panel panel-danger panel-info-dark">
+                            <div class="panel-heading">
+                                <div class="panel-title">
+                                    Create Something New
+                                </div>
+                            </div>
+                            <div class="panel-body" style="min-height:350px;">
+                                Create a New Member, IMD, Sales Rep, Vendor, Admin User.
+
+                            </div>
+                            <div class="panel-footer">
+                                copyright 2015 loyalty benefits, llc
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="toppanelsearchDefault" id="toppanelsearchDefault" style="position:fixed; top:-300px; left:50%;margin-left:-350px; width:700px; height:400px; background-color:#fff; border:1px #369 solid; display:none;z-index:3;">
+                        <div class="panel panel-danger panel-warning-dark">
+                            <div class="panel-heading">
+                                <div class="panel-title">
+                                    Find Something Important
+                                </div>
+                            </div>
+                            <div class="panel-body" style="min-height:350px;">
+                                Search for Members, IMDs, Vendors, Admins, Notes, Orders.
+
+                            </div>
+                            <div class="panel-footer">
+                                copyright 2015 loyalty benefits, llc
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="toppanelcontentDefault" id="toppanelcontentDefault" style="position:fixed; top:-300px; left:50%;margin-left:-350px; width:700px; height:400px; background-color:#fff; border:1px #369 solid; display:none;z-index:3;">
+                        <div class="panel panel-danger panel-warning-dark">
+                            <div class="panel-heading">
+                                <div class="panel-title">
+                                    Create Something New
+                                </div>
+                            </div>
+                            <div class="panel-body" style="min-height:350px;">
+                                Create a New Member, IMD, Sales Rep, Vendor, Admin User.
+
+                            </div>
+                            <div class="panel-footer">
+                                copyright 2015 loyalty benefits, llc
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alphapagelayer" style="position:fixed;top:0; left:0; width:100%; height:100%;background-color:#069; opacity: 0.4; filter: alpha(opacity=40);display:none;z-index:2;"></div>
+                </body>
+
+</html>

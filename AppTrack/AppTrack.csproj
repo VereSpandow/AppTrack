@@ -1,0 +1,1429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D1B8F0DC-353D-4625-A959-3B1153643D54}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AppTrack</RootNamespace>
+    <AssemblyName>AppTrack</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AuthorizeNet, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AuthorizeNet.1.8.10\lib\AuthorizeNet.dll</HintPath>
+    </Reference>
+    <Reference Include="DocuSign.Integration.Client">
+      <HintPath>..\packages\DocuSign.Integration.Client.dll.1.7.2\lib\DocuSign.Integration.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah.Mvc">
+      <HintPath>..\packages\Elmah.Mvc.2.1.2\lib\net40\Elmah.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="FastMember, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FastMember.1.0.0.11\lib\net40\FastMember.dll</HintPath>
+    </Reference>
+    <Reference Include="JQueryUIHelpers">
+      <HintPath>..\packages\jQueryUIHelpers.Mvc5.2.2.0\lib\net45\JQueryUIHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Payflow_dotNET">
+      <HintPath>..\..\..\..\..\..\Program Files\Payflow SDK for .NET\SampleStoreCS\bin\Payflow_dotNET.dll</HintPath>
+    </Reference>
+    <Reference Include="PayPalCoreSDK">
+      <HintPath>..\packages\PayPalCoreSDK.1.7.1\lib\net451\PayPalCoreSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DataVisualization" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=__MvcPagesVersion__, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.1.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.0\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.0\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BillingController.cs" />
+    <Compile Include="Controllers\CMSContentsController.cs" />
+    <Compile Include="Controllers\CMSViewFilesController.cs" />
+    <Compile Include="Controllers\CommissionController.cs" />
+    <Compile Include="Controllers\ConferenceController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\ContractController.cs" />
+    <Compile Include="Controllers\ContractProviderController.cs" />
+    <Compile Include="Controllers\CustomerNotesController.cs" />
+    <Compile Include="Controllers\C_PayOutController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DocumentsController.cs" />
+    <Compile Include="Controllers\DocuSignController.cs" />
+    <Compile Include="Controllers\EnrollmentController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ItemController.cs" />
+    <Compile Include="Controllers\ItemPricingController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MeetingController.cs" />
+    <Compile Include="Controllers\MemberActivityController.cs" />
+    <Compile Include="Controllers\MemberBillingReportController.cs" />
+    <Compile Include="Controllers\MemberBudgetReportController.cs" />
+    <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Controllers\MemberCountsController.cs" />
+    <Compile Include="Controllers\MemberDirectorController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\MemberEnrollmentController.cs" />
+    <Compile Include="Controllers\MemberProductCountsController.cs" />
+    <Compile Include="Controllers\MemberSalesReportController.cs" />
+    <Compile Include="Controllers\ProcessCommissionsController.cs" />
+    <Compile Include="Controllers\ProcessPaymentsController.cs" />
+    <Compile Include="Controllers\ProcessRebatesController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\RebateController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\RolesAdminController.cs" />
+    <Compile Include="Controllers\SAGEController.cs" />
+    <Compile Include="Controllers\SalesPOPMembersONLYReportController.cs" />
+    <Compile Include="Controllers\SalesPoPReportController.cs" />
+    <Compile Include="Controllers\SalesRepController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\SiteController.cs" />
+    <Compile Include="Controllers\SiteIMDController.cs" />
+    <Compile Include="Controllers\SiteMemberController.cs" />
+    <Compile Include="Controllers\SiteMobileController.cs" />
+    <Compile Include="Controllers\StockBinController.cs" />
+    <Compile Include="Controllers\UsersAdminController.cs" />
+    <Compile Include="Controllers\VendorController.cs" />
+    <Compile Include="Controllers\VendorPayeeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\ChartHelpers.cs" />
+    <Compile Include="Helpers\DataHelpers.cs" />
+    <Compile Include="Helpers\HTMLHelper.cs" />
+    <Compile Include="Helpers\UtilityHelpers.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AC_CookieTblHeaderRead_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AC_CookieTblHeaderUpdate_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AC_GetC_infoListByCustomerTypeV2_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AC_GetC_infoListByCustomerType_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AC_GetC_infoListByDateCustomerType_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdminViewModel.cs" />
+    <Compile Include="Models\APPTrack.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppTrack.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AppTrack.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetRole.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUser.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaim.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogin.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BillingModels.cs" />
+    <Compile Include="Models\CMSContent.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CMSContentArchive.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CMSViewFile.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CMS_GetViewFile_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_ActivityTracking.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_AdminUser.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_AutoShipDetail.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_AutoShipHeader.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Categories.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_CommissionDetail.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Commissions.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Company.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Departments.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_EmailFormSubmitLog.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_EmailTemplates.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_EventDetail.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_EventHeader.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_ExportDataLog.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_ExportDataLogDetail.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_FeeDetail.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Fees.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_FormSubmitLog.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_ImportDataLog.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_ImportDataLogDetail.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_ImportPayoutTransactions.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Info.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_InfoDetail.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Item.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_ItemBOM.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_ItemDeptStore.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_ItemPricing.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_ItemPromotion.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_ItemVendors.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Lookup.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_MembershipActivity.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Notes.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_OrderDetail.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_OrderHeader.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_OrderHistory.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\c_PaymentDetail.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_PaymentHistory.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_PaymentMethod.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_PayOut.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_PayOutPlan.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Periods.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Program.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_PromotionDetail.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_PromotionHeader.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_RankDetail.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_RankHeader.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Ranks.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Regions.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_StateDetail.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_StateHeader.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_StatementHeader.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_StatementLog.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_StatusLog.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_StockBin.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Stores.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_sysDetail.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Tagged.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Tree.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_TreeLog.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_VendorRebateTransactions.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_VolumeDetail.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_VolumeHeader.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_VolumeItem.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_Volumes.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\AppTrack.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppTrack.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LB_GetAutoShipHeaderByCustIDTopOne_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LB_GetAutoShipHeaderByCustID_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LB_GetCustByLastNameStatusType_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LB_GetC_InfoByCustID_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LB_GetEventHeader_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LB_GetNoteByID_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LB_GetNotes_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LB_GetSalesRepList_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LB_GetTmp_GenerateAutoShipHeader_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LB_ProcessCommissionsStageOneIMDCommissions_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LB_ProcessCommissionsStageOne_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LB_ProcessRebatesStageOne_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LB_UpdateMemberEnrollmentParentPractice_Result.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\TmpOrderHeaderForPayment.cs">
+      <DependentUpon>AppTrack.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Samples\ShoppingCartViewModel\ProductModel.cs" />
+    <Compile Include="Samples\ShoppingCartViewModel\ShoppingCartController.cs" />
+    <Compile Include="Samples\ShoppingCartViewModel\ShoppingCartViewModel.cs" />
+    <Compile Include="Samples\SpecifyingViews\SampleController.cs" />
+    <Compile Include="SharedModels\PaymentSharedModels.cs" />
+    <Compile Include="SharedModels\SharedModels.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\BillingViewModel.cs" />
+    <Compile Include="ViewModels\ContractViewModel.cs" />
+    <Compile Include="ViewModels\CMSContentViewModel.cs" />
+    <Compile Include="ViewModels\CommissionViewModel.cs" />
+    <Compile Include="ViewModels\ConferenceRegistrationViewModel.cs" />
+    <Compile Include="ViewModels\ContactViewModel.cs" />
+    <Compile Include="ViewModels\CustomerNotesViewModel.cs" />
+    <Compile Include="ViewModels\CustomerViewModel.cs" />
+    <Compile Include="ViewModels\DepartmentViewModel.cs" />
+    <Compile Include="ViewModels\DocumentsViewModel.cs" />
+    <Compile Include="ViewModels\EnrollmentViewModels.cs" />
+    <Compile Include="ViewModels\ItemBOMViewModel.cs" />
+    <Compile Include="ViewModels\ItemDeptStoreViewModel.cs" />
+    <Compile Include="ViewModels\ItemPricingViewModel.cs" />
+    <Compile Include="ViewModels\ItemViewModel.cs" />
+    <Compile Include="ViewModels\LocalMeetingViewModel.cs" />
+    <Compile Include="ViewModels\LocationViewModel.cs" />
+    <Compile Include="ViewModels\MeetingViewModel.cs" />
+    <Compile Include="ViewModels\MemberActivityViewModel.cs" />
+    <Compile Include="ViewModels\MemberBillingReportViewModel.cs" />
+    <Compile Include="ViewModels\MemberBudgetReportViewModel.cs" />
+    <Compile Include="ViewModels\MemberCountIMDReportViewModel.cs" />
+    <Compile Include="ViewModels\MemberCountReportViewModel.cs" />
+    <Compile Include="ViewModels\MemberCountSalesRepReportViewModel.cs" />
+    <Compile Include="ViewModels\MemberDirectorViewModel.cs" />
+    <Compile Include="ViewModels\MemberEnrollmentViewModel.cs" />
+    <Compile Include="ViewModels\MemberNoSalesReportViewModel.cs" />
+    <Compile Include="ViewModels\MemberProductCountReportViewModel.cs" />
+    <Compile Include="ViewModels\MemberSalesDeltaReportViewModel.cs" />
+    <Compile Include="ViewModels\MemberSalesReportViewModel.cs" />
+    <Compile Include="ViewModels\MemberUnexpectedSalesReportViewModel.cs" />
+    <Compile Include="ViewModels\MemberViewModel.cs" />
+    <Compile Include="ViewModels\PaymentProcessViewModel.cs" />
+    <Compile Include="ViewModels\ProcessCommissionsViewModel.cs" />
+    <Compile Include="ViewModels\ProcessRebatesViewModel.cs" />
+    <Compile Include="ViewModels\ProductViewModel.cs" />
+    <Compile Include="ViewModels\PromotionListViewModel.cs" />
+    <Compile Include="ViewModels\RebateImportViewModel.cs" />
+    <Compile Include="ViewModels\RebateManageViewModel.cs" />
+    <Compile Include="ViewModels\ReportViewModel.cs" />
+    <Compile Include="ViewModels\SAGEExportViewModel.cs" />
+    <Compile Include="ViewModels\SAGEImportViewModel.cs" />
+    <Compile Include="ViewModels\SAGEReportViewModel.cs" />
+    <Compile Include="ViewModels\SalesPoPReportViewModel.cs" />
+    <Compile Include="ViewModels\SalesRepProfileViewModel.cs" />
+    <Compile Include="ViewModels\SalesRepViewModel.cs" />
+    <Compile Include="ViewModels\SiteMemberViewModel.cs" />
+    <Compile Include="ViewModels\StockBinViewModel.cs" />
+    <Compile Include="ViewModels\StoreViewModel.cs" />
+    <Compile Include="ViewModels\VendorPayeeViewModel.cs" />
+    <Compile Include="ViewModels\VendorProfileViewModel.cs" />
+    <Compile Include="ViewModels\VendorViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\animate.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\images\ajaxLoader.gif" />
+    <Content Include="Content\images\back_disabled.png" />
+    <Content Include="Content\images\back_enabled.png" />
+    <Content Include="Content\images\back_enabled_hover.png" />
+    <Content Include="Content\images\carousel-arrow-dark.png" />
+    <Content Include="Content\images\carousel-arrow-light.png" />
+    <Content Include="Content\images\Carousel-EyeOnSavings.png" />
+    <Content Include="Content\images\Carousel-MorePowerToYou.png" />
+    <Content Include="Content\images\Carousel-MoreThanAlliance.png" />
+    <Content Include="Content\images\forward_disabled.png" />
+    <Content Include="Content\images\forward_enabled.png" />
+    <Content Include="Content\images\forward_enabled_hover.png" />
+    <Content Include="Content\images\Home01.jpg" />
+    <Content Include="Content\images\Home05.jpg" />
+    <Content Include="Content\images\Image01.jpg" />
+    <Content Include="Content\images\Image02.jpg" />
+    <Content Include="Content\images\Image03.jpg" />
+    <Content Include="Content\images\Image04.jpg" />
+    <Content Include="Content\images\Image06.jpg" />
+    <Content Include="Content\images\loading-2.gif" />
+    <Content Include="Content\images\Logo.jpg" />
+    <Content Include="Content\images\Logo.png" />
+    <Content Include="Content\images\profile.jpeg" />
+    <Content Include="Content\images\profile.jpg" />
+    <Content Include="Content\images\SellByDesign.png" />
+    <Content Include="Content\images\sort_asc.png" />
+    <Content Include="Content\images\sort_asc_disabled.png" />
+    <Content Include="Content\images\sort_both.png" />
+    <Content Include="Content\images\sort_desc.png" />
+    <Content Include="Content\images\sort_desc_disabled.png" />
+    <Content Include="Content\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Content\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Content\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Content\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Content\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Content\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Content\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\jquery.dataTables.min.lb.css" />
+    <Content Include="Content\js\bootstrap.js" />
+    <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\npm.js" />
+    <Content Include="Content\loyaltybenefits.css" />
+    <Content Include="Content\loyaltybenefitsResponsive.css" />
+    <Content Include="Content\loyaltybenefitsSite.css" />
+    <Content Include="Content\loyaltybenefitsSiteMobile.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Content\themes\base\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\loyaltybenefitsSiteV2.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="GenericError.html" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\1412C03-US-AOA-banner.jpg" />
+    <Content Include="Images\1412C09G-AOC-banner.jpg" />
+    <Content Include="Images\1503C31E-DACP-banner.jpg" />
+    <Content Include="Images\1507C12B-DT1-banner.jpg" />
+    <Content Include="Images\2016_National_Conference_Electronic.jpg" />
+    <Content Include="Images\2955-16-EFXA_IDOC-Q1-promo-280x390.png" />
+    <Content Include="Images\617-2016_POV_Banner400x390_R1.jpg" />
+    <Content Include="Images\ABBLogo.jpg" />
+    <Content Include="Images\AboutUs.png" />
+    <Content Include="Images\ajax-loader.gif" />
+    <Content Include="Images\AjaxLoader.gif" />
+    <Content Include="Images\AlconLogo.jpg" />
+    <Content Include="Images\AtlantaConf_masthead_b_r2.jpg" />
+    <Content Include="Images\back_disabled.png" />
+    <Content Include="Images\back_enabled.png" />
+    <Content Include="Images\back_enabled_hover.png" />
+    <Content Include="Images\BlueGreenShortBar.png" />
+    <Content Include="Images\BlueGreeShortBar.png" />
+    <Content Include="Images\CC_footer.jpg" />
+    <Content Include="Images\CC_header.jpg" />
+    <Content Include="Images\CollaborateAndGrow.jpg" />
+    <Content Include="Images\ConferenceButton.jpg" />
+    <Content Include="Images\Cooper-banner.jpg" />
+    <Content Include="Images\CoopervisionLogo.jpg" />
+    <Content Include="Images\DeRigo-banner.jpg" />
+    <Content Include="Images\Emailfooter.jpg" />
+    <Content Include="Images\Emailheader.jpg" />
+    <Content Include="Images\EssilorLogo.jpg" />
+    <Content Include="Images\FooterBar.png" />
+    <Content Include="Images\forward_disabled.png" />
+    <Content Include="Images\forward_enabled.png" />
+    <Content Include="Images\forward_enabled_hover.png" />
+    <Content Include="Images\GettingStarted.htm" />
+    <Content Include="Images\GettingStarted.png" />
+    <Content Include="Images\GreenLightGreenShortBar.png" />
+    <Content Include="Images\Growth Solutions-Graph-Arrows.jpg" />
+    <Content Include="Images\GrowthSolutions.png" />
+    <Content Include="Images\GrowthSolutionsV2.png" />
+    <Content Include="Images\HealthCareReform2015Cover.JPG" />
+    <Content Include="Images\HOYA-banner.jpg" />
+    <Content Include="Images\HOYALogo.jpg" />
+    <Content Include="Images\IDOC.png" />
+    <Content Include="Images\IDOC2Q2015-5-19.jpg" />
+    <Content Include="Images\IDOC3Q15_complete.jpg" />
+    <Content Include="Images\IDOCLogo.jpg" />
+    <Content Include="Images\IDOCLogo.png" />
+    <Content Include="Images\IDOCLogo250.jpg" />
+    <Content Include="Images\IDOCSelect-banner.jpg" />
+    <Content Include="Images\IDOCSelect.png" />
+    <Content Include="Images\IDOCSelectVideoFooter.jpg" />
+    <Content Include="Images\InforGreenGradientBar.png" />
+    <Content Include="Images\LogoABB.jpg" />
+    <Content Include="Images\LogoAlcon.jpg" />
+    <Content Include="Images\LogoAllergan.JPG" />
+    <Content Include="Images\LogoAltair.jpg" />
+    <Content Include="Images\LogoAspex.jpg" />
+    <Content Include="Images\LogoBluTech.jpg" />
+    <Content Include="Images\LogoCaliforniaAccessories.jpg" />
+    <Content Include="Images\LogoCharmant.jpg" />
+    <Content Include="Images\LogoCodeSAFEPLUS.jpg" />
+    <Content Include="Images\LogoCoopervision.jpg" />
+    <Content Include="Images\LogoDell.jpg" />
+    <Content Include="Images\LogoDeRigoVision.jpg" />
+    <Content Include="Images\LogoDigitalEyeLab.jpg" />
+    <Content Include="Images\LogoDiopsys.jpg" />
+    <Content Include="Images\LogoEssilor.jpg" />
+    <Content Include="Images\LogoEuropaEyewear.jpg" />
+    <Content Include="Images\LogoEyecarepro.gif" />
+    <Content Include="Images\LogoEyeconx.jpg" />
+    <Content Include="Images\LogoEyeDesigns.jpg" />
+    <Content Include="Images\LogoEyeFacilitate.jpg" />
+    <Content Include="Images\LogoEyefinity.JPG" />
+    <Content Include="Images\LogoEyestarTV.jpg" />
+    <Content Include="Images\LogoFramesData.jpg" />
+    <Content Include="Images\LogoGPN.jpg" />
+    <Content Include="Images\LogoHertz.jpg" />
+    <Content Include="Images\LogoHOYA.png" />
+    <Content Include="Images\LogoIdealOptics.jpg" />
+    <Content Include="Images\LogoInfinity.jpg" />
+    <Content Include="Images\LogoKODAK.jpg" />
+    <Content Include="Images\LogoLafont.JPG" />
+    <Content Include="Images\LogoLuxottica.jpg" />
+    <Content Include="Images\LogoMacuHealth.jpg" />
+    <Content Include="Images\LogoMarchon.jpg" />
+    <Content Include="Images\LogoMarcolin.jpg" />
+    <Content Include="Images\LogoMidSouth.jpg" />
+    <Content Include="Images\LogoMorel.jpg" />
+    <Content Include="Images\LogoNassau.jpg" />
+    <Content Include="Images\LogoNaturalOpthalmics.png" />
+    <Content Include="Images\LogoOfficeDepot.jpg" />
+    <Content Include="Images\LogoOOGP.jpg" />
+    <Content Include="Images\LogoOptos.jpg" />
+    <Content Include="Images\LogoOptovue.jpg" />
+    <Content Include="Images\LogoPracticeResourceManagement.jpg" />
+    <Content Include="Images\LogoPRN.jpg" />
+    <Content Include="Images\LogoProdesign.jpg" />
+    <Content Include="Images\LogoRevolutionEHR.jpg" />
+    <Content Include="Images\LogoSafiloGroup.jpg" />
+    <Content Include="Images\LogoSantinelli.jpg" />
+    <Content Include="Images\LogoSignetek.jpg" />
+    <Content Include="Images\LogoSilhouette.jpg" />
+    <Content Include="Images\LogoSolutionReach.jpg" />
+    <Content Include="Images\LogoStaples.png" />
+    <Content Include="Images\LogoStearns.jpg" />
+    <Content Include="Images\LogoTearScience.jpg" />
+    <Content Include="Images\LogoTransAct.jpg" />
+    <Content Include="Images\LogoTriSource.jpg" />
+    <Content Include="Images\LogoUnilens.jpg" />
+    <Content Include="Images\LogoWestGroupe.jpg" />
+    <Content Include="Images\LogoWVA.JPG" />
+    <Content Include="Images\MeasureAndGrow.jpg" />
+    <Content Include="Images\MembershipOptions.png" />
+    <Content Include="Images\NationalConference.png" />
+    <Content Include="Images\OBCButtonLeft.png" />
+    <Content Include="Images\OBCButtonRight.png" />
+    <Content Include="Images\OBC_2-ProgramSheet.jpg" />
+    <Content Include="Images\OBC_register_button.jpg" />
+    <Content Include="Images\OOGPLogo.jpg" />
+    <Content Include="Images\PrimaLogo.gif" />
+    <Content Include="Images\PRIMA_button_only_blue.jpg" />
+    <Content Include="Images\Refer.jpg" />
+    <Content Include="Images\RegisterButton.gif" />
+    <Content Include="Images\RoyalBlueShortBar.png" />
+    <Content Include="Images\RoyalSuccessGradientBar.png" />
+    <Content Include="Images\SageIcon.png" />
+    <Content Include="Images\SaveAndGrow.jpg" />
+    <Content Include="Images\sort_asc.png" />
+    <Content Include="Images\sort_asc_disabled.png" />
+    <Content Include="Images\sort_both.png" />
+    <Content Include="Images\sort_desc.png" />
+    <Content Include="Images\sort_desc_disabled.png" />
+    <Content Include="Images\UpArrowRainbow.png" />
+    <Content Include="Images\VideoBar.png" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\AppTrack.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AppTrack.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\AppTrack.edmx.diagram">
+      <DependentUpon>AppTrack.edmx</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Scripts\dataTables.bootstrap.js" />
+    <Content Include="Scripts\dataTables.bootstrap.update.js" />
+    <Content Include="Scripts\dimple.v2.1.6.min.js" />
+    <Content Include="Scripts\jquery-ui-1.11.4.js" />
+    <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jquery-ui.unobtrusive-2.2.0.js" />
+    <Content Include="Scripts\jquery-ui.unobtrusive-2.2.0.min.js" />
+    <Content Include="Scripts\jquery.maskedinput.js" />
+    <Content Include="Scripts\jquery.maskedinput.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\sidebar_menu.js" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Info\Create.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Info\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="App_Code\Helpers.cshtml" />
+    <Content Include="Documents\_Membership Application.pdf" />
+    <Content Include="Documents\_Fast Track Application.pdf" />
+    <Content Include="Documents\Benefits_of_Being_an_IMD %281%29.pptx" />
+    <Content Include="Documents\Booklet V3.pdf" />
+    <Content Include="Documents\CIM_XML_guide.pdf" />
+    <Content Include="Documents\DRAFT Q3 SGM Handout - We Are Not Selling Pizza.docx" />
+    <Content Include="Documents\IDOC Org Chart_2015 - updated 08.12.2015.pptx" />
+    <Content Include="Documents\IDOC Sales Aid Sheet-v5.pdf" />
+    <Content Include="Documents\IDOC_Select_Overview %282%29.pptx" />
+    <Content Include="Documents\IDOC_Select_Overview_FAQs %281%29.pptx" />
+    <Content Include="Documents\IDOC_sign-in_r4.docx" />
+    <Content Include="Documents\IMD_Compensation_Plan_2015 %281%29.pptx" />
+    <Content Include="Documents\IMD_Effectiveness_Index_Overview.pptx" />
+    <Content Include="Documents\Study Group Reference Guide.pdf" />
+    <Content Include="Documents\Tonight Only Special Application_January 2016.pdf" />
+    <Content Include="Documents\MemberAgreementTermsAndConditions.pdf" />
+    <Content Include="Content\_loyaltybenefitsSite.css Backup Copy" />
+    <Content Include="Models\AppTrack.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AppTrack.Context.cs</LastGenOutput>
+      <DependentUpon>AppTrack.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\AppTrack.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AppTrack.cs</LastGenOutput>
+      <DependentUpon>AppTrack.edmx</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\AppTrack.LoyaltyBenefits.com.pubxml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\html5shiv.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-2.1.3.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.11.1.min.js" />
+    <None Include="Scripts\jquery-2.1.3.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.3.js" />
+    <Content Include="Scripts\jquery-2.1.3.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\npm.js" />
+    <Content Include="Scripts\plugins\navgoco\jquery.navgoco.min.js" />
+    <Content Include="Scripts\plugins\pace\pace.min.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\src\app.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\MemberDirector\CreateUser.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\MemberEnrollment\MemberEnrollmentLocations.cshtml" />
+    <Content Include="Views\MemberEnrollment\MemberEnrollmentPaymentMethod.cshtml" />
+    <Content Include="Views\MemberEnrollment\MemberEnrollmentPrimary.cshtml" />
+    <Content Include="Views\MemberEnrollment\MemberEnrollmentVendorSelect.cshtml" />
+    <Content Include="Views\Member\_RebateVolumeDetailListWithHeader.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\_LeftSideBar.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\_SiteLayoutMember.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\SiteMember\LocationEditAccount.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\SiteMember\MemberVendorList.cshtml" />
+    <Content Include="Views\Vendor\AccountProfile.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Item\Create.cshtml" />
+    <Content Include="Views\Item\Delete.cshtml" />
+    <Content Include="Views\Item\Details.cshtml" />
+    <Content Include="Views\Item\Edit.cshtml" />
+    <Content Include="Views\Item\Index.cshtml" />
+    <Content Include="Views\Info\Delete.cshtml" />
+    <Content Include="Views\Info\Details.cshtml" />
+    <Content Include="Views\Info\Edit.cshtml" />
+    <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\ItemPricing\Create.cshtml" />
+    <Content Include="Views\ItemPricing\Delete.cshtml" />
+    <Content Include="Views\ItemPricing\Details.cshtml" />
+    <Content Include="Views\ItemPricing\Edit.cshtml" />
+    <Content Include="Views\ItemPricing\Index.cshtml" />
+    <Content Include="Views\Notes\Create.cshtml" />
+    <Content Include="Views\Notes\Delete.cshtml" />
+    <Content Include="Views\Notes\Details.cshtml" />
+    <Content Include="Views\Notes\Edit.cshtml" />
+    <Content Include="Views\Notes\Index.cshtml" />
+    <Content Include="Views\PaymentMethod\Create.cshtml" />
+    <Content Include="Views\PaymentMethod\Delete.cshtml" />
+    <Content Include="Views\PaymentMethod\Details.cshtml" />
+    <Content Include="Views\PaymentMethod\Edit.cshtml" />
+    <Content Include="Views\PaymentMethod\Index.cshtml" />
+    <Content Include="Views\Book\Index.cshtml" />
+    <Content Include="Views\Book\Create.cshtml" />
+    <Content Include="Views\ShoppingCart\Index.cshtml" />
+    <Content Include="Views\Sample\PartialViewDemo.cshtml" />
+    <Content Include="Views\Sample\NotIndex.cshtml" />
+    <Content Include="Views\Sample\Message.cshtml" />
+    <Content Include="Views\Sample\Index.cshtml" />
+    <Content Include="Views\Example\Index.cshtml" />
+    <Content Include="Views\Info\MemberEnrollPage1.cshtml" />
+    <Content Include="Views\Info\MemberEnrollPage2.cshtml" />
+    <Content Include="Views\Info\SalesRep.cshtml" />
+    <Content Include="Views\SalesRep\Create.cshtml" />
+    <Content Include="Views\SalesRep\Edit.cshtml" />
+    <Content Include="Views\SalesRep\Index.cshtml" />
+    <Content Include="Views\Shared\_LeftSideBarSaved.cshtml" />
+    <Content Include="Views\SalesRep\AccountProfile.cshtml" />
+    <Content Include="Views\Shared\_LeftSideBarBasic.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\AdminUsers\Create.cshtml" />
+    <Content Include="Views\AdminUsers\Delete.cshtml" />
+    <Content Include="Views\AdminUsers\Details.cshtml" />
+    <Content Include="Views\AdminUsers\Edit.cshtml" />
+    <Content Include="Views\AdminUsers\Index.cshtml" />
+    <Content Include="Views\RolesAdmin\Create.cshtml" />
+    <Content Include="Views\RolesAdmin\Delete.cshtml" />
+    <Content Include="Views\RolesAdmin\Details.cshtml" />
+    <Content Include="Views\RolesAdmin\Edit.cshtml" />
+    <Content Include="Views\RolesAdmin\Index.cshtml" />
+    <Content Include="Views\UsersAdmin\Create.cshtml" />
+    <Content Include="Views\UsersAdmin\Delete.cshtml" />
+    <Content Include="Views\UsersAdmin\Details.cshtml" />
+    <Content Include="Views\UsersAdmin\Edit.cshtml" />
+    <Content Include="Views\UsersAdmin\Index.cshtml" />
+    <Content Include="Views\MemberDirector\Index.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Error.cshtml" />
+    <Content Include="Views\CustomerNotes\_CustomerNotes.cshtml" />
+    <Content Include="Views\Vendor\Index.cshtml" />
+    <Content Include="Views\Vendor\Company.cshtml" />
+    <Content Include="Views\Vendor\_ContactList.cshtml" />
+    <Content Include="Views\Vendor\_ProgramList.cshtml" />
+    <Content Include="Views\Vendor\_RequirementList.cshtml" />
+    <Content Include="Views\Vendor\Documents.cshtml" />
+    <Content Include="Views\Vendor\Programs.cshtml" />
+    <Content Include="Views\Vendor\Contacts.cshtml" />
+    <Content Include="Views\Vendor\Requirements.cshtml" />
+    <Content Include="Views\Shared\_IFrameLayout.cshtml" />
+    <Content Include="Views\MemberDirector\Create.cshtml" />
+    <Content Include="Views\MemberDirector\Edit.cshtml" />
+    <Content Include="Views\MemberDirector\AccountProfile.cshtml" />
+    <Content Include="Views\MemberDirector\_Contact.cshtml" />
+    <Content Include="Views\MemberDirector\_MemberList.cshtml" />
+    <Content Include="Views\Meeting\_MeetingList.cshtml" />
+    <Content Include="Views\Meeting\Index.cshtml" />
+    <Content Include="Views\Meeting\RegistrationList.cshtml" />
+    <Content Include="Views\Commission\Index.cshtml" />
+    <Content Include="Views\Commission\_CommissionList.cshtml" />
+    <Content Include="Views\Commission\_VolumeDetailList.cshtml" />
+    <Content Include="Views\Commission\VolumeList.cshtml" />
+    <Content Include="Views\Commission\_VolumeDetailListWithHeader.cshtml" />
+    <Content Include="Views\MemberEnrollment\MemberEnrollment.cshtml" />
+    <Content Include="Views\Billing\ProfileList.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Billing\_ProfileUpdate.cshtml" />
+    <Content Include="Views\Member\AccountProfile.cshtml" />
+    <Content Include="Views\Member\Index.cshtml" />
+    <Content Include="Views\Member\Edit.cshtml" />
+    <Content Include="Views\Billing\GenerateOrders.cshtml" />
+    <Content Include="Views\Billing\OrderList.cshtml" />
+    <Content Include="Views\Billing\OrderUpdate.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Member\_OrderList.cshtml" />
+    <Content Include="Views\Member\_Contact.cshtml" />
+    <Content Include="Views\Member\_TestPartial.cshtml" />
+    <Content Include="Views\Member\_SuspendPanel.cshtml" />
+    <Content Include="Views\Member\_LocationList.cshtml" />
+    <Content Include="Views\Member\_ContactsList.cshtml" />
+    <Content Include="Views\Member\_MemberVendors.cshtml" />
+    <Content Include="Views\Member\_MemberBilling.cshtml" />
+    <Content Include="Views\Member\_EditAccount.cshtml" />
+    <Content Include="Views\Member\_Review.cshtml" />
+    <Content Include="Views\Member\_MemberPaymentMethod.cshtml" />
+    <Content Include="Views\Member\_RebatePayee.cshtml" />
+    <Content Include="Views\Member\_CommissionList.cshtml" />
+    <Content Include="Views\Member\_ThankYou.cshtml" />
+    <Content Include="Views\Member\_ContactCreate.cshtml" />
+    <Content Include="Views\ProcessRebates\_ProcessRebates.cshtml" />
+    <Content Include="Views\ProcessRebates\Index.cshtml" />
+    <Content Include="Views\ProcessCommissions\Index.cshtml" />
+    <Content Include="Views\Member\_LocationProfile.cshtml" />
+    <Content Include="Views\Member\_LocationEditAccount.cshtml" />
+    <Content Include="Views\MemberEnrollment\MemberEnrollmentThankYou.cshtml" />
+    <Content Include="Views\Member\_ProgramChange.cshtml" />
+    <Content Include="Views\Rebate\BatchImportDetail.cshtml" />
+    <Content Include="Views\Rebate\BatchImportList.cshtml" />
+    <Content Include="Views\Rebate\Import.cshtml" />
+    <Content Include="Views\Rebate\RebateDetail.cshtml" />
+    <Content Include="Views\Rebate\RebateSummary.cshtml" />
+    <Content Include="Views\Rebate\_FindVendorPayee.cshtml" />
+    <Content Include="Views\SAGE\ExportList.cshtml" />
+    <Content Include="Views\SAGE\ExportOrder.cshtml" />
+    <Content Include="Views\SAGE\ExportOrderDetail.cshtml" />
+    <Content Include="Views\SAGE\ExportPayment.cshtml" />
+    <Content Include="Views\SAGE\ExportPaymentDetail.cshtml" />
+    <Content Include="Views\SAGE\ImportList.cshtml" />
+    <Content Include="Views\SAGE\ImportPayout.cshtml" />
+    <Content Include="Views\SAGE\ImportPayoutDetail.cshtml" />
+    <Content Include="Views\Vendor\_RebateList.cshtml" />
+    <Content Include="Views\Vendor\Rebates.cshtml" />
+    <Content Include="Views\Member\_ProfileUpdate.cshtml" />
+    <Content Include="Views\CMSViewFiles\Create.cshtml" />
+    <Content Include="Views\CMSViewFiles\Delete.cshtml" />
+    <Content Include="Views\CMSViewFiles\Details.cshtml" />
+    <Content Include="Views\CMSViewFiles\Edit.cshtml" />
+    <Content Include="Views\CMSViewFiles\Index.cshtml" />
+    <Content Include="Views\Enrollment\Enrollment.cshtml" />
+    <Content Include="Views\Enrollment\_EnrollmentBasic.cshtml" />
+    <Content Include="Views\Enrollment\_EnrollmentFinal.cshtml" />
+    <Content Include="Views\Enrollment\_EnrollmentLocations.cshtml" />
+    <Content Include="Views\Enrollment\_EnrollmentPaymentMethod.cshtml" />
+    <Content Include="Views\Enrollment\_EnrollmentPrimary.cshtml" />
+    <Content Include="Views\Enrollment\_EnrollmentVendorSelect.cshtml" />
+    <Content Include="Views\Site\About.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Site\Blog.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Site\Conference.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Site\Contact.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Site\Education.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Site\GrowthSolutions.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Site\IDOC.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Site\IDOCQuarterly.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Site\IDOCSelect.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Site\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Site\LocalMeetingList.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Site\MeetingRegistration.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Site\MeetingRegistrationList.cshtml" />
+    <Content Include="Views\Site\MembershipOptions.cshtml" />
+    <Content Include="Views\Site\SavingsAndRebates.cshtml" />
+    <Content Include="Views\Shared\_SiteLayoutPage1.cshtml" />
+    <Content Include="Views\Shared\_CMSEditPanel.cshtml" />
+    <Content Include="Views\Shared\_CMSPartial.cshtml" />
+    <Content Include="Views\Shared\_ContactSubscribe.cshtml" />
+    <Content Include="Views\Shared\_SiteLayout.cshtml" />
+    <Content Include="Views\Shared\_SiteHeader.cshtml" />
+    <Content Include="Views\Shared\_SiteLoginPartial.cshtml" />
+    <Content Include="Views\Enrollment\_EnrollmentThankYou.cshtml" />
+    <Content Include="Views\Site\_LocalMeetingListPartial.cshtml" />
+    <Content Include="Views\Site\MeetingDetail.cshtml" />
+    <Content Include="Views\Site\TermsAndConditions.cshtml" />
+    <Content Include="Views\Site\PrivacyPolicy.cshtml" />
+    <Content Include="Views\SAGE\ExportRebateDetail.cshtml" />
+    <Content Include="Views\Member\_LocationCreate.cshtml" />
+    <Content Include="Views\Shared\_SiteLayoutBackup.cshtml" />
+    <Content Include="Views\Member\_ReviewStep2.cshtml" />
+    <Content Include="Views\Member\_MemberVendorRequirements.cshtml" />
+    <Content Include="Views\SiteMember\AccountProfile.cshtml" />
+    <Content Include="Views\SiteMember\Index.cshtml" />
+    <Content Include="Views\SiteMember\ThankYou.cshtml" />
+    <Content Include="Views\SiteMember\_MemberBilling.cshtml" />
+    <Content Include="Views\SiteMember\MemberPaymentMethod.cshtml" />
+    <Content Include="Views\SiteMember\LocationList.cshtml" />
+    <Content Include="Views\SiteMember\ContactList.cshtml" />
+    <Content Include="Views\SiteMember\ContactCreate.cshtml" />
+    <Content Include="Views\SiteMember\ContactEdit.cshtml" />
+    <Content Include="Views\SiteMember\CommissionList.cshtml" />
+    <Content Include="Views\SiteMember\LocationProfile.cshtml" />
+    <Content Include="Views\SiteMember\OrderList.cshtml" />
+    <Content Include="Views\SiteMember\ProfileUpdate.cshtml" />
+    <Content Include="Views\SiteIMD\AccountProfile.cshtml" />
+    <Content Include="Views\SiteIMD\CommissionList.cshtml" />
+    <Content Include="Views\SiteIMD\Index.cshtml" />
+    <Content Include="Views\SiteIMD\MeetingList.cshtml" />
+    <Content Include="Views\SiteIMD\MemberList.cshtml" />
+    <Content Include="Views\SiteIMD\PayoutList.cshtml" />
+    <Content Include="Views\SiteIMD\RegistrationList.cshtml" />
+    <Content Include="Views\SiteIMD\Resources.cshtml" />
+    <Content Include="Views\Site\FAQs.cshtml" />
+    <Content Include="Views\Shared\_LeftSideBarIMD.cshtml" />
+    <Content Include="Views\Shared\_LeftSideBarMember.cshtml" />
+    <Content Include="Views\Site\VideoGallery.cshtml" />
+    <Content Include="Views\Commission\CommissionDetail.cshtml" />
+    <Content Include="Views\Commission\CommissionSummary.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\_ItemDetail.cshtml" />
+    <Content Include="Views\ProcessPayments\Index.cshtml" />
+    <Content Include="Views\SAGE\ExportCommissionDetail.cshtml" />
+    <Content Include="Views\Site\Error.cshtml" />
+    <Content Include="Views\Conference\Index.cshtml" />
+    <Content Include="Views\Report\RebateSummaryByMember.cshtml" />
+    <Content Include="Views\SalesRep\MemberActivityList.cshtml" />
+    <Content Include="Views\SAGE\PayeeChangeList.cshtml" />
+    <Content Include="Views\MemberEnrollment\MemberEnrollmentIMD.cshtml" />
+    <Content Include="Views\MemberEnrollment\MemberEnrollmentMeeting.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\MemberEnrollment\MemberEnrollmentPromotion.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Member\LocationProfileMain.cshtml" />
+    <Content Include="Views\Commission\_RebateCommissionDetailList.cshtml" />
+    <Content Include="Views\Commission\_RebateVolumeDetailListWithHeader.cshtml" />
+    <Content Include="Views\Billing\FailedPaymentList.cshtml" />
+    <Content Include="Views\SiteMember\VendorDetail.cshtml" />
+    <Content Include="Views\SiteMember\Resources.cshtml" />
+    <Content Include="Views\SiteMember\LocationEditAccountV1.cshtml" />
+    <Content Include="Views\Shared\_SiteLayoutMemberNoNav.cshtml" />
+    <Content Include="Views\SiteMember\MemberVendors.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\SiteMember\EditAccount.cshtml" />
+    <Content Include="Views\Member\CreateUser.cshtml" />
+    <Content Include="Views\SiteMobile\About.cshtml" />
+    <Content Include="Views\SiteMobile\Blog.cshtml" />
+    <Content Include="Views\SiteMobile\Conference.cshtml" />
+    <Content Include="Views\SiteMobile\Contact.cshtml" />
+    <Content Include="Views\SiteMobile\Education.cshtml" />
+    <Content Include="Views\SiteMobile\Error.cshtml" />
+    <Content Include="Views\SiteMobile\FAQs.cshtml" />
+    <Content Include="Views\SiteMobile\GrowthSolutions.cshtml" />
+    <Content Include="Views\SiteMobile\IDOC.cshtml" />
+    <Content Include="Views\SiteMobile\IDOCQuarterly.cshtml" />
+    <Content Include="Views\SiteMobile\IDOCSelect.cshtml" />
+    <Content Include="Views\SiteMobile\Index.cshtml" />
+    <Content Include="Views\SiteMobile\LocalMeetingList.cshtml" />
+    <Content Include="Views\SiteMobile\MeetingDetail.cshtml" />
+    <Content Include="Views\SiteMobile\MeetingRegistration.cshtml" />
+    <Content Include="Views\SiteMobile\MeetingRegistrationList.cshtml" />
+    <Content Include="Views\SiteMobile\MembershipOptions.cshtml" />
+    <Content Include="Views\SiteMobile\PrivacyPolicy.cshtml" />
+    <Content Include="Views\SiteMobile\SavingsAndRebates.cshtml" />
+    <Content Include="Views\SiteMobile\TermsAndConditions.cshtml" />
+    <Content Include="Views\SiteMobile\VideoGallery.cshtml" />
+    <Content Include="Views\SiteMobile\_LocalMeetingListPartial.cshtml" />
+    <Content Include="Views\Shared\_SiteMobileHeader.cshtml" />
+    <Content Include="Views\Shared\_SiteMobileLayoutPage1.cshtml" />
+    <Content Include="Views\SiteMember\_RebateVolumeDetailListWithHeader.cshtml" />
+    <Content Include="Views\Shared\_SiteMobileLayout.cshtml" />
+    <Content Include="Views\Shared\_SiteMobileLoginPartial.cshtml" />
+    <Content Include="Views\Site\ContactMe.cshtml" />
+    <Content Include="Views\Site\PromotionalOffer.cshtml" />
+    <Content Include="Views\Contract\Index.cshtml" />
+    <Content Include="Views\Contract\ContractProfile.cshtml" />
+    <Content Include="Views\Contract\UpdateContract.cshtml" />
+    <Content Include="Views\Contract\_ContractDetailList.cshtml" />
+    <Content Include="Views\Contract\ContractDetails.cshtml" />
+    <Content Include="Views\Contract\ContractDocuments.cshtml" />
+    <Content Include="Views\ContractProvider\Index.cshtml" />
+    <Content Include="Views\ContractProvider\Create.cshtml" />
+    <Content Include="Views\Site\HealthCareReform2015.cshtml" />
+    <Content Include="Views\Site\News.cshtml" />
+    <Content Include="Views\Report\MemberAttritionSummary.cshtml" />
+    <Content Include="Views\SiteIMD\MemberVendorList.cshtml" />
+    <Content Include="Views\Shared\_MemberVendorListPartial.cshtml" />
+    <Content Include="Views\SiteIMD\VendorDetail.cshtml" />
+    <Content Include="Views\DocuSign\Index.cshtml" />
+    <Content Include="Views\Member\DocumentUploadIFrame.cshtml" />
+    <Content Include="Views\Site\NationalConference2016.cshtml" />
+    <Content Include="Views\Site\IDOCPrimaEyeGroup.cshtml" />
+    <Content Include="Views\SalesPoPReport\Index.cshtml" />
+    <Content Include="Views\Site\H1.cshtml" />
+    <Content Include="Views\Site\P1.cshtml" />
+    <Content Include="Views\Site\H2.cshtml" />
+    <Content Include="Views\Site\H3.cshtml" />
+    <Content Include="Views\Site\H4.cshtml" />
+    <Content Include="Views\Site\P2.cshtml" />
+    <Content Include="Views\Site\P3.cshtml" />
+    <Content Include="Views\Site\P4.cshtml" />
+    <Content Include="Views\Shared\_SiteLayoutNoHeader.cshtml" />
+    <Content Include="Views\VendorPayee\Index.cshtml" />
+    <Content Include="Views\Member\_ViewMembershipDetail.cshtml" />
+    <Content Include="Views\Contact\Index.cshtml" />
+    <Content Include="Views\MemberSalesReport\Delta.cshtml" />
+    <Content Include="Views\MemberSalesReport\Index.cshtml" />
+    <Content Include="Views\MemberSalesReport\NoSales.cshtml" />
+    <Content Include="Views\MemberSalesReport\UnexpectedSales.cshtml" />
+    <Content Include="Views\MemberProductCounts\Index.cshtml" />
+    <Content Include="Views\MemberCounts\ByIMD.cshtml" />
+    <Content Include="Views\MemberCounts\BySalesRep.cshtml" />
+    <Content Include="Views\MemberCounts\Index.cshtml" />
+    <Content Include="Views\MemberBillingReport\ByProduct.cshtml" />
+    <Content Include="Views\MemberBillingReport\ByType.cshtml" />
+    <Content Include="Views\MemberBillingReport\Index.cshtml" />
+    <Content Include="Views\Member\LineChartView.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Item\_createPrice.cshtml" />
+    <Content Include="Views\Item\_createStock.cshtml" />
+    <Content Include="Views\Item\_pricing.cshtml" />
+    <Content Include="Views\Item\_stock.cshtml" />
+    <Content Include="Views\SalesPOPMembersONLYReport\Index.cshtml" />
+    <Content Include="Views\Documents\Index.cshtml" />
+    <Content Include="Views\MemberBudgetReport\Index.cshtml" />
+    <Content Include="Views\MemberEnrollment\_PromotionListView.cshtml" />
+    <Content Include="Views\MemberActivity\_MemberActivityList.cshtml" />
+    <Content Include="Views\MemberActivity\_MemberActivityAdd.cshtml" />
+    <Content Include="Views\MemberActivity\_MemberActivityEdit.cshtml" />
+    <Content Include="Views\MemberActivity\_MemberActivityDetail.cshtml" />
+    <Content Include="Views\CustomerNotes\_CustomerNoteAdd.cshtml" />
+    <Content Include="Views\CustomerNotes\_CustomerNoteEdit.cshtml" />
+    <Content Include="Views\MemberActivity\_MemberActivitySummary.cshtml" />
+    <Content Include="Views\MemberActivity\MemberActivityReports.cshtml" />
+    <Content Include="Views\CustomerNotes\TaskList.cshtml" />
+    <Content Include="Views\SiteMember\_MemberVendorListPartial.cshtml" />
+    <Content Include="Views\SiteMember\MemberVendorListDvi.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Views\CMSContents\" />
+    <Folder Include="Views\StockBin\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GitHub|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>8869</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:8869/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

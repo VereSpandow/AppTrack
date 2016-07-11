@@ -1,0 +1,371 @@
+﻿        body{
+            padding:0px;
+            margin:0px;
+        }
+        .btn-lbtop {
+           height:50px;
+           z-index:15;
+        }
+
+        .btn-lbnav, .btn-lbtopnav
+        {
+            color: #fff;
+            text-align:left;
+            background-color:transparent;
+            border:0;
+        }
+        .btn-lbtopnav{
+            border-right:1px #ccc dashed;
+        }
+
+        .sidebar-menu-collapsed {
+          width: 50px; 
+
+        }
+/*         .sidebar-menu-expanded {
+          width: 100%; 
+
+         }
+*/
+        .subnavlink{
+            color:#fff;
+            font-size:12px;
+            line-height:16px;
+        }
+
+        .bg-gray {
+          color: #000;
+          background-color: #E2E2E2;
+        }
+        .bg-gray-dark{
+          color: #FFF;
+          background-color: #6E6E6E;
+        }
+        .bg-primary-dark{
+          color: #fff;
+          background-color: #0038A8;
+        }
+        .bg-success-dark {
+          color: #fff;
+          background-color: #8CD600;
+        }
+        .bg-info-dark {
+          color: #fff;
+          background-color: #008ED6;
+        }
+        .bg-warning-dark {
+          color: #fff;
+          background-color: #e6af32;
+        }
+        .bg-danger-dark {
+          color: #fff;
+          background-color: #e33d43;
+        }
+        .bg-royalty-dark {
+          color: #fff;
+          background-color: #930fa5;
+        }
+
+        .text-royalty-dark {
+          color:#930fa5;
+        } 
+        #educationText2:hover{
+            color:#930fa5;
+        }
+        .text-gray-dark {
+          color:#868686;
+        }
+        .text-primary-dark {
+          color:#003AA8;
+        }
+        #educationText:hover{
+            color:#003AA8;
+        }
+        .text-success-dark {
+          color:#8CD600;
+        }
+        #savingsAndRebatesText:hover{
+            color:#8CD600;
+        }
+        .text-info-dark{
+            color:#008ED6;
+        }
+        #membershipOptionsText:hover{
+            color:#008ED6;
+        }
+        .text-info-darkbold{
+            height:40px;
+            color:#008ED3;
+            font-weight:600;
+            font-size:16px;
+            line-height:18px;
+            vertical-align:bottom;
+            padding-top:35px;
+            margin-bottom:5px;
+        }
+
+        .twoline{
+            padding-top:15px;
+        }
+        
+        .statusbar{
+            margin:2px;
+        }
+
+        .statusbar .statusbar-statistic{
+            font-size:1.5em;
+            font-weight:600;
+        }
+       .panel-gray {
+            color: #000;
+            background-color: #E2ED2E2;
+            font-size:12px;
+            padding:0px;
+            margin-right:3px;
+            width:31%;
+        }
+        .panel-gray > .panel-heading{
+            color: #333;
+            background-color: #fff;
+            font-size:16px;
+            min-height:55px;
+            text-align:left;
+            margin:0px;
+            padding:0px;
+            padding-top:15px;
+            border-bottom:2px #333 solid;
+            width:100%;
+        }
+        .panel-gray > .panel-body{
+            font-size:12px;
+            padding:5px;
+            padding-top:10px;
+            padding-bottom:15px;
+        }
+
+        .panel-info-dark > .panel-heading {
+          color: #fff;
+          background-color: #008ED6;
+          border-color: #d6e9c6;
+        }
+        .panel-success-dark > .panel-heading {
+          color: #fff;
+          background-color: #52aa45;
+          border-color: #d6e9c6;
+        }
+        .panel-danger-dark > .panel-heading {
+          color: #fff;
+          background-color: #e33d43;
+          border-color: #d6e9c6;
+        }
+        .panel-warning-dark > .panel-heading {
+          color: #fff;
+          background-color: #e6af32;
+          border-color: #d6e9c6;
+        }
+
+        .container-fluid {
+          padding-right: 0;
+          padding-left: 0;
+        }
+        .row {
+          margin-right: 0;
+          margin-left: 0;
+        }
+
+        .navbar-inverse .navbar-nav > li > a {
+            font-size:14px;
+            color: #FFFFFF !important;
+        }
+        .logoHeader{
+          background-color: #FFFFFF;
+          height:160px;
+          padding-top:45px;
+          padding-bottom:35px;
+        }
+
+        #jumbtron{
+          background-color: transparent;
+          padding:15px;
+        }
+
+        .idocsubnavrow{
+            height:40px;
+            border-top: 1px #808080 solid;
+            border-bottom: 1px #808080 solid;
+            padding-left:0px;
+            padding-right:0px;
+            margin-left:0px;
+            margin-right:0px;
+        }
+        .idocsubnav {
+            min-width: 75px;
+            height:39px;
+            border-right: 1px #333 solid;
+            padding-left:10px;
+            padding-right:10px;
+            padding-top:10px;
+            margin:0px;
+            text-align:center;
+            color:#606060;
+            font-weight:400;
+            font-size:14px;
+            font-family:Verdana, sans-serif,Tahoma, Geneva;
+            }
+
+            .idocsubnav:hover, .idocsubnav a:hover, .idocsubnav:hover a{
+            color:#FFF;
+            font-weight:500;
+            font-size:14px;
+            text-decoration:none;
+            }
+
+            editable, no-offset{
+                margin-right:0;
+                margin-left:0;
+                padding-right:0;
+                padding-left:0;
+            }
+
+            .nopadding{
+                padding:0px;
+            }
+
+            .navbar, .navbar-inverse, .navbar-fixed, .nav, .navbar-nav, .navbar-right {
+            max-height:34px !important;
+            min-height:34px !important;
+            line-height:14px !important;
+            height:34px !important
+            }
+            .navbar li{
+            max-height:40px !important;
+            min-height:40px !important;
+            line-height:14px !important;
+            height:40px !important;
+            margin-top:-6px;
+        }
+
+        .row{
+            margin-right:0px;
+        }
+
+        .navbar-fixed-top{
+            padding-right:30px !important;
+        }
+
+        .nav-bg-primary-dark,  .nav-bg-primary-dark a{
+          color: #fff;
+          background-color: #0038A8;
+        }
+         #EducationStyle:hover{
+          background-color: #0038A8;
+         }
+
+        .btn-primary{
+          background-color: #0038A8;
+        }
+
+        .nav-bg-green-light,  .nav-bg-green-light a{
+          color: #fff;
+          background-color: #BAD66E;
+        }
+          #AppTrackStyle:hover{
+          background-color: #BAD66E;
+         }
+
+
+        .nav-bg-success-dark, .nav-bg-success-dark a {
+          color: #fff;
+          background-color: #8CD600;
+        }
+        #AppTrackSelectStyle:hover{
+          background-color: #8CD600;
+         }
+
+        .nav-bg-info-dark, .nav-bg-info-dark a {
+          color: #fff;
+          background-color: #008ED6;
+        }
+         #SavingsAndRebatesStyle:hover{
+          background-color: #008ED6;
+         }
+
+        .nav-bg-warning-dark, .nav-bg-warning-dark a {
+          color: #fff;
+          background-color: #e6af32;
+        }
+        .nav-bg-danger-dark, .nav-bg-danger-dark a {
+          color: #fff;
+          background-color: #e6af32;
+        }
+
+        .nav-bg-royalty-dark, .nav-bg-royalty-dark a{
+          color: #fff;
+          background-color: #930fa5;
+        }
+        #GrowthSolutionsStyle:hover{
+          background-color: #930fa5;
+         }
+
+        a{
+            text-decoration:none !important;
+        }
+
+        .LIVE{
+            height:0px;
+            padding:0px;
+            margin:0px;
+        }
+        .SAVED{
+            height:0px;
+            padding:0px;
+            margin:0px;
+        }
+
+@media (max-width: 600px) {
+    .notmobile {
+        display: none;
+    }
+}
+@media screen and (min-width: 600px) {
+  .justmobile{
+    display: none;
+}
+}
+@media only screen and (max-width: 768px) {
+    .navbar-brandV2 {
+      float: right;
+      height: 50px;
+      padding: 15px 15px;
+      font-size: 18px;
+      line-height: 20px;
+    }
+    .navbar-brandV2:hover,
+    .navbar-brandV2:focus {
+      text-decoration: none;
+    }
+    .navbar-brandV2 > img {
+      display: block;
+    }
+    navbar-inverse{
+        background-color:#999 !important; 
+        color:#FFF;
+    }
+    .nopadding{
+        padding:2px !important;
+    }
+}
+@media screen and (max-width: 400px) {
+    }
+    .indexBullet{
+        font-size:1.00em !important;
+    }
+}
+@media screen and (min-width: 401px) and (max-width: 768px) {
+    }
+    .indexBullet{
+        font-size:1.35em  !important;
+    }
+}
+
+

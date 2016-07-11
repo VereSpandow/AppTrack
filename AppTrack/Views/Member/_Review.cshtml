@@ -1,0 +1,117 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-md-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.MemberReviewViewModel
+    <div class="panel panel-default" style="box-shadow:#ccc 7px 7px;">
+        @if (User.IsInRole("MemberServicesManager"))
+        {
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <span class="h4">Start Account Review </span>
+                </div>
+            </div>
+            <div class="panel-body nopadding" style="background-color:#FFF;">
+                <div class="col-md-12 nopadding" style="background-color:#FFF;">
+                    @using (Ajax.BeginForm("Review", "Member", null,
+                        new AjaxOptions
+                    {
+                        InsertionMode = InsertionMode.Replace,
+                        HttpMethod = "POST",
+                        OnSuccess = "OnSuccess2",
+                        OnFailure = "OnFailure",
+                        LoadingElementId = "ajax-loader",
+                        UpdateTargetId = "ReviewTab"
+                    }, new { id = "memberReviewForm1" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <img id="ajax-loader" src="@Url.Content("~/Images/ajax-loader.gif")" style="display:none;" />
+                        @Html.HiddenFor(model => model.CustID)
+                        @Html.HiddenFor(model => model.StartDate)
+                        @Html.HiddenFor(model => model.StatusDate)
+                        @Html.HiddenFor(model => model.Status)
+                        @Html.HiddenFor(model => model.OutcomeDate)
+                        @Html.HiddenFor(model => model.EndDate)
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-12" style="margin-top:5px;">
+                                <div class="col-md-4" style="margin-top:5px;">
+                                    * @Html.LabelFor(model => model.ReviewReason, htmlAttributes: new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.ReviewReason, Model.ReviewReasonList, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ReviewReason, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-12" style="margin-top:5px;">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                                    <br />
+                                    @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-center" style="margin-top:5px;" id="StartReviewPanel">
+                                <br />
+                                <div class="btn btn-lg btn-success" id="StartReview">START REVIEW </div>
+                                <br />
+                                <br />
+                            </div>
+
+
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <span class="h4">Account Review </span>
+                </div>
+            </div>
+            <div class="panel-body" style="background-color:#FFF;padding: 10px;">
+                <span>This account is not currently in review.</span>
+            </div>
+        }
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+            $.validator.unobtrusive.parse(document);
+            var dateToday = new Date();
+            $("#memberReviewRecord_StartDate").datepicker({ minDate: dateToday });
+            $("#memberReviewRecord_EndDate").datepicker({ minDate: dateToday });
+            $("#memberReviewRecord_StatusDate").datepicker({ minDate: dateToday });
+            $("#memberReviewRecord_OutcomeDate").datepicker({ minDate: dateToday });
+        });
+
+        $("#StartReview").click(function () {
+            $("#memberReviewForm1").submit();
+        });
+
+
+        function OnSuccess2() {
+
+        }
+
+        function OnFailure2() {
+
+        }
+
+    </script>
+}

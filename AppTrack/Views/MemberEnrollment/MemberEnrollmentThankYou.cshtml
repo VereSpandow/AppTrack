@@ -1,0 +1,55 @@
+﻿@model AppTrack.ViewModels.MemberEnrollmentThankYou
+
+<div id="enrollRightCol4">
+    <div class="panel panel-info panel-info-dark">
+        <div class="panel-heading">
+            <div class="panel-title">
+                Member enrollment is complete
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+
+                <div class="col-sm-6" style="margin-top:5px;text-align:right;font-weight:bold;">
+                    Member ID:
+                </div>
+                <div class="col-sm-6" style="margin-top:5px;">
+                    @Model.CustID
+                </div>
+
+                <div class="col-sm-6" style="margin-top:5px;text-align:right;font-weight:bold;">
+                    Practice Name:
+                </div>
+                <div class="col-sm-6" style="margin-top:5px;">
+                    @Model.DisplayName
+                </div>
+
+                <div class="col-sm-6" style="margin-top:5px;text-align:right;font-weight:bold;">
+                    Contact Name:
+                </div>
+                <div class="col-sm-6" style="margin-top:5px;">
+                    @Model.FirstName &nbsp; @Model.LastName
+                </div>
+
+                <div class="col-sm-6" style="margin-top:5px;text-align:right;font-weight:bold;">
+                    Phone:
+                </div>
+                <div class="col-sm-6" style="margin-top:5px;">
+                    @Helpers.FormatPhone(Model.DayPhone)
+                </div>
+
+                <div class="col-sm-6" style="margin-top:5px;text-align:right;font-weight:bold;">
+                    Email:
+                </div>
+                <div class="col-sm-6" style="margin-top:5px;">
+                    @Model.Email
+                </div>
+                <div class="col-sm-12" style="margin-top:5px;text-align:center;">
+                    <br /><br />
+                    <button class="btn btn-xs btn-info" onclick="location.href = '@Url.Action("AccountProfile", "Member", new { id = @Model.CustID })'">Member Profile</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

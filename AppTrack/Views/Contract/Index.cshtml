@@ -1,0 +1,128 @@
+﻿@model AppTrack.ViewModels.ContractListViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="h2" style="float:left">Contract List</div>
+<div class="h2" style="float:right"><a class="btn btn-info" href="@Url.Action("UpdateContract", "Contract", new { ContractID = 0})">Add New</a></div>
+<div class="filterbar" style="display:block;clear:both;">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.SearchCompany, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.SearchCompany, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.SearchCompany, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.SelectedStatus, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.DropDownListFor(model => model.SelectedStatus, Model.StatusList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SelectedStatus, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-3">
+                    <label class="control-label">Expiration Date From</label>
+                    <br />
+                    @Html.JQueryUI().DatepickerFor(model => model.SearchStartDate, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SearchStartDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-3">
+                    <label class="control-label">To</label>
+                    <br />
+                    @Html.JQueryUI().DatepickerFor(model => model.SearchEndDate, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SearchEndDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-6" style="padding-top:10px;">
+                    <button class="btn btn-info" type="submit" value="Search">Search</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<hr />
+
+<table class="table table-hover table-striped table-responsive" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ContractList[0].Company)
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+                Expiration Date
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContractList[0].Status)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model.ContractList)
+        {
+            <tr >
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContractTitle)
+                </td>
+                <td>
+                    @if (item.ExpirationDate < DateTime.Now)
+                    {
+                        <span class="status-DELETED">@Html.DisplayFor(modelItem => item.ExpirationDate)</span>
+                    }
+                    else
+                    {
+                        <span class="status-ACTIVE">@Html.DisplayFor(modelItem => item.ExpirationDate)</span>
+                    }
+                </td>
+                <td>
+                    @if (item.StatusID == 1)
+                    {
+                        <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                    }
+                    else
+                    {
+                        <span class="status-INACTIVE">Incomplete</span>
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("ContractProfile", "Contract", new { id = item.ID })"><span class="fa fa-fw fa-user"></span></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+            $(document).ready(function () {
+                $.validator.unobtrusive.parse(document);
+                $("#SearchStartExpDate").datepicker();
+                $("#SearchEndExpDate").datepicker();
+                $('#myTable').dataTable(
+                {
+                    "searching": false,
+                    "bLengthChange": false,
+                    "iDisplayLength" :  100,
+                    "oLanguage": {
+                        "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                        "sLengthMenu": "Show _MENU_ rows per page",
+                        "sInfoEmpty": "0 records found",
+                        "sEmptyTable": "No information available to display"
+                    }
+                });
+            });
+    </script>
+}

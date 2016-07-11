@@ -1,0 +1,85 @@
+﻿@model AppTrack.ViewModels.ConferenceRegistrationViewModel
+
+@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.PageType = "Education";
+    ViewBag.thisPage = "Conference";
+}
+<div class="row nopadding">
+    <div class="container no-offset nopadding" style="margin-top:0px;">
+        <div class="col-md-12 nopadding editable" id="">
+            <div class="no-offset nopadding" style="background-color:#c0d0e6;width:100%;padding:0px;margin:0px;">
+                <img class="img-responsive" src="../../Images/NationalConference.png" style="height:auto; width:100%;padding:0px" />
+            </div>
+        </div>
+        <div class="col-md-4 pull-left nopadding" style="background-color:#9304A5;">
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding">
+            <div class="col-md-12 nopadding noteditable" id="ConferenceMain">
+                        <div class="col-md-12">
+                            @Html.HiddenFor(model => model.MemberID)
+                            @Html.HiddenFor(model => model.EventID)
+
+                            <div class="col-md-2" style="margin-top:5px;">
+                                @Html.LabelFor(model => model.NameTitle, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                                @Html.EditorFor(model => model.NameTitle, new { htmlAttributes = new { @class = "form-control", maxlength = "5" } })
+                                @Html.ValidationMessageFor(model => model.NameTitle, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-5" style="margin-top:5px;">
+                                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", maxlength = "40" } })
+                                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-5" style="margin-top:5px;">
+                                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", maxlength = "40" } })
+                                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-12" style="margin-top:5px;">
+                                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", maxlength = "100", type = "email" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-12" style="margin-top:5px;">
+                                @Html.LabelFor(model => model.EmailConfirm, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                                @Html.EditorFor(model => model.EmailConfirm, new { htmlAttributes = new { @class = "form-control", maxlength = "100", type = "email" } })
+                                @Html.ValidationMessageFor(model => model.EmailConfirm, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-12" style="margin-top:5px;">
+                                @Html.LabelFor(model => model.DisplayName, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;margin-bottom:-3px;" })
+                                @Html.EditorFor(model => model.DisplayName, new { htmlAttributes = new { @class = "form-control col-md-8", maxlength = "100" } })
+                                @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-6" style="margin-top:5px;">
+                                @Html.LabelFor(model => model.DayPhone, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                                @Html.EditorFor(model => model.DayPhone, new { htmlAttributes = new { @class = "form-control", maxlength = "12", type = "tel" } })
+                                @Html.ValidationMessageFor(model => model.DayPhone, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-6" style="margin-top:5px;">
+                                @Html.LabelFor(model => model.StaffAttendees, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                                @Html.DropDownListFor(model => model.StaffAttendees, Model.StaffAttendeeList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.StaffAttendees, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-6" style="margin-top:5px;">
+                            </div>
+                        <div class="col-md-12" style="margin-top:5px;">
+                            <div class="form-group">
+                                <input type="Submit" name="Submit" value="Save" class="btn btn-sm btn-primary pull-right">
+                            </div>
+                        </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row nopadding" style="width:100%;height:25px;">
+    &nbsp;
+</div>
+

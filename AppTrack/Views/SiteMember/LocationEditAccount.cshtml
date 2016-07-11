@@ -1,0 +1,171 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayoutMember.cshtml";
+    ViewBag.PageType = "EditAccount";
+}
+@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="Container">
+        <div class="col-md-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.SiteMemberEditLocationViewModel
+
+    <div class="col-md-12 nopadding" style="padding-top:20px;">
+
+        @using (Html.BeginForm("LocationEditAccount", "SiteMember", FormMethod.Post, new { id = "EditAccount", @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.CustID)
+            @Html.HiddenFor(model => model.SponsorID)
+            @Html.HiddenFor(model => model.ParentID)
+            <input type="hidden" name="FormAction" id="FormAction" value="" />
+            <div class="panel panel-default" style="box-shadow:#ccc 7px 7px;">
+                <div class="panel-body nopadding" style="background-color:#FFF;padding-bottom:10px;">
+                    <div class="col-md-12">
+                        <div class="pull-right"><a href="@Url.Action("LocationList", "SiteMember")"><span class="btn btn-sm btn-info">Return to Locations</span></a></div>
+                        <div class="pull-left"><h4>Location Information</h4></div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr style="margin:0;" />
+                    </div>
+                    <div class="col-md-6" style="margin-top:5px;">
+                        <label class="control-label" style="font-weight:200;color:#333;margin-bottom:-3px;">Practice Name &amp; Address</label>
+                        <br />
+                        @Html.EditorFor(model => model.DisplayName, new { htmlAttributes = new { @class = "form-control", maxlength = "40", disabled = "disabled" } })
+                        @Html.EditorFor(model => model.Address1, new { htmlAttributes = new { @class = "form-control", maxlength = "40", disabled = "disabled" } })
+                        @if (!String.IsNullOrEmpty(Model.Address2))
+                        {
+                        @Html.EditorFor(model => model.Address2, new { htmlAttributes = new { @class = "form-control", maxlength = "40", disabled = "disabled" } })
+                        }
+                        <div class="col-md-6 nopadding">
+                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", maxlength = "40", disabled = "disabled" } })
+                        </div>
+                        <div class="col-md-3 nopadding">
+                            @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", maxlength = "40", disabled = "disabled" } })
+                        </div>
+                        <div class="col-md-3 nopadding">
+                            @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control", maxlength = "40", disabled = "disabled" } })
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="margin-top:5px;">
+                        <div class="col-md-6 nopadding">
+                            <label class="control-label" style="font-weight:200;color:#333;margin-bottom:-3px;">Phone</label>
+                            <br />
+                            @Html.EditorFor(model => model.CompanyPhone, new { htmlAttributes = new { @class = "form-control", maxlength = "40", disabled = "disabled" } })
+                        </div>
+                        <div class="col-md-6 nopadding">
+                            <label class="control-label" style="font-weight:200;color:#333;margin-bottom:-3px;">Fax</label>
+                            <br />
+                            @Html.EditorFor(model => model.Fax, new { htmlAttributes = new { @class = "form-control", maxlength = "40", disabled = "disabled" } })
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <h4>Location Contact</h4>
+                        <hr style="margin:0;" />
+                    </div>
+                    <div class="col-md-2" style="margin-top:5px;">
+                        @Html.LabelFor(model => model.NameTitle, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                        @Html.DropDownListFor(model => model.NameTitle, Model.NameTitleList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.NameTitle, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-5" style="margin-top:5px;">
+                        @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", maxlength = "40" } })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-5" style="margin-top:5px;">
+                        @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", maxlength = "40" } })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-3" style="margin-top:5px;">
+                        @Html.LabelFor(model => model.DayPhone, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                        @Html.EditorFor(model => model.DayPhone, new { htmlAttributes = new { @class = "form-control", type = "tel" } })
+                        @Html.ValidationMessageFor(model => model.DayPhone, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-9" style="margin-top:5px;">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", maxlength = "100", type = "email" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12">
+                        <h4>Rebate Payee</h4>
+                        <hr style="margin:0;"/>
+                    </div>
+                    <div class="col-md-6" style="margin-top:5px;">
+                        <label class="control-label" style="font-weight:200;color:#333;margin-bottom:-3px;">Payee Name &amp; Address</label>
+                        <br />
+                        @Html.EditorFor(model => model.Company, new { htmlAttributes = new { @class = "form-control", maxlength = "40", disabled = "disabled" } })
+                        @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.ShipAddress1, new { htmlAttributes = new { @class = "form-control", maxlength = "40" } })
+                        @Html.ValidationMessageFor(model => model.ShipAddress1, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.ShipAddress2, new { htmlAttributes = new { @class = "form-control", maxlength = "40" } })
+                        @Html.ValidationMessageFor(model => model.ShipAddress2, "", new { @class = "text-danger" })
+                        <div class="col-md-6 nopadding">
+                            @Html.EditorFor(model => model.ShipCity, new { htmlAttributes = new { @class = "form-control", maxlength = "40" } })
+                            @Html.ValidationMessageFor(model => model.ShipCity, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-3 nopadding">
+                            @Html.DropDownListFor(model => model.ShipState, Model.StateList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ShipState, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-3 nopadding">
+                            @Html.EditorFor(model => model.ShipPostalCode, new { htmlAttributes = new { @class = "form-control", maxlength = "40" } })
+                            @Html.ValidationMessageFor(model => model.ShipPostalCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="margin-top:5px;">
+                        <label class="control-label" style="font-weight:200;color:#333;margin-bottom:-3px;">Payee Email</label>
+                        <br />
+                        @Html.EditorFor(model => model.ShipEmail, new { htmlAttributes = new { @class = "form-control", maxlength = "100", type = "email" } })
+                        @Html.ValidationMessageFor(model => model.ShipEmail, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6" style="margin-top:5px;">
+                        <label class="control-label" style="font-weight:200;color:#333;margin-bottom:-3px;">Payee Phone</label>
+                        <br />
+                        @Html.EditorFor(model => model.ShipPhone, new { htmlAttributes = new { @class = "form-control", type = "tel" } })
+                        @Html.ValidationMessageFor(model => model.ShipPhone, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12" style="margin-top:5px;">
+                        <div class="form-group">
+                            <div id="rebatepayee" class="Save btn btn-sm btn-primary pull-right" style="margin-right:20px;">Update</div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <br />
+                        <span class="info">Please contact AppTrack if you need to update the practice information or rebate payee name for this location.</span>
+                    </div>
+                </div>
+            </div>
+
+
+
+        }
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            $('.AccountLink').trigger('click');
+
+            $('.AccountLink').click(function (e) {
+                $(this).tab('show')
+            });
+            $("#ShipPhone").mask("(999)999‐9999?x9999");
+        });
+    </script>
+}

@@ -1,0 +1,352 @@
+using IDOC.Models;
+using IDOC.ViewModels;
+using IDOC.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Core;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using System.Data.SqlClient;
+using System.Data.Entity.Core.Objects;
+using System.Diagnostics;
+
+namespace IDOC.Controllers
+{
+    public class SalesRepController : Controller
+    {
+        private DevProvidentIDOCEntities db = new DevProvidentIDOCEntities();
+
+        [HttpGet]
+        public ActionResult Index(int ID = 0)
+        {
+             DateTime   startDateTime = new DateTime(2015, 5, 1);
+             DateTime   endDateTime = new DateTime(2017, 5, 1);
+             string searchLastName = "";
+             string searchStatus = "";
+
+            ViewBag.SearchStartDate = startDateTime;
+            ViewBag.SearchEndDate = endDateTime;
+            ViewBag.SearchLastName = searchLastName;
+            ViewBag.SearchStatus = searchStatus;
+            // Debug.WriteLine("Get-" + searchLastName + "|" + searchStatus + "|" + startDateTime + "|" + endDateTime);
+            var infoRows = db.Database.SqlQuery<LB_GetSalesRepList_Result>("exec dbo.[LB_GetSalesRepList] @StartDate, @EndDate, @LastName, @Status",
+             new SqlParameter("@StartDate", startDateTime),
+             new SqlParameter("@EndDate", endDateTime),
+             new SqlParameter("@LastName", searchLastName),
+             new SqlParameter("@Status", searchStatus)
+             ).ToList();
+            return View(infoRows);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index()
+        {
+            string searchStartDate = Request.Form["SearchStartDate"];
+            string searchEndDate = Request.Form["SearchEndDate"];
+            string searchLastName = Request.Form["SearchLastName"];
+            string searchStatus = Request.Form["SearchStatus"];
+
+            DateTime startDateTime = new DateTime();
+            if (DateTime.TryParse(searchStartDate, out startDateTime))
+            {
+                startDateTime = DateTime.Parse(searchStartDate);
+            }
+            else
+            {
+                startDateTime = new DateTime(2015, 5, 1);
+            }
+            DateTime endDateTime = new DateTime();
+            if (DateTime.TryParse(searchEndDate, out endDateTime))
+            {
+                endDateTime = DateTime.Parse(searchEndDate);
+            }
+            else
+            {
+                endDateTime = new DateTime(2017, 5, 1);
+            }
+            ViewBag.SearchStartDate = startDateTime;
+            ViewBag.SearchEndDate = endDateTime;
+            ViewBag.SearchLastName = searchLastName;
+            ViewBag.SearchStatus = searchStatus;
+            Debug.WriteLine("Post-" + searchLastName + "|" + searchStatus + "|" + startDateTime + "|" + endDateTime);
+            var infoRows = db.Database.SqlQuery<LB_GetSalesRepList_Result>("exec dbo.[LB_GetSalesRepList] @StartDate, @EndDate, @LastName, @Status",
+             new SqlParameter("@StartDate", startDateTime),
+             new SqlParameter("@EndDate", endDateTime),
+             new SqlParameter("@LastName", searchLastName),
+             new SqlParameter("@Status", searchStatus)
+             ).ToList();
+            return View(infoRows);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult IndexV2([Bind(Include = "SearchStartDate, SearchEndDate, SearchLastName, SearchStatus")] SearchViewModel SearchViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                string searchStartDate = Request.Form["SearchStartDate"];
+                string searchEndDate = Request.Form["SearchEndDate"];
+                string searchLastName = Request.Form["SearchLastName"];
+                string searchStatus = Request.Form["SearchStatus"];
+
+                ViewBag.SearchStartDate = searchStartDate;
+                ViewBag.SearchEndDate = searchEndDate;
+                ViewBag.SearchLastName = searchLastName;
+                ViewBag.SearchStatus = searchStatus;
+                var infoRows = db.Database.SqlQuery<LB_GetSalesRepList_Result>("exec dbo.[LB_GetSalesRepList] @StartDate, @EndDate, @LastName, @Status",
+                 new SqlParameter("@StartDate", searchStartDate),
+                 new SqlParameter("@EndDate", searchEndDate),
+                 new SqlParameter("@LastName", searchLastName),
+                 new SqlParameter("@Status", searchStatus)
+                 ).ToList();
+                return View(infoRows);
+            }
+            return RedirectToAction("Create");
+            
+        }
+
+
+        // GET: Info/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            C_Info c_Info = db.C_Info.Find(id);
+            if (c_Info == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new SalesRepViewModel
+            {
+                FirstName = c_Info.FirstName,
+                LastName = c_Info.LastName,
+                Email = c_Info.Email,
+                TaxID = c_Info.TaxID,
+                SalesForceID = c_Info.SalesForceID,
+                StatusID = c_Info.StatusID,
+                Status = c_Info.Status,
+                AdminID = (int)c_Info.AdminID
+            };
+            TempData["AdminID"] = (int)c_Info.AdminID;
+            return View(model);
+        }
+
+
+
+        // GET: Info/SalesRepPage1
+        public ActionResult Create()
+        {
+           var model = new SalesRepViewModel
+           {
+               LastName = "Eroticasson",
+               FirstName = "Steve"
+           };
+
+            return View(model);
+
+        }
+
+        // POST: Info/SalesRepPage1
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "SalesForceID,TaxID,FirstName,LastName,Email")] SalesRepViewModel SalesRepViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+
+                
+                string salesforceID = Request.Form["salesforceID"];
+                string taxID        = Request.Form["TaxID"];
+                string firstName    = Request.Form["FirstName"];
+                string lastName     = Request.Form["LastName"];
+                string email        = Request.Form["Email"];
+
+                ObjectParameter salesrepparam = new ObjectParameter("SalesRepID", typeof(int));
+
+                db.LB_InsertSalesRep(salesforceID, taxID, firstName, lastName, email, salesrepparam);
+
+                var scalarCustID = (int)salesrepparam.Value;
+
+               TempData["Pin"] = scalarCustID ;
+               return RedirectToAction("Index");
+
+            }
+            return RedirectToAction("Index");
+        }
+
+
+           // GET: Info/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            C_Info c_Info = db.C_Info.Find(id);
+            if (c_Info == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new SalesRepViewModel
+            {
+                CustID    = (int)c_Info.CustID,
+                FirstName = c_Info.FirstName,
+                LastName = c_Info.LastName,
+                Email = c_Info.Email,
+                TaxID = c_Info.TaxID,
+                SalesForceID = c_Info.SalesForceID,
+                StatusID = c_Info.StatusID,
+                Status = c_Info.Status,
+                AdminID = (int)c_Info.AdminID
+            };
+            return View(model);
+        }
+
+        
+        // POST: Info/MemberEnrollPage2
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "CustID,SalesForceID,TaxID,FirstName,LastName,Email")] SalesRepViewModel salesRepViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                int custID;
+                Int32.TryParse(Request.Form["CustID"].ToString(), out custID);
+
+                string salesforceID = Request.Form["salesforceID"];
+                string taxID        = Request.Form["TaxID"];
+                string firstName    = Request.Form["FirstName"];
+                string lastName     = Request.Form["LastName"];
+                string email        = Request.Form["Email"];
+                string status       = Request.Form["Status"];
+
+                db.LB_UpdateSalesRep(custID, salesforceID, taxID, firstName, lastName, email);
+
+                return RedirectToAction("Edit", new { id = custID });
+            }
+            return RedirectToAction("Edit");
+        }
+
+        // POST: Info/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit2([Bind(Include = "CustID,SalesForceID,TaxID,FirstName,LastName,Email,Status, StatusID")] C_Info c_Info)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(c_Info).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(c_Info);
+        }
+
+        // GET: Info/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            C_Info c_Info = db.C_Info.Find(id);
+            if (c_Info == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new SalesRepViewModel
+            {
+                FirstName = c_Info.FirstName,
+                LastName = c_Info.LastName,
+                Email = c_Info.Email,
+                TaxID = c_Info.TaxID,
+                SalesForceID = c_Info.SalesForceID,
+                StatusID = c_Info.StatusID,
+                Status = c_Info.Status,
+                AdminID = (int)c_Info.AdminID
+            };
+            return View(model);
+        }
+
+        // POST: Info/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                int statusID;
+                Int32.TryParse(Request.Form["StatusID"].ToString(), out statusID);
+                int custID;
+                Int32.TryParse(Request.Form["CustID"].ToString(), out custID);
+                int adminID;
+                Int32.TryParse(Request.Form["adminID"].ToString(), out adminID);
+
+                string status = Request.Form["Status"];
+
+                string Comments  = Request.Form["Comments"];
+
+                db.LB_UpdateC_InfoStatusID(custID, statusID, status, adminID);
+
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
+
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+    
+    }
+}
+
+
+DateTime startDateTime = new DateTime();
+if (DateTime.TryParse(searchStartDate, out startDateTime))
+{
+	startDateTime = DateTime.Parse(searchStartDate);
+}
+else
+{
+	startDateTime = new DateTime(2015, 5, 1);
+}
+DateTime endDateTime = new DateTime();
+if (DateTime.TryParse(searchEndDate, out endDateTime))
+{
+	endDateTime = DateTime.Parse(searchEndDate);
+}
+else
+{
+	endDateTime = new DateTime(2017, 5, 1);
+}
+
+
+			Debug.WriteLine("Post-" + searchLastName + "|" + searchStatus + "|" + startDateTime + "|" + endDateTime);
+var infoRows = db.Database.SqlQuery<LB_GetSalesRepList_Result>("exec dbo.[LB_GetSalesRepList] @StartDate, @EndDate, @LastName, @Status",
+ new SqlParameter("@StartDate", startDateTime),
+ new SqlParameter("@EndDate", endDateTime),
+ new SqlParameter("@LastName", searchLastName),
+ new SqlParameter("@Status", searchStatus)
+ ).ToList();
+
+ 
+ @model IEnumerable<IDOC.Models.LB_GetSalesRepList_Result>

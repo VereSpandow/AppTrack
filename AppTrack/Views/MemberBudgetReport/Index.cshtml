@@ -1,0 +1,140 @@
+﻿@model AppTrack.ViewModels.MemberBudgetReportViewModel
+@{
+    int thisCustID = 0;
+    int thisVendorID = 0;
+    ViewBag.Title = "Dashboard";
+}
+<div class="container-fluid">
+
+    <div class="col-md-12 nopadding">
+        <h3>Member Budget Forecast</h3>
+        <div class="col-md-12">
+            <a href="../MemberBudgetReport/Index?submit=Download">
+                <div class="fa fa-download pull-right" style="color:#000;padding:5px;padding-left:10px;padding-right:10px;border-radius:5px 5px; background-color:#CCC;"></div>
+            </a>
+            <div class="clearfix" style="clear:both;height:15px;"></div>
+            <table class="table table-hover table-striped table-responsive" id="myTable">
+                <thead>
+                    <tr>
+                        <th style="width:8%px;">
+                            DG-Seq-Fl
+                        </th>
+                        <th style="width:27%;">
+                            Member Type
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberBudgetReportListXTab[0].PeriodLabel1
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberBudgetReportListXTab[0].PeriodLabel2
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberBudgetReportListXTab[0].PeriodLabel3
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberBudgetReportListXTab[0].PeriodLabel4
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberBudgetReportListXTab[0].PeriodLabel5
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberBudgetReportListXTab[0].PeriodLabel6
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberBudgetReportListXTab[0].PeriodLabel7
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberBudgetReportListXTab[0].PeriodLabel8
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberBudgetReportListXTab[0].PeriodLabel9
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberBudgetReportListXTab[0].PeriodLabel10
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberBudgetReportListXTab[0].PeriodLabel11
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberBudgetReportListXTab[0].PeriodLabel12
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberBudgetReportListXTab[0].PeriodLabel13
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                        @foreach (var item in Model.MemberBudgetReportListXTab)
+                    {
+                        if (item.Seqno == 0)
+                        {
+                            <tr>
+                                <td colspan="15" style="min-height:25px;">
+                                    <strong>@Html.DisplayFor(modelItem => item.Title)</strong>&nbsp;&nbsp;
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                        <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DataGroupID)-@Html.DisplayFor(modelItem => item.Seqno)-@Html.DisplayFor(modelItem => item.Flag1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodData1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodData2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodData3)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodData4)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodData5)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodData6)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodData7)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodData8)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodData9)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodData10)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodData11)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodData12)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodData13)
+                                </td>
+                            </tr>
+
+                            }
+                            }
+                        </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+}
+
+
+

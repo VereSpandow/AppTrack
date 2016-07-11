@@ -1,0 +1,361 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.VendorContactViewModel
+    if (User.IsInRole("VendorAdmin"))
+    {
+        ViewBag.Disabled = "";
+    }
+    else
+    {
+        ViewBag.Disabled = " disabled";
+    }
+
+    <div id="contactContainerDiv">
+        <div class="col-sm-6">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+
+        @if (ViewBag.Disabled == "")
+        {
+            <div class="col-sm-6 pull-right" style="text-align:right;">
+                <button class="btn btn-xs btn-info" onclick="showAddContactForm();" id="addContactButton">
+                    Add Contact
+                </button>
+            </div>
+        }
+        <div style="clear:both"></div>
+
+        <div class="row" style="padding-top:10px;">
+
+            <div class="filterbar" id="updateContactFormDiv" style="display:none;">
+                @using (Ajax.BeginForm("ContactList", "Vendor", null,
+                new AjaxOptions
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "POST",
+                    OnFailure = "updateContactFailure",
+                    OnSuccess = "updateContactSuccess()",
+                    LoadingElementId = "ajax-loader",
+                    UpdateTargetId = "contactContainerDiv"
+                }, new { id = "updateContactForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div>
+                        <input type="hidden" name="ErrorCode" id="ErrorCode" value="@ViewBag.ErrorCode" />
+
+                        @Html.HiddenFor(model => model.vendorContact.CustID, new { @id = "vendorContactCustID" })
+                        @Html.HiddenFor(model => model.vendorContact.SponsorID)
+
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.vendorContact.ContactType, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DropDownListFor(model => model.vendorContact.ContactType, Model.ContactTypeList, new { @class = "form-control" + ViewBag.Disabled })
+                            @Html.ValidationMessageFor(model => model.vendorContact.ContactType, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-5">
+                            @Html.LabelFor(model => model.vendorContact.FirstName, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.vendorContact.FirstName, new { htmlAttributes = new { @class = "form-control" + ViewBag.Disabled, maxlength = "50" } })
+                            @Html.ValidationMessageFor(model => model.vendorContact.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-5">
+                            @Html.LabelFor(model => model.vendorContact.LastName, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.vendorContact.LastName, new { htmlAttributes = new { @class = "form-control" + ViewBag.Disabled, maxlength = "50" } })
+                            @Html.ValidationMessageFor(model => model.vendorContact.LastName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.vendorContact.Email, htmlAttributes: new { @class = "control-label email" })
+                            <br />
+                            @Html.EditorFor(model => model.vendorContact.Email, new { htmlAttributes = new { @class = "form-control email" + ViewBag.Disabled, maxlength = "100" } })
+                            @Html.ValidationMessageFor(model => model.vendorContact.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.vendorContact.Address1, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.vendorContact.Address1, new { htmlAttributes = new { @class = "form-control" + ViewBag.Disabled, maxlength = "50" } })
+                            @Html.ValidationMessageFor(model => model.vendorContact.Address1, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.vendorContact.Address2, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.vendorContact.Address2, new { htmlAttributes = new { @class = "form-control" + ViewBag.Disabled, maxlength = "50" } })
+                            @Html.ValidationMessageFor(model => model.vendorContact.Address2, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.vendorContact.City, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.vendorContact.City, new { htmlAttributes = new { @class = "form-control" + ViewBag.Disabled, maxlength = "50" } })
+                            @Html.ValidationMessageFor(model => model.vendorContact.City, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.vendorContact.State, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DropDownListFor(model => model.vendorContact.State, Model.StateList, new { @class = "form-control" + ViewBag.Disabled })
+                            @Html.ValidationMessageFor(model => model.vendorContact.State, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.vendorContact.PostalCode, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.vendorContact.PostalCode, new { htmlAttributes = new { @class = "form-control" + ViewBag.Disabled, maxlength = "10" } })
+                            @Html.ValidationMessageFor(model => model.vendorContact.PostalCode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.vendorContact.DayPhone, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.vendorContact.DayPhone, new { htmlAttributes = new { @class = "form-control phone" + ViewBag.Disabled, maxlength = "50" } })
+                            @Html.ValidationMessageFor(model => model.vendorContact.DayPhone, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.vendorContact.Mobile, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.vendorContact.Mobile, new { htmlAttributes = new { @class = "form-control phone" + ViewBag.Disabled, maxlength = "50" } })
+                            @Html.ValidationMessageFor(model => model.vendorContact.Mobile, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.vendorContact.Fax, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.vendorContact.Fax, new { htmlAttributes = new { @class = "form-control phone" + ViewBag.Disabled, maxlength = "50" } })
+                            @Html.ValidationMessageFor(model => model.vendorContact.Fax, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-6" style="padding-top:10px;">
+                            <span class="control-label" style="font-weight: bold">Email Member Updates?</span>
+                            @Html.RadioButtonFor(model => model.vendorContact.Flag2, 1, Model.vendorContact.Flag2 == 1 ? new { Checked = "checked", Class=""+ViewBag.Disabled} : null) Yes
+                            @Html.RadioButtonFor(model => model.vendorContact.Flag2, 0, Model.vendorContact.Flag2 == 0 ? new { Checked = "checked", Class=""+ViewBag.Disabled} : null) No
+                            @Html.ValidationMessageFor(model => model.vendorContact.Flag2, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12 pull-right" style="text-align:right;">
+                            @if (ViewBag.Disabled == "")
+                            {
+                                <input type="submit" name="SubmitAction" value="Save" class="btn btn-xs btn-info" />
+                            }
+                            &nbsp;
+                            <span class="btn btn-xs btn-info" onclick="editContactInit(@Model.vendorContact.SponsorID,0)">Cancel</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center">
+                        <img id="ajax-loader" src="@Url.Content("~/Content/images/ajaxLoader.gif")" style="display:none;" />
+                    </div>
+                }
+            </div>
+            <table class="table table-hover table-striped table-responsive" id="contactsTable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorContactList[0].ContactType)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorContactList[0].DisplayName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorContactList[0].Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorContactList[0].DayPhone)
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.VendorContactList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContactType)
+                            </td>
+                            <td>
+                                <a href="#" onclick="editContactInit(@item.SponsorID, @item.CustID)">@Html.DisplayFor(modelItem => item.DisplayName)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DayPhone)
+                            </td>
+                            <td>
+                                @if (ViewBag.Disabled == "")
+                                {
+                                    <span onclick="deleteContact(@item.SponsorID, @item.CustID, '@item.DisplayName')" class="btn btn-xs btn-danger">
+                                        X
+                                    </span>
+                                }
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- EDIT CONTACT INITIALIZATION FORM -->
+    <div id="editContactInitFormDiv" style="display:block;">
+        @using (Ajax.BeginForm("ContactList", "Vendor", null,
+             new AjaxOptions
+             {
+                 InsertionMode = InsertionMode.Replace,
+                 HttpMethod = "GET",
+                 OnFailure = "editContactInitFailure",
+                 OnSuccess = "editContactInitSuccess",
+                 LoadingElementId = "ajax-loader",
+                 UpdateTargetId = "contactContainerDiv"
+             }, new { id = "editContactInitForm" }
+             ))
+        {
+            <input type="hidden" name="VendorID" id="editContactVendorID" value="" />
+            <input type="hidden" name="ContactID" id="editContactID" value="" />
+        }
+    </div>
+    <!-- DELETE CONTACT INITIALIZATION FORM -->
+    <div id="deleteContactFormDiv" style="display:block;">
+        @using (Ajax.BeginForm("ContactList", "Vendor", new { ActionType = "D" },
+             new AjaxOptions
+             {
+                 InsertionMode = InsertionMode.Replace,
+                 HttpMethod = "GET",
+                 OnFailure = "deleteContactFailure",
+                 OnSuccess = "deleteContactSuccess",
+                 LoadingElementId = "ajax-loader",
+                 UpdateTargetId = "contactContainerDiv"
+             }, new { id = "deleteContactForm" }
+             ))
+        {
+            <input type="hidden" name="VendorID" id="deleteContactVendorID" value="" />
+            <input type="hidden" name="ContactID" id="deleteContactID" value="" />
+        }
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteContactModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Delete Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>
+                        Are you sure you want to Delete <span id="deleteContactName"></span>?
+                    </h4>
+                    <br />
+                    <p>
+                        Deleting the Contact can not be undone without contacting technical support.
+                    </p>
+                </div>
+                <div class="modal-footer">
+
+                    <div class="btn btn-info pull-left" data-dismiss="modal">Cancel without Deleting</div>
+                    <div class="btn btn-danger pull-right" onclick="deleteContactConfirm()">Yes. Delete this Contact</div>
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <script>
+
+        $(document).ready(function () {
+            initializeContactsTable();
+            $("#vendorContact_Mobile").mask("(999) 999-9999");
+            $("#vendorContact_Fax").mask("(999) 999-9999");
+            $("#vendorContact_DayPhone").mask("(999) 999-9999? x9999");
+            $.validator.unobtrusive.parse(updateContactForm);
+            $('.disabled').attr("disabled", "disabled");
+        });
+
+
+        function initializeContactsTable() {
+            $('#contactsTable').dataTable(
+            {
+                "searching": false,
+                "bLengthChange": false,
+                "oLanguage": {
+                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                    "sLengthMenu": "Show _MENU_ rows per page",
+                    "sInfoEmpty": "0 records found",
+                    "sEmptyTable": "No contacts available to display"
+                },
+                "aoColumns": [
+                { sWidth: '15%' },
+                { sWidth: '30%' },
+                { sWidth: '30%' },
+                { sWidth: '20%' },
+                { sWidth: '5%' }
+                ]
+            });
+        };
+
+        function showAddContactForm() {
+            $('#addContactButton').hide();
+            $('#updateContactFormDiv').show();
+
+        }
+
+        function editContactInit(thisVendorID, thisContactID) {
+            $("#editContactVendorID").val(thisVendorID);
+            $("#editContactID").val(thisContactID);
+            $("#editContactInitForm").submit();
+        };
+
+
+        function editContactInitSuccess() {
+            if ($('#vendorContactCustID').val() > 0) {
+                $('#addContactButton').hide();
+                $('#updateContactFormDiv').show();
+            }
+        }
+
+        function editContactInitFailure() {
+            alert("Edit Contact initialization failed");
+        }
+
+        function updateContactSuccess() {
+            if ($('#ErrorCode').val() != 0) {
+                $('#addContactButton').hide();
+                $('#updateContactFormDiv').show();
+            }
+        }
+
+        function updateContactFailure() {
+            alert("Update Contact failed");
+        }
+
+        function deleteContact(thisVendorID, thisContactID, thisContactDisplayName) {
+            $("#deleteContactVendorID").val(thisVendorID);
+            $("#deleteContactID").val(thisContactID);
+            $('#deleteContactModal').modal('show');
+            $("#deleteContactName").html(thisContactDisplayName);
+
+        };
+        function deleteContactConfirm() {
+            $("#deleteContactForm").submit();
+            $('#deleteContactModal').modal('hide');
+        };
+
+        function deleteContactSuccess() {
+        }
+
+        function deleteContactFailure() {
+            alert("Delete Contact failed");
+        }
+
+    </script>
+}

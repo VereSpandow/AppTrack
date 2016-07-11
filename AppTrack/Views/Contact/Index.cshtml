@@ -1,0 +1,222 @@
+﻿@model AppTrack.ViewModels.MemberListViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="h2" style="float:left">Contact  List</div>
+<div class="filterbar" style="display:block;clear:both;">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.SearchCustID, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.SearchCustID, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.SearchCustID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.SearchDisplayName, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.SearchDisplayName, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.SearchDisplayName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.SearchCompany, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.SearchCompany, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.SearchCompany, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.SearchLastName, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.SearchLastName, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.SearchLastName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.SelectedStatus, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.DropDownListFor(model => model.SelectedStatus, Model.StatusList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SelectedStatus, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.SearchAddress1, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.SearchAddress1, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.SearchAddress1, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.SearchCity, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.SearchCity, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.SearchCity, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-1">
+                    @Html.LabelFor(model => model.SearchState, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.DropDownListFor(model => model.SearchState, Model.StateList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SearchState, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.SearchPostalCode, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.SearchPostalCode, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.SearchPostalCode, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.SearchPhone, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.SearchPhone, new { htmlAttributes = new { @class = "form-control phone", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.SearchPhone, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.SearchEmail, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.SearchEmail, new { htmlAttributes = new { @class = "form-control phone", maxlength = "100" } })
+                    @Html.ValidationMessageFor(model => model.SearchEmail, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2">
+                    <label class="control-label">&nbsp;</label>
+                    <br />
+                    <button class="btn btn-info" type="submit" name="submit" value="Search">Search</button>
+                    <button class="btn fa fa-download" type="submit" name="submit" value="Download"></button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<hr />
+
+<table class="table table-hover table-striped table-responsive" id="memberTable">
+    <thead>
+        <tr>
+            <th>
+                Member ID
+            </th>
+            <th>
+                TIN Name
+            </th>
+            <th>
+                Practice Name
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Contact
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemberList[0].Status)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model.MemberList)
+        {
+            <tr>
+                <td>
+                    @if (item.CustomerType == 6)
+                    {
+                    <span style="color:blue;">@Html.DisplayFor(modelItem => item.CustID)</span>
+                    }
+                    else
+                    {
+                        if (item.CustomerType == 66)
+                        {
+                        <span style="color:darkgreen;">@Html.DisplayFor(modelItem => item.CustID)</span>
+                        }
+                        else
+                        {
+                            <span style="color:black;">@Html.DisplayFor(modelItem => item.CustID)</span>
+                        }
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DisplayName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address1)
+                    @if (!String.IsNullOrEmpty(item.Address2))
+                    {
+                        <span>,</span> @item.Address2
+                    }
+                    <br />@Html.DisplayFor(modelItem => item.City)<span>&nbsp;</span>@Html.DisplayFor(modelItem => item.State)<span>&nbsp;</span>@Html.DisplayFor(modelItem => item.PostalCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)<span>,&nbsp;</span>@Html.DisplayFor(modelItem => item.FirstName)
+                    @if (!String.IsNullOrEmpty(item.NameTitle))
+                    {
+                        <span>&nbsp;</span>@Html.DisplayFor(modelItem => item.NameTitle)
+                    }
+                    @if (!String.IsNullOrEmpty(item.NameTitle))
+                    {
+                        <br />
+                        @Html.DisplayFor(modelItem => item.Email)
+                    }
+                    @if (!String.IsNullOrEmpty(item.NameTitle))
+                    {
+                        <br />
+                        @Helpers.FormatPhone(item.DayPhone)
+                    }
+                </td>
+                <td>
+                    @if (item.Status.ToUpper() == "NEW" && item.Flag4 == 0)
+                    {
+                        <span class="text-danger">@Html.DisplayFor(modelItem => item.Status)</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Status)
+                    }
+                </td>
+                <td>
+                    @if (item.CustomerType == 6)
+                    {
+                        <a href="@Url.Action("AccountProfile", "Member", new { id = item.CustID })"><span class="fa fa-fw fa-user"></span></a>
+                        <a href="@Url.Action("MemberSite", "Member", new { id = item.CustID })" target="_blank"><span class="fa fa-fw fa-globe"></span></a>
+                    }
+                    else
+                    {
+                        if (item.CustomerType == 66)
+                        {
+                            <a href="@Url.Action(" locationprofilemain", "Member" , new { id=item.CustID })"><span class="fa fa-fw fa-user"></span></a>
+                        }
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#memberTable').dataTable(
+            {
+                "searching": false,
+                "aaSorting": [],
+                "iDisplayLength": 50,
+                "bLengthChange": true,
+                "bInfo": false,
+                "bSort": false,
+                "bAutoWidth": false,
+                "oLanguage": {
+                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                    "sLengthMenu": "Show _MENU_ rows per page",
+                    "sInfoEmpty": "0 records found",
+                    "sEmptyTable": "No information available to display"
+                }
+            });
+
+        });
+    </script>
+}

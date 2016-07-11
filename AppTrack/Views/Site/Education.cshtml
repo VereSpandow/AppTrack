@@ -1,0 +1,128 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.PageType = "Education";
+    ViewBag.thisPage = "Education";
+}
+<div class="row nopadding">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left hidden-xs hidden-sm" style="min-height:450px;">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+        </div>
+        <div class="col-md-8 pull-right nopadding">
+            <div class="noteditable  nopadding" style="width:100%;" id="educationMain">
+                <h1 class="text-primary-dark">Optometric Conferences & Meetings</h1>
+
+                <h2 class="text-primary-dark">Stay Informed. Stay Competitive.</h2>
+
+                <div class="col-md-12 nopadding">
+                    <p>
+                        Independent ODs know that growing their business means increasing their knowledge. AppTrack gives you the opportunity to learn from colleagues and experts alike, in formats that make learning easy. Attend our events to sharpen your business skills and improve your quality of care.<br />
+                        <br />
+                        Programs include:
+                    </p>
+                </div>
+
+                <div class="col-md-12 nopadding">
+                    <div class="col-md-6 nopadding pull-left" style="">
+                        <div class="col-md-11 nopadding pull-left" style="">
+                            <div class="col-md-12 nopadding" style="height:60px;">
+                                <h3 class="text-primary-dark" style="font-size:20px;">
+                                    National &amp; Regional <br />
+                                    Business Conferences
+                                </h3>
+                            </div>
+                            <img src="../../images/RoyalSuccessGradientBar.png" style="width:100%" alt="Blue Gradient Bar - AppTrack Optometric Alliance" />
+                            <div class="col-md-12 bg-gray" style="font-size:12px;">
+                                <p style="padding-top:10px;">
+                                    Our curriculum is designed to educate you and your staff to implement practical, proven strategies to run your practice more effectively, efficiently and profitably. &nbsp;Many of our courses offer COPE CE credit, and are taught by the experts and innovators who put them to use every day.
+                                </p>
+
+                                <p>Topics have included:</p>
+
+                                <ul>
+                                    <li>Increasing optical sales</li>
+                                    <li>Patient retention</li>
+                                    <li>Emerging technologies</li>
+                                    <li>Billing and coding</li>
+                                    <li>Measurement</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-12 bg-gray" style="font-size:12px;text-align:center;">
+                                <span class="text-info-dark" style="font-size:1.8em;">Save The Dates!</span>
+                                <br />
+                                <span class="text-info-dark" style="font-size:1.3em;">Agendas Coming Soon</span>
+                                <br />
+                                <br />
+                                <span class="text-royalty-dark" style="font-size:1.5em;">2016 National Meeting</span>
+                                <br />
+                                <a href="http://www.primaidocfallmeeting.com" target="_blank" class="btn btn-sm btn-info">Registration Now Open</a>
+                                <br />
+                                <span class="text-primary-dark" style="font-size:1.2em;">
+                                    Westin Kierland<br />
+                                    Scottsdale, AZ<br />
+                                    October 26-29, 2016
+                                </span>
+                                <br />
+                                <br />
+                                <span class="text-royalty-dark" style="font-size:1.5em;">Fall 2016 Regional Meetings</span>
+                                <br />
+                                <span class="text-primary-dark" style="font-size:1.2em;">
+                                    Hilton Philadelphia at Penn’s Landing<br />
+                                    Philadelphia, PA<br />
+                                    September 25, 2016<br />
+                                    <br />
+                                    Hyatt Regency Mission Bay Spa and Marina<br />
+                                    San Diego, CA<br />
+                                    December 4, 2016
+                                </span>
+                                <br />
+                                <br />
+                                <span class="text-royalty-dark" style="font-size:1.5em;">2017 National Meeting</span>
+                                <br />
+                                <span class="text-primary-dark" style="font-size:1.2em;">
+                                    Gaylord Palms Resort<br />
+                                    Kissimmee, FL<br />
+                                    February 8-11, 2017
+                                </span>
+                                <br />
+                                <br />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 nopadding pull-right" style="">
+                        <div class="col-md-11 nopadding pull-right" style="">
+                            <div class="col-md-12 nopadding" style="height:60px;">
+                                <h3 class="text-primary-dark" style="font-size:20px;">
+                                    <br />Local Study Group Meetings
+                                </h3>
+                            </div>
+                            <img src="../../images/InforGreenGradientBar.png" style="width:100%" alt="Green Bar - AppTrack Optometric Alliance" />
+                            <div class="col-md-12 bg-gray" style="font-size:12px;">
+                                <p style="padding-top:10px;">
+                                    Network with colleagues. Share ideas. And keep up with industry developments. All in a convenient location near you. AppTrack&#39;s study group meetings are topic-specific and locally organized.<br />
+                                </p>
+                                <p>
+                                    Subject matter covers everything from staff training to office efficiency to retail strategies, and more. Our schedule updates frequently, so bookmark this page!<br />
+                                </p>
+                                <p>Click to learn more and register</p>
+
+                                @{Html.RenderAction("LocalMeetingListPartial", "Site");}
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row"></div>
+                    <div class="col-md-12 nopadding" style="margin-top:15px;">
+                        <p>
+                            If you have questions about our educational opportunities, please don’t hesitate to contact us by filling out the form on the left, or calling 203.853.3333.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row nopadding" style="width:100%;height:25px;">
+    &nbsp;
+</div>

@@ -1,0 +1,60 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayoutMember.cshtml";
+    ViewBag.thisPage = "ResourceList";
+    ViewBag.PageType = "ResourceList";
+}
+@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="meetingContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    <div class="col-md-12 pull-right no-offset nopadding">
+        <div class="no-offset nopadding" style="width:100%;padding-top:20px;margin:0px;">
+            <h1 class="text-info-dark">Education Resources</h1>
+            <div class="row">
+
+                <div class="col-md-12">
+                    <a href="@Constants.siteURL/Documents/Member/AppTrack-ACO-HealthCareReformIn2015.pdf" target="_blank">Health Care Reform in 2015 and Beyond</a>
+                    <br />
+                    <br />
+                    <a href="@Constants.siteURL/Documents/Member/AppTrack-2016-AssessingVisionPlansandMaximizing.pdf" target="_blank">Assessing Vision Plans and Maximizing</a>
+                    <br />
+                    <br />
+                    <a href="@Constants.siteURL/Documents/Member/AppTrack-2016-ComprehensiveOptometricAssisting.pdf" target="_blank">Comprehensive Optometric Assisting</a>
+                    <br />
+                    <br />
+                    <a href="@Constants.siteURL/Documents/Member/AppTrack-2016-FightingtheGloomandDoom.pdf" target="_blank">Fighting the Gloom and Doom</a>
+                    <br />
+                    <br />
+                    <a href="@Constants.siteURL/Documents/Member/AppTrack-2016-MaximizingPracticeSuccessthroughOptical.pdf" target="_blank">Maximizing Practice Success through Optical</a>
+                    <br />
+                    <br />
+                </div>
+                <div class="col-md-12">
+                    Webinar: ICD-10: What’s Next?
+                    <br />
+                    Tuesday, October 20, 2015
+                </div>
+
+                <div class="col-md-6">
+                    <iframe src="https://player.vimeo.com/video/143659210" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+}

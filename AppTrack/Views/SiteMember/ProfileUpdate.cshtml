@@ -1,0 +1,80 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayoutMember.cshtml";
+    ViewBag.PageType = "ProfileUpdate";
+}
+@model AppTrack.ViewModels.AutoShipHeaderUpdateViewModel
+
+<div id="updateProfileFormDiv">
+    <div class="col-sm-12" style="padding:0">
+        <div class="panel panel-default" style="min-height:200px; box-shadow:#CCC 7px 7px;margin-top:25px;">
+            <div class="panel-body nopadding">
+                <div class="col-sm-12">
+                    <h4>Membership</h4>
+                </div>
+
+                <div class="col-sm-5 pull-left">
+                    <div class="col-sm-6 pull-left" style="font-weight:bold;text-align:right;">Bill To: </div>
+                    <div class="col-sm-6 nopadding pull-left">@Html.DisplayFor(model => model.AutoShipHeader.ShipName) &nbsp;</div>
+                    <div class="col-sm-6 pull-left" style="font-weight:bold;text-align:right;">Last Bill Date: </div>
+                    <div class="col-sm-6 nopadding  pull-left">@(Model.AutoShipHeader.LastDate != null ? Model.AutoShipHeader.LastDate.ToString() : "n/a") &nbsp;</div>
+                    <div class="col-sm-6 pull-left" style="font-weight:bold;text-align:right;">Billng Period: </div>
+                    <div class="col-sm-6 nopadding  pull-left">@Html.DisplayFor(model => model.AutoShipHeader.Interval)&nbsp;@Html.DisplayFor(model => model.AutoShipHeader.IntervalUnit)</div>
+                    <div class="col-sm-6 pull-left" style="font-weight:bold;text-align:right;">Next Bill Date: </div>
+                    <div class="col-sm-6 nopadding  pull-left">
+                        @Html.Encode(String.Format("{0:MMMM d, yyyy}", Model.EditNextDate))
+                    </div>
+                </div>
+                <div class="col-sm-7 pull-left" style="padding:0;">
+                    <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:1.0em">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Product
+                                </th>
+                                <th>
+                                    Qty
+                                </th>
+                                <th>
+                                    Unit Price
+                                </th>
+                                <th>
+                                    Ext Price
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AutoShipDetailList)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ItemTitle)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Quantity)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UnitPrice)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ExtPrice)
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td colspan="3">
+                                    Total:
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.AutoShipHeader.OrderTotal)
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-12" style="clear:both;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+

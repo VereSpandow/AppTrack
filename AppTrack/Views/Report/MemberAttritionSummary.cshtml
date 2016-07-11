@@ -1,0 +1,114 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.MemberAttritionSummaryViewModel
+
+    <div id="profileContainerDiv">
+        <div class="h2" style="float:left;width:70%;">AppTrack Member Enrollment & Cancellation Activity</div>
+
+        <div class="filterbar" style="display:block;clear:both;">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div id="searchFormDiv">
+                @using (Html.BeginForm("MemberAttritionSummary", "Report", FormMethod.Post, new { id = "formOrderList" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.StartPeriodID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.StartPeriodID, Model.PeriodList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.StartPeriodID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.EndPeriodID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.EndPeriodID, Model.PeriodList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.EndPeriodID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.CustomerType, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.CustomerType, Model.CustomerTypeList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CustomerType, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-5" style="text-align:right;">
+                                <label class="control-label">&nbsp;</label>
+                                <br />
+                                <input class="btn btn-info" type="submit" name="submitAction" value="Search">
+                            </div>
+                        </div>
+                    </div>
+                }
+                <hr />
+            </div>
+        </div>
+
+        <table class="table table-hover table-striped table-responsive" id="thisTable">
+            <thead>
+                <tr>
+                    <th>
+                        Month
+                    </th>
+                    <th>
+                        Beginning Active
+                    </th>
+                    <th>
+                        Enrolled
+                    </th>
+                    <th>
+                        Cancelled
+                    </th>
+                    <th style="text-align:right">
+                        Net Active
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.MemberAttritionSummaryList)
+                {
+                    <tr onclick="location.href = '@Url.Action("RebateDetail", "Report", new { StartPeriodID = item.PeriodID, EndPeriodID = item.PeriodID, CustID = Model.CustomerType})'">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PeriodName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BeginMemberCount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NewMemberCount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CancelMemberCount)
+                        </td>
+                        <td style="text-align:right">
+                            @Html.DisplayFor(modelItem => item.EndMemberCount)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $.validator.unobtrusive.parse(document);
+        });
+    </script>
+}
+

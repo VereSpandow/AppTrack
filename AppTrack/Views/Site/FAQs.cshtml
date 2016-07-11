@@ -1,0 +1,39 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.thisPage = "FAQs";
+    ViewBag.PageType = "FAQs";
+    ViewBag.callbackURL = "~/Site/FAQs.cshtml";
+}
+<style>
+    .bg-gray {
+        padding: 5px;
+    }
+</style>
+<div class="row">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left hidden-xs hidden-sm" style="min-height:450px;">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+        </div>
+        <div class="col-md-8 pull-right nopadding noteditable">
+            <div class="col-md-11 pull-right nopadding noteditable">
+                <div class="editable" id="PrivacyHeader">
+                    <h1 class="text-info-dark">
+                        Frequently Asked Questions
+                    </h1>
+
+                </div>
+                <div class="editable" style="min-height:100px;" id="FAQMain">
+                    @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "FAQs", status = "LIVE", viewName = "FAQs" });}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="row nopadding" style="width:100%;height:25px;">
+    &nbsp;
+</div>

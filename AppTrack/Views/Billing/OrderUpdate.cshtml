@@ -1,0 +1,892 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.OrderUpdateViewModel
+
+    <div id="orderContainerDiv">
+        <div class="col-sm-4 h2" style="float:left">Update Order</div>
+        <div class="col-sm-4 pull-right" style="text-align:right;">
+            <button class="btn btn-xs btn-info" onclick="location.href = '@Url.Action("AccountProfile", "Member", new { id = Model.OrderHeader.CustID })'">Member Profile</button>
+        </div>
+
+        <div class="filterbar" style="display:block;clear:both;">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <!--************************ ORDER SUMMARY ************************-->
+            <div class="panel panel-default" style="min-height:250px;box-shadow:none;">
+                <div class="panel-body">
+                    <div class="col-sm-6 pull-left" style="padding:0;">
+
+                        <div class="col-sm-4" style="font-weight:bold;text-align:right;">Member ID: </div>
+                        <div class="col-sm-8">
+                            @Html.DisplayFor(model => model.OrderHeader.CustID)
+                        </div>
+                        <div class="col-sm-4" style="font-weight:bold;text-align:right;">Bill To: </div>
+                        <div class="col-sm-8">
+                            @Html.DisplayFor(model => model.OrderHeader.Name)
+                            <br />
+                            @Html.DisplayFor(model => model.OrderHeader.Address1)
+                            @if (Model.OrderHeader.Address2 != "" && Model.OrderHeader.Address2 != null)
+                            {
+                                <span>,</span> @Model.OrderHeader.Address2
+                            }
+                            @Html.DisplayFor(model => model.OrderHeader.City)<span>,</span> @Html.DisplayFor(model => model.OrderHeader.State) @Html.DisplayFor(model => model.OrderHeader.PostalCode)
+                        </div>
+                        <div class="col-sm-12" style="height:10px;">&nbsp;</div>
+                        <div class="col-sm-4" style="font-weight:bold;text-align:right;">Order Date: </div>
+                        <div class="col-sm-8">@(Model.OrderHeader.OrderDate != null ? Model.OrderHeader.OrderDate.Value.ToString("MM/dd/yy") : "")</div>
+                        <div class="col-sm-12" style="height:10px;">&nbsp;</div>
+                        <div class="col-sm-4" style="font-weight:bold;text-align:right;">Order ID: </div>
+                        <div class="col-sm-8">@(Model.OrderHeader.OrderID)</div>
+                        <div class="col-sm-12" style="height:10px;">&nbsp;</div>
+                        <div class="col-sm-4" style="font-weight:bold;text-align:right;">Status: </div>
+                        <div class="col-sm-8"><span class="status-@Model.OrderHeader.Status.ToUpper()">@Model.OrderHeader.Status</span></div>
+                    </div>
+                    <div class="col-sm-6">
+                        @{
+                            var dueClass = "";
+                            if (Model.OrderHeader.BalanceDue > 0)
+                            { dueClass = "status-OPEN"; }
+                            if (Model.OrderHeader.BalanceDue < 0)
+                            { dueClass = "status-CANCELLED"; }
+                        }
+                        <table class="table table-hover table-striped table-responsive" id="documentsTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Product
+                                    </th>
+                                    <th>
+                                        Qty
+                                    </th>
+                                    <th>
+                                        Unit Price
+                                    </th>
+                                    <th style="text-align:right;">
+                                        Ext Price
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OrderDetailList)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ItemTitle)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Quantity)
+                                        </td>
+                                        <td>
+                                            @item.UnitPrice.Value.ToString("C2")
+                                        </td>
+                                        <td style="text-align:right;">
+                                            @item.ExtPrice.Value.ToString("C2")
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td colspan="3" style="text-align:right;font-weight:bold">
+                                        Sub-Total:
+                                    </td>
+                                    <td style="text-align:right;">
+                                        @Model.OrderHeader.SaleTotal.Value.ToString("C2")
+                                    </td>
+                                </tr>
+
+                                @if (Model.OrderHeader.Discount != 0)
+                                {
+                                    <tr>
+                                        <td colspan="3" style="text-align:right;">
+                                            Discount:
+                                        </td>
+                                        <td style="text-align:right;">
+                                            @Model.OrderHeader.Discount.Value.ToString("C2")
+                                        </td>
+                                    </tr>
+                                }
+                                @if (Model.OrderHeader.CancelTotal > 0)
+                                {
+                                    <tr>
+                                        <td colspan="3" style="text-align:right;">
+                                            Cancel Amount:
+                                        </td>
+                                        <td style="text-align:right;">
+                                            @Model.OrderHeader.CancelTotal.Value.ToString("C2")
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td colspan="3" style="text-align:right;font-weight:bold">
+                                        Order Total:
+                                    </td>
+                                    <td style="text-align:right;">
+                                        @Model.OrderHeader.OrderTotal.Value.ToString("C2")
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="text-align:right;">
+                                        <a href="#" onclick="showPaymentHistory()"><span class="fa fa-fw fa-search"></span></a> Paid:
+                                    </td>
+                                    <td style="text-align:right;">
+                                        @Model.OrderHeader.Paid.Value.ToString("C2")
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="text-align:right;font-weight:bold">
+                                        Balance:
+                                    </td>
+                                    <td class="@dueClass" style="text-align:right;">
+                                        @Model.OrderHeader.BalanceDue.Value.ToString("C2")
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @if (User.IsInRole("Accounting") || User.IsInRole("Finance") || User.IsInRole("MemberServicesManager"))
+            {
+                <!--************************ Action Buttons ************************-->
+                <div class="col-sm-6">
+                    @if (Model.OrderHeader.Status.ToUpper() != "CANCELLED")
+                    {
+                        <div class="col-sm-4 pull-left" style="text-align:left;">
+                            <button class="btn btn-xs btn-danger" onclick="showCancelForm()" id="cancelButton">
+                                Cancel Order
+                            </button>
+                        </div>
+                        if (Model.OrderHeader.Status.ToUpper() != "ONHOLD" && Model.OrderHeader.Status.ToUpper() != "CANCELLED" && Model.OrderHeader.BalanceDue != 0)
+                        {
+                            <div class="col-sm-4 pull-left" style="text-align:left;">
+                                <button class="btn btn-xs btn-warning" onclick="showOnHoldForm()" id="onHoldButton">
+                                    Put Order On Hold
+                                </button>
+                            </div>
+                        }
+                        if (Model.OrderHeader.Status.ToUpper() == "ONHOLD")
+                        {
+                            <div class="col-sm-4 pull-left" style="text-align:left;">
+                                <button class="btn btn-xs btn-warning" onclick="showOpenForm()" id="openButton">
+                                    Take Order Off Hold
+                                </button>
+                            </div>
+                        }
+                        <div class="col-sm-4" style="text-align:left;">
+                            <button class="btn btn-xs btn-info" onclick="showApplyDiscountForm()" id="applyDiscountButton">
+                                Apply Discount
+                            </button>
+                        </div>
+                    }
+                </div>
+            }
+            @if (User.IsInRole("Accounting") || User.IsInRole("Finance"))
+            {
+                <div class="col-sm-6">
+                    @if (Model.OrderHeader.BalanceDue > 0)
+                    {
+                        <div class="col-sm-4 pull-left" style="text-align:center;">
+                            <button class="btn btn-xs btn-success" onclick="showProcessCreditCardPaymentForm()" id="processProcessCreditCardPaymentButton">
+                                Process Credit Card Payment
+                            </button>
+                        </div>
+                        <div class="col-sm-4" style="text-align:center;">
+                            <button class="btn btn-xs btn-success" onclick="showApplyPaymentForm()" id="applyPaymentButton">
+                                Other Payment
+                            </button>
+                        </div>
+                    }
+                    @if (Model.OrderHeader.BalanceDue < 0)
+                    {
+                        <div class="col-sm-4" style="text-align:center;">
+                            <button class="btn btn-xs btn-danger" onclick="showRefundForm()" id="applyRefundButton">
+                                Enter Refund
+                            </button>
+                        </div>
+
+                    }
+                    <div class="col-sm-4" style="text-align:right;">
+                        <button class="btn btn-xs btn-danger" onclick="showReturnPaymentForm()" id="applyPaymentButton">
+                            Returned Payment
+                        </button>
+                    </div>
+                </div>
+            }
+
+            <!--************************ Action Forms ************************-->
+            <div class="filterbar" id="cancelFormDiv" style="display:none;padding-top:15px;">
+                <div class="col-sm-6" style="padding-top:15px;">
+                    <div class="panel panel-default" style="min-height:250px;">
+                        <div class="panel-heading"><span class="status-CANCELLED">Cancel Order Confirmation</span></div>
+                        <div class="panel-body">
+                            @using (Html.BeginForm("CancelOrder", "Billing", null))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(model => model.OrderID)
+
+                                <div>
+                                    <div class="col-sm-12">
+                                        Do you really want to Cancel this order?
+                                        <br />
+                                    </div>
+                                    <div class="col-sm-6 pull-left" style="text-align:left;padding-top:15px;">
+                                        <button class="btn btn-xs btn-info" type="submit" value="Cancel">YES</button>
+                                    </div>
+                                    <div class="col-sm-6 pull-right" style="text-align:right;padding-top:15px;">
+                                        <span class="btn btn-xs btn-info" onclick="hideCancelForm()">NO</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filterbar" id="onHoldFormDiv" style="display:none;padding-top:15px;">
+                <div class="col-sm-6" style="padding-top:15px;">
+                    <div class="panel panel-default" style="min-height:250px;">
+                        <div class="panel-heading"><span class="status-ONHOLD">Hold Order Confirmaition</span></div>
+                        <div class="panel-body">
+                            @using (Html.BeginForm("UpdateStatus", "Billing", null))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(model => model.OrderID)
+                                <input type="hidden" name="Status" value="ONHOLD" />
+
+                                <div>
+                                    <div class="col-sm-12">
+                                        Do you really want to put this order on hold?
+                                        <br />
+                                    </div>
+                                    <div class="col-sm-6 pull-left" style="text-align:left;padding-top:15px;">
+                                        <button class="btn btn-xs btn-info" type="submit" value="Hold">YES</button>
+                                    </div>
+                                    <div class="col-sm-6 pull-right" style="text-align:right;padding-top:15px;">
+                                        <span class="btn btn-xs btn-info" onclick="hideOnHoldForm()">NO</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filterbar" id="openFormDiv" style="display:none;padding-top:15px;">
+                <div class="col-sm-6" style="padding-top:15px;">
+                    <div class="panel panel-default" style="min-height:250px;">
+                        <div class="panel-heading"><span class="status-ONHOLD">Open Order Confirmaition</span></div>
+                        <div class="panel-body">
+                            @using (Html.BeginForm("UpdateStatus", "Billing", null))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(model => model.OrderID)
+                                <input type="hidden" name="Status" value="OPEN" />
+
+                                <div>
+                                    <div class="col-sm-12">
+                                        Do you really want to take this order off hold?
+                                        <br />
+                                    </div>
+                                    <div class="col-sm-6 pull-left" style="text-align:left;padding-top:15px;">
+                                        <button class="btn btn-xs btn-info" type="submit" value="Hold">YES</button>
+                                    </div>
+                                    <div class="col-sm-6 pull-right" style="text-align:right;padding-top:15px;">
+                                        <span class="btn btn-xs btn-info" onclick="hideOpenForm()">NO</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="filterbar" id="applyDiscountFormDiv" style="display:none;padding-top:15px;">
+                <div class="col-sm-6 pull-right" style="padding-top:15px;">
+                    <div class="panel panel-default" style="min-height:250px;">
+                        <div class="panel-heading"><span class="status-NEW">Apply Discount</span></div>
+                        <div class="panel-body">
+                            @if (Model.DiscountList.Count == 0)
+                            {
+                                <div>
+                                    No discounts have been applied to this order.
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    The following discounts have been applied to this order
+                                    <br />
+                                    <table class="table table-hover table-striped table-responsive" id="refundTable">
+                                        <thead>
+                                            <tr>
+                                                <td>
+                                                    Date
+                                                </td>
+                                                <td>
+                                                    Description
+                                                </td>
+                                                <td style="text-align:right;">
+                                                    Amount
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.DiscountList)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @item.TransactionDate.ToString("MM/dd/yy")
+                                                    </td>
+                                                    <td>
+                                                        @item.Description
+                                                    </td>
+
+                                                    <td style="text-align:right;">
+                                                        @item.ChangeAmount.ToString("C2")
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                            @using (Html.BeginForm("ApplyDiscount", "Billing", null))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(model => model.OrderID)
+                                <div>
+                                    Enter additional amount to discount this order
+                                    <br />
+                                    <br />
+                                    <div class="col-sm-8">
+                                        <strong>Reason for Discount</strong>
+                                        <br />
+                                        @Html.EditorFor(model => model.DiscountDescription, new { htmlAttributes = new { @class = "form-control" } })
+                                        <br />
+                                        @Html.ValidationMessageFor(model => model.DiscountDescription, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <strong>Amount</strong>
+                                        <br />
+                                        @Html.EditorFor(model => model.DiscountAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.DiscountAmount, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-12 pull-right" style="text-align:right;padding-top:15px;">
+                                        <button class="btn btn-xs btn-info" type="submit" value="Update">Submit</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filterbar" id="applyPaymentFormDiv" style="display:none;">
+                <div class="col-sm-6 pull-right" style="padding-top:15px;">
+                    <div class="panel panel-default" style="min-height:250px;">
+                        <div class="panel-heading"><span class="status-ACTIVE">Enter Payment</span></div>
+                        <div class="panel-body">
+                            @using (Html.BeginForm("ApplyPayment", "Billing", null))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(model => model.OrderID)
+                                <div>
+                                    @if (Model.OrderHeader.BalanceDue <= 0)
+                                    {
+                                        <div class="col-sm-12 text-danger">Caution: this order does not have a balance due.<br />Entering a payment will cause the order to be overpaid.</div>
+                                    }
+                                    <div class="col-sm-6" style="text-align:right;clear:both;">
+                                        <label class="control-label">Payment Date</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.JQueryUI().DatepickerFor(model => model.PaymentDate, new { @class = "form-control" })
+                                        @*@Html.EditorFor(model => model.SearchEndDate, new { htmlAttributes = new { @class = "form-control date-picker" } })*@
+                                        @Html.ValidationMessageFor(model => model.PaymentDate, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-12" style="height:20px;">&nbsp;</div>
+                                    <div class="col-sm-6" style="text-align:right;">
+                                        <span class="control-label" style="font-weight: bold">Payment Method</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @if (Model.PaymentMethod != null)
+                                        {
+                                            if (Model.PaymentMethod.PaymentType == "FDC")
+                                            {
+                                                @Html.RadioButtonFor(model => model.PaymentType, "FDC", Model.PaymentType == "FDC" ? (object)new { Checked = "checked", onclick = "showPaymentDetail('FDC')" } : new { onclick = "showPaymentDetail('FDC')" }) <span>First Data</span>
+                                            }
+                                        }
+                                        @Html.RadioButtonFor(model => model.PaymentType, "Check", Model.PaymentType == "Check" ? (object)new { Checked = "checked", onclick = "showPaymentDetail('Check')" } : new { onclick = "showPaymentDetail('Check')" }) Check
+                                        @Html.RadioButtonFor(model => model.PaymentType, "Cash", Model.PaymentType == "Cash" ? (object)new { Checked = "checked", onclick = "showPaymentDetail('Cash')" } : new { onclick = "showPaymentDetail('Cash')" }) Cash
+                                        @Html.ValidationMessageFor(model => model.PaymentType, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-12" style="height:20px;">&nbsp;</div>
+                                    <div id="CheckDetail">
+                                        <div class="col-sm-6" style="text-align:right;">
+                                            <span class="control-label" style="font-weight: bold">Check #</span>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @Html.EditorFor(model => model.CheckNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.CheckNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div id="FDCDetail" style="display:none;">
+                                        <div class="col-sm-6" style="text-align:right;">
+                                            <span class="control-label" style="font-weight: bold">Transaction ID</span>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @Html.EditorFor(model => model.TransactionID, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.TransactionID, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12" style="height:20px;">&nbsp;</div>
+                                    <div class="col-sm-6" style="text-align:right;">
+                                        <span class="control-label" style="font-weight: bold">Amount</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.EditorFor(model => model.PaymentAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.PaymentAmount, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-6 pull-right" style="text-align:right;padding-top:15px;">
+                                        <button class="btn btn-xs btn-info" type="submit" value="Update">Submit</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="filterbar" id="processCreditCardPaymentFormDiv" style="display:none;">
+                <div class="col-sm-6 pull-left" style="padding-top:15px;">
+                    <div class="panel panel-default" style="min-height:250px;">
+                        <div class="panel-heading"><span class="status-ACTIVE">Process Credit Card Payment</span></div>
+                        <div class="panel-body">
+                            @using (Html.BeginForm("ProcessCreditCardPayment", "Billing", null))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(model => model.OrderID)
+
+                                <div style="text-align:center;min-height:100px;">
+                                    <br /><br />
+                                    Charge the open balance of @Model.OrderHeader.BalanceDue by clicking the Button below.
+                                </div>
+
+                                <div>
+                                    <div class="col-sm-6 pull-right" style="text-align:right;padding-top:15px;">
+                                        <button class="btn btn-xs btn-success" type="submit" value="Update">Process Credit Card Payment</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="filterbar" id="refundFormDiv" style="display:none;padding-top:15px;">
+                <div class="col-sm-6 pull-right" style="padding-top:15px;">
+                    <div class="panel panel-default" style="min-height:250px;">
+                        <div class="panel-heading"><span class="status-CANCELLED">Process Refund</span></div>
+                        <div class="panel-body">
+                            @if (Model.RefundPaymentList.Count == 0)
+                            {
+                                <div>
+                                    There are no payments available to refund. Click button below to record a manual refund by check.
+                                    <br /><br />
+                                    <button class="btn btn-xs btn-warning" onclick="showRefundByCheckForm()" id="refundByCheckButton">
+                                        Record a refund by Check
+                                    </button>
+                                </div>
+                            }
+                            else
+                            {
+                                using (Html.BeginForm("RefundPayment", "Billing", null))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.HiddenFor(model => model.OrderID)
+                                    <div>
+                                        Select payment item to refund and enter refund amount
+                                        <br />
+                                        <br />
+                                        <table class="table table-hover table-striped table-responsive" id="refundTable">
+                                            <tbody>
+                                                @foreach (var item in Model.RefundPaymentList)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.RadioButtonFor(model => model.PaymentID, item.PaymentID, item.PaymentID == Model.PaymentID ? new { Checked = "checked" } : null)
+                                                            <br />
+                                                            @Html.ValidationMessageFor(model => model.PaymentID, "", new { @class = "text-danger" })
+                                                        </td>
+                                                        <td>
+                                                            @item.PaymentDate.Value.ToString("MM/dd/yy")
+                                                        </td>
+                                                        <td>
+                                                            @item.PaymentType
+                                                        </td>
+                                                        <td style="text-align:right;">
+                                                            @item.Amount.Value.ToString("C2")
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+
+                                        </table>
+                                        <div class="col-sm-12" style="clear:both;padding:15px 0 0 0;">
+                                            <div class="col-sm-6" style="text-align:right;font-weight:bold;">
+                                                Refund Reason
+                                            </div>
+                                            <div class="col-sm-6">
+                                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                                <br />
+                                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-sm-6" style="text-align:right;">
+                                                <span class="control-label" style="font-weight: bold">Amount</span>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                @Html.EditorFor(model => model.RefundAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.RefundAmount, "", new { @class = "text-danger" })
+                                            </div>
+
+                                            <div class="col-sm-4 pull-right" style="text-align:right;padding-top:15px;">
+                                                <button class="btn btn-xs btn-info" type="submit" value="Update">Process Refund</button>
+                                            </div>
+                                            <div class="col-sm-8 pull-left" style="padding-top:15px;">
+                                                <a href="#" onclick="showRefundByCheckForm()">
+                                                    <span class="btn btn-xs btn-warning">Record a refund by Check</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filterbar" id="refundByCheckFormDiv" style="display:none;">
+                <div class="col-sm-6 pull-right" style="padding-top:15px;">
+                    <div class="panel panel-default" style="min-height:250px;">
+                        <div class="panel-heading"><span class="status-POSTPONED">Check Refund</span></div>
+                        <div class="panel-body">
+                            @using (Html.BeginForm("RefundByCheck", "Billing", null))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(model => model.OrderID)
+                                <div>
+                                    @if (Model.OrderHeader.BalanceDue > 0)
+                                    {
+                                        <div class="col-sm-12 text-danger">
+                                            This order does not have a negative balance due.<br />It does not require a refund at this time.
+                                        </div>
+                                    }
+                                    <div class="col-sm-6" style="text-align:right;clear:both;">
+                                        <label class="control-label">Check Date</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.JQueryUI().DatepickerFor(model => model.CheckDate, new { @class = "form-control" })
+                                        @*@Html.EditorFor(model => model.SearchEndDate, new { htmlAttributes = new { @class = "form-control date-picker" } })*@
+                                        @Html.ValidationMessageFor(model => model.CheckDate, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-12" style="height:20px;">&nbsp;</div>
+                                    <div class="col-sm-6" style="text-align:right;">
+                                        <span class="control-label" style="font-weight: bold">Check #</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.EditorFor(model => model.CheckNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CheckNumber, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-12" style="height:20px;">&nbsp;</div>
+                                    <div class="col-sm-6" style="text-align:right;">
+                                        <span class="control-label" style="font-weight: bold">Check Amount</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.EditorFor(model => model.CheckAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CheckAmount, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-12" style="height:20px;">&nbsp;</div>
+                                    <div class="col-sm-6" style="text-align:right;">
+                                        <span class="control-label" style="font-weight: bold">Refund Reason</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", id = "Reason" } })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-6 pull-right" style="text-align:right;padding-top:15px;">
+                                        <button class="btn btn-xs btn-info" type="submit" value="Update">Submit</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filterbar" id="returnPaymentFormDiv" style="display:none;padding-top:15px;">
+                <div class="col-sm-6 pull-right" style="padding-top:15px;">
+                    <div class="panel panel-default" style="min-height:250px;">
+                        <div class="panel-heading"><span class="status-CANCELLED">Return Payment</span></div>
+                        <div class="panel-body">
+                            @if (Model.ReturnPaymentList.Count == 0)
+                            {
+                                <div>
+                                    There are no payments available to return.
+                                </div>
+                            }
+                            else
+                            {
+                                using (Html.BeginForm("ReturnPayment", "Billing", null))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.HiddenFor(model => model.OrderID)
+                                    <div>
+                                        Select payment item that was returned and click Return
+                                        <br />
+                                        <br />
+                                        <table class="table table-hover table-striped table-responsive" id="refundTable">
+                                            <tbody>
+                                                @foreach (var item in Model.ReturnPaymentList)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.RadioButtonFor(model => model.PaymentID, item.PaymentID, item.PaymentID == Model.PaymentID ? new { Checked = "checked" } : null)
+                                                        </td>
+                                                        <td>
+                                                            @item.PaymentDate.Value.ToString("MM/dd/yy")
+                                                        </td>
+                                                        <td>
+                                                            @item.PaymentType
+                                                        </td>
+                                                        <td style="text-align:right;">
+                                                            @item.Amount.Value.ToString("C2")
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                        <div class="col-sm-6 pull-right" style="text-align:right;padding-top:15px;">
+                                            <button class="btn btn-xs btn-info" type="submit" value="Update">Return</button>
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="filterbar" id="paymentHistoryFormDiv" style="display:none;">
+                <div class="col-sm-6" style="padding-top:15px;">
+                    <div class="panel panel-default" style="min-height:250px;">
+                        <div class="panel-heading"><span class="status-NEW">Payment History</span></div>
+                        <div class="panel-body" id="paymentHistoryDiv">
+                            @if (Model.PaymentHistoryList.Count == 0)
+                            {
+                                <div>
+                                    There are no payments to display.
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <table class="table table-hover table-striped table-responsive" id="refundTable">
+                                        <thead>
+                                            <tr>
+                                                <td>
+                                                    Date
+                                                </td>
+                                                <td>
+                                                    Type
+                                                </td>
+                                                <td>
+                                                    Check/CC #
+                                                </td>
+                                                <td>
+                                                    Description
+                                                </td>
+                                                <td style="text-align:right;">
+                                                    Amount
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.PaymentHistoryList)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @item.PaymentDate.Value.ToString("MM/dd/yy")
+                                                    </td>
+                                                    <td>
+                                                        @item.PaymentType
+                                                    </td>
+                                                    <td>
+                                                        @if (item.PaymentType == "Check")
+                                                        {
+                                                            <span>@item.CheckNumber</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@item.CardNumber</span>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @item.Description
+                                                    </td>
+
+                                                    <td style="text-align:right;">
+                                                        @if (item.Amount.Value < 0)
+                                                        {
+                                                            <span class="status-CANCELLED">@item.Amount.Value.ToString("C2")</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            @item.Amount.Value.ToString("C2")
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                $.validator.unobtrusive.parse(document);
+                $("#SearchStartDate").datepicker();
+                $("#SearchEndDate").datepicker();
+                $('#thisTable').dataTable(
+                {
+                    "searching": false,
+                    "bLengthChange": false,
+                    "oLanguage": {
+                        "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                        "sLengthMenu": "Show _MENU_ rows per page",
+                        "sInfoEmpty": "0 records found",
+                        "sEmptyTable": "No information available to display"
+                    }
+                });
+            });
+
+            function hideAllForms() {
+                $('#cancelFormDiv').hide();
+                $('#onHoldFormDiv').hide();
+                $('#openFormDiv').hide();
+                $('#applyDiscountFormDiv').hide();
+                $('#processCreditCardPaymentFormDiv').hide();
+                $('#applyPaymentFormDiv').hide();
+                $('#applyRefundFormDiv').hide();
+                $('#applyRefundByCheckFormDiv').hide();
+                $('#refundFormDiv').hide();
+                $('#returnPaymentFormDiv').hide();
+            };
+
+            function showPaymentHistory(OrderID) {
+                hideAllForms();
+                $('#paymentHistoryFormDiv').show();
+            };
+
+            function showCancelForm() {
+                hideAllForms();
+                $('#paymentHistoryFormDiv').hide();
+                $('#cancelFormDiv').show();
+            };
+
+            function hideCancelForm() {
+                $('#cancelFormDiv').hide();
+            };
+
+            function showOnHoldForm() {
+                hideAllForms();
+                $('#paymentHistoryFormDiv').hide();
+                $('#onHoldFormDiv').show();
+            };
+
+            function hideOnHoldForm() {
+                $('#onHoldFormDiv').hide();
+            };
+            function showOpenForm() {
+                hideAllForms();
+                $('#openFormDiv').show();
+            };
+
+            function hideOpenForm() {
+                $('#openFormDiv').hide();
+            };
+
+            function showPaymentDetail(thisType) {
+                if (thisType == 'Cash') {
+                    $('#FDCDetail').hide();
+                    $('#CheckDetail').hide();
+                }
+                if (thisType == 'Check') {
+                    $('#FDCDetail').hide();
+                    $('#CheckDetail').show();
+                }
+                if (thisType == 'FDC') {
+                    $('#CheckDetail').hide();
+                    $('#FDCDetail').show();
+                }
+            };
+
+            function showApplyDiscountForm() {
+                hideAllForms();
+                $('#applyDiscountFormDiv').show();
+            };
+
+            function showApplyPaymentForm() {
+                hideAllForms();
+                $('#applyPaymentFormDiv').show();
+            }
+
+            function showProcessCreditCardPaymentForm() {
+                hideAllForms();
+                $('#processCreditCardPaymentFormDiv').show();
+            }
+            function showRefundForm() {
+                hideAllForms();
+                $('#refundFormDiv').show();
+            }
+
+            function showRefundByCheckForm() {
+                hideAllForms();
+                $('#refundByCheckFormDiv').show();
+            }
+
+            function showReturnPaymentForm() {
+                hideAllForms();
+                $('#returnPaymentFormDiv').show();
+            }
+
+        </script>
+    }
+}

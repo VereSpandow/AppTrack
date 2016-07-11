@@ -1,0 +1,49 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.thisPage = "AppTrackQuarterly";
+    ViewBag.PageType = "AppTrackQuarterly";
+}
+<div class="row nopadding">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left hidden-xs hidden-sm" style="min-height:450px;">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding">
+            <div class="no-offset nopadding" style="background-color:#c0d0e6;width:100%;padding:0px;margin:0px;">
+            </div>
+            <div class="col-md-12 nopadding noteditable" id="MOMain">
+                <h1 class="text-royalty-dark">AppTrack Quarterly</h1>
+                <h2 class="text-royalty-dark">Keeping you informed of industry news and trends!</h2>
+
+                <div class="editable" id="AppTrackQuarterly">
+                    <div style="font-size: 14px;min-height:150px;">
+                        <div style="font-size: 14px; min-height: 150px;">
+                            <div class="LIVE">&nbsp;</div>
+
+                            <div style="font-size: 14px; min-height: 150px;">
+                                <div class="col-md-4 pull-left" style="font-size: 14px; min-height: 150px;"><a href="@Constants.siteURL/documents/AppTrack2Q15-5-19.pdf" target="_blank"><img src="../images/AppTrack2Q2015-5-19.jpg" style="height:300px; width:auto" alt="AppTrack Quarterly for Eye Doctors" /></a></div>
+
+                                <div class="col-md-4 pull-left" style="font-size: 14px; min-height: 150px;"><a href="@Constants.siteURL/documents/AppTrack3Q15_complete.pdf " target="_blank"><img src="../images/AppTrack3Q15_complete.jpg" style="height:300px; width:auto" alt="AppTrack Quarterly for Eye Doctors" /></a></div>
+                            </div>
+                        </div>
+                        @*{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "AppTrackQuarterly", status = "LIVE", viewName = "AppTrackQuarterly" });}*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row nopadding" style="width:100%;height:25px;">
+            &nbsp;
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

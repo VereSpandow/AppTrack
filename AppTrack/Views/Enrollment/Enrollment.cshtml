@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.Title = "Enrollment";
+    ViewBag.thisPage = "Enrollment";
+    ViewBag.EditCookie = "Y";
+}
+<div class="row nopadding">
+    <div class="container no-offset nopadding" style="margin-top:0px;">
+        <div class="col-md-4 pull-left nopadding  hidden-xs hidden-sm">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+            <br /><br />
+<!--
+            <div class="row"></div>
+            <a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#enrollRightCol" href="/Enrollment/EnrollmentRedirect/2/?custID=4783">Location</a>
+            <br />
+            <a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#enrollRightCol" href="/Enrollment/EnrollmentRedirect/3/?custID=4783">Payment</a>
+            <br />
+            <a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#enrollRightCol" href="/Enrollment/EnrollmentRedirect/4/?custID=4783">Vendors</a>
+            <br />
+            <a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#enrollRightCol" href="/Enrollment/EnrollmentRedirect/5/?custID=4783">Final</a>
+            <br />
+            <a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#enrollRightCol" href="/Enrollment/EnrollmentRedirect/6/?custID=4783">Thank You</a>
+--> 
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding">
+            <div class="no-offset nopadding" style="background-color:#c0d0e6;width:100%;padding:0px;margin:0px;">
+            </div>
+            <br />
+            <div class="col-md-12 nopadding" style="width:100%;" id="enrollRightCol">
+                  @if (ViewBag.Action == "Payment")
+                  {
+                      Html.RenderAction("EnrollmentRedirect", "Enrollment", new { id = 3, custid = ViewBag.CustID });
+                  }
+                  else
+                  {
+                    Html.RenderAction("EnrollmentPrimary", "Enrollment");
+                  }
+            </div>
+        </div>
+    </div>
+</div>
+

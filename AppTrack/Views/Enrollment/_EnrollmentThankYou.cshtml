@@ -1,0 +1,19 @@
+﻿@model AppTrack.ViewModels.MemberEnrollmentThankYou
+@{
+    IHtmlString str = new HtmlString(Model.ThankYouMessage);
+}
+<div id="enrollRightCol6">
+    <div class="panel panel-info panel-info-dark">
+        <div class="panel-heading">
+            <div class="panel-title"><h1>Your AppTrack Enrollment is complete!</h1>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12" style="min-height:350px;">
+                 @str;
+            </div>
+        </div>
+    </div>
+</div>
+
+

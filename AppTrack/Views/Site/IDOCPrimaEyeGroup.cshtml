@@ -1,0 +1,108 @@
+﻿@model AppTrack.SharedModels.PromoContactEmail
+@{
+    Layout = "~/Views/Shared/_IFrameLayout.cshtml";
+    ViewBag.thisPage = "PromotionalOffer";
+    ViewBag.PageType = "PromotionalOffer";
+}
+<style>
+    div {
+        font-size: 18px; /* old */
+        font-size: 1.5vmin;
+    }
+    li {
+        font-size: 18px; /* old */
+        font-size: 3vmin;
+    }
+   @@media (max-width: 767px) {
+    li {
+        font-size: 20px; /* old */
+        font-size: 3.5vmin;
+    }
+</style>
+<div class="row nopadding">
+    <div class="col-md-1 nopadding hidden-sm hidden-xs" >
+        &nbsp;
+    </div>
+    <div class="col-xs-12 col-md-10 nopadding" style="margin-top:10px;">
+
+        <div class="col-xs-1 nopadding">
+            &nbsp;
+        </div>
+        <div class="col-xs-5 nopadding" style="text-align:center;">
+            <a href="/Site/Index"><img src="~/images/AppTrackLogo250.jpg" class="img-responsive" style="width:100%;height:auto;max-width:275px;margin:0 auto;" alt="AppTrack Optometric Alliance Group" /></a>
+        </div>
+        <div class="col-xs-5 nopadding" style="text-align:center;">
+            <a href="http://www.primaeyegroup.com"><img src="~/images/PrimaLogo.gif" class="img-responsive" style="width:100%;height:auto;max-width:350px;margin:0 auto;" alt="Prima Eye Group" /></a>
+        </div>
+        <div class="col-xs-1 nopadding">
+            &nbsp;
+        </div>
+
+        <div class="col-xs-12" style="margin-top:10px;padding:1% 10% 1% 10%;background-color:#008FD9;color:white;font-size:4vmin;text-align:center;">
+            We are solely focused on providing solutions that help independent ODs save on their cost of goods and grow their practices, including:
+        </div>
+
+        <div class="col-xs-12" style="padding-top:20px;padding-left:10%;padding-right:10%;color:#008FD9;">
+            <ul>
+                <li style="margin-bottom:20px;line-height:1em;">Money-saving vendor programs from the companies whose products and services you use every day</li>
+                <li style="margin-bottom:20px;line-height:1em;">Local study group meetings that allow you to strategize with like-minded professionals on ways to overcome common obstacles</li>
+                <li style="margin-bottom:20px;line-height:1em;">National and regional business conferences featuring FREE COPE CE credits and a curriculum taught by industry thought leaders</li>
+                <li style="margin-bottom:20px;line-height:1em;">Consulting services that can help increase the profitability of your optometric practice, effectively deal with staff challenges, market your practice and create a three-year growth plan</li>
+            </ul>
+            <br />
+        </div>
+        <div class="col-xs-2 col-sm-3 nopadding">
+            &nbsp;
+        </div>
+        <div class="col-xs-8 col-sm-6 nopadding" style="background-color:#666;padding:15px; color:#fff;text-align:center; ">
+            @if (ViewBag.Message == null || ViewBag.Message == "")
+            {
+                <span id="contactMeResults" style="font-size:3em;">Yes! Please contact me so I can learn more!</span>
+                <br />
+                using (Html.BeginForm("AppTrackPrimaEyeGroup", "Site", FormMethod.Post, new { id = "AppTrackPrima", @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <img id="ajax-loader" src="@Url.Content("~/Images/ajax-loader.gif")" style="display:none;" alt="Loading - AppTrack Optometric Alliance" />
+                    <div class="col-md-12" style="margin-top:5px;padding:5px;font-size:1.5em;">
+                        @Html.EditorFor(model => model.contactName, new { htmlAttributes = new { @class = "form-control", placeholder = "Name", maxlength = "40" } })
+                        @Html.ValidationMessageFor(model => model.contactName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12" style="padding:5px;">
+                        @Html.EditorFor(model => model.contactDisplayName, new { htmlAttributes = new { @class = "form-control", placeholder = "Practice Name", maxlength = "100" } })
+                        @Html.ValidationMessageFor(model => model.contactDisplayName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12" style="padding:5px;">
+                        @Html.EditorFor(model => model.contactPhone, new { htmlAttributes = new { @class = "form-control", id = "contactPhone", placeholder = "Phone", maxlength = "20" } })
+                        @Html.ValidationMessageFor(model => model.contactPhone, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12" style="padding:5px;">
+                        @Html.EditorFor(model => model.contactEmail, new { htmlAttributes = new { @class = "form-control", placeholder = "Email", maxlength = "100" } })
+                        @Html.ValidationMessageFor(model => model.contactEmail, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-12" style="padding:5px;">
+                        <input type="Submit" name="Submit" value="SEND" class="btn btn-sm btn-default pull-right">
+                        <div class="row"></div>
+                    </div>
+                }
+            }
+            else
+            {
+                <span id="contactMeResults" style="font-size:2.5em;">Thank you for your interest in AppTrack and Prima Eye Group. We will contact you shortly.</span>
+            }
+        </div>
+        <div class="col-xs-2 sol-sm-3 nopadding">
+            &nbsp;
+        </div>
+        <div class="col-xs-12" style="text-align:center;color:#AD06AA;font-size:2.5em;margin-top:20px;font-style: italic;">
+            <strong>
+                Or, click on the logos above to learn more
+                <br />
+                about AppTrack and Prima Eye Group
+            </strong>
+        </div>
+    </div>
+    <div class="col-md-1 nopadding hidden-sm hidden-xs">
+        &nbsp;
+    </div>
+</div>
+

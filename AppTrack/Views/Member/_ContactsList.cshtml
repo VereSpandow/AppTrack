@@ -1,0 +1,156 @@
+﻿
+@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="meetingContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.ContactListViewModel
+
+    <div class="h3" style="float:left">Contacts</div>
+    <a data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#ContactForm" href="/Member/ContactCreate/@Model.CustID"><div style="float:right;" class="btn btn-small btn-info">Add New</div></a>
+
+    <table class="table table-hover table-striped table-responsive" id="ContactTable">
+        <thead>
+            <tr>
+                <th>
+                    Contact ID
+                </th>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    Contact Type
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Phone
+                </th>
+                <th>
+                    Status
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.ContactList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContactType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DayPhone)
+                    </td>
+                    <td>
+                        <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                    </td>
+                    <td>
+                        <a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#ContactForm" href="/Member/ContactEdit?CustID=@item.CustID">
+                        <span class="fa fa-fw fa-user"></span></a>
+                        <a href="#" onclick="deleteContact(@item.CustID, '@item.FirstName', '@item.LastName')"><span class="fa fa-fw fa-trash"></span></a>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div id="ContactForm"></div>
+
+        <!-- Modal -->
+    <div class="modal fade" id="deleteContactModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4>
+                        Are you sure you want to delete <span id="deleteFirstName"></span>&nbsp;<span id="deleteLastName"></span> ?
+                    </h4>
+                </div>
+                <div class="modal-footer">
+                    @using (Ajax.BeginForm("ContactDelete", "Member", null,
+                    new AjaxOptions
+                    {
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "POST",
+                    AllowCache = false,
+                    OnSuccess = "deleteSuccess",
+                    LoadingElementId = "ajax-loader",
+                    UpdateTargetId = "ContactsTab"
+                    }, new { id = "deleteContactForm" }))
+                    {
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden" name="ContactID" id="deleteCustID" value="" />
+                        <span class="btn btn-info pull-left"  data-dismiss="modal">NO</span>
+                        <span class="btn btn-danger pull-right" data-dismiss="modal" onclick="deleteSubmit()">YES</span>
+                    }
+                    <img id="ajax-loader" src="@Url.Content("~/Images/ajax-loader.gif")" style="display:none;" />
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+        <script>
+            $(document).ready(function () {
+                $('#ContactTable').dataTable(
+                {
+                    "searching": false,
+                    "bLengthChange": false,
+                    "oLanguage": {
+                        "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                        "sLengthMenu": "Show _MENU_ rows per page",
+                        "sInfoEmpty": "0 records found",
+                        "sEmptyTable": "No information available to display"
+                    }
+                });
+            });
+            function deleteContact(thisCustID, thisFirstName, thisLastName) {
+                $("#deleteCustID").val(thisCustID);
+                $('#deleteContactModal').modal('show');
+                $("#deleteFirstName").html(thisFirstName);
+                $("#deleteLastName").html(thisLastName);
+            };
+            function deleteSuccess()
+            {
+                $('#deleteContactModal').modal('hide');
+            }
+            function deleteSubmit() {
+                $('#deleteContactForm').submit();
+            }
+
+        </script>
+}
+

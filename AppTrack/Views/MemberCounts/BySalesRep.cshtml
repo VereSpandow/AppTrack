@@ -1,0 +1,304 @@
+﻿@model AppTrack.ViewModels.MemberCountSalesRepReportViewModel
+@{
+    ViewBag.Title = "Member Enrollment And Retention By SalesRep";
+    string lastDisplayName = "Z1";
+    }
+<div class="container-fluid">
+
+    <div class="col-md-12 nopadding">
+        <h3>Member Enrollment and Retention By SalesRep</h3>
+        <a href="../MemberCounts/ByIMD">
+            <div class="btn btn-xs btn-default pull-right" style="margin:20px;margin-top:-25px;">By IMD</div>
+        </a>
+        <a href="../MemberCounts/BySalesRep">
+            <div class="btn btn-xs btn-success pull-right" style="margin:20px;margin-top:-25px;">By Sales Rep</div>
+        </a>
+        <div class="col-md-12 nopadding">
+            <div id="chartContainer1" class="col-md-3 pull-left">
+            </div>
+            <div class="col-md-1"></div>
+            <div id="chartContainer2" class="col-md-3 pull-left">
+            </div>
+            <div class="col-md-1"></div>
+            <div id="chartContainer3" class="col-md-3 pull-left">
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+
+        <div class="col-sm-12 pull-left">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @using (Html.BeginForm("BySalesRep", "MemberCounts", FormMethod.Get))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <strong>Select Sales Rep</strong>
+                            <br />
+                            @Html.DropDownListFor(model => model.sid, Model.SearchSalesRepList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.sid, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <div class="col-sm-3" style="text-align:center;padding-top:15px;">
+                        </div>
+                        <div class="col-sm-2">
+                            <strong>&nbsp;</strong>
+                            <br />
+                            <button class="btn btn-sm btn-info" type="submit" value="Search">Search</button>
+                            <button class="btn fa fa-download" type="submit" name="submit" value="Download"></button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div id="graph" class="aGraph" style="position:absolute;top:0px;left:0; float:left;"></div>
+
+        <div class="col-md-12">
+            <table class="table table-hover table-striped table-responsive" id="myTable">
+                <thead>
+                    <tr>
+                        <th style="width:10%;">
+                            Status
+                        </th>
+                        <th style="width:10%;">
+                            Sales Rep Name
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberCountSalesRepReportListXTab[0].PeriodLabel1
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberCountSalesRepReportListXTab[0].PeriodLabel2
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberCountSalesRepReportListXTab[0].PeriodLabel3
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberCountSalesRepReportListXTab[0].PeriodLabel4
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberCountSalesRepReportListXTab[0].PeriodLabel5
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberCountSalesRepReportListXTab[0].PeriodLabel6
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberCountSalesRepReportListXTab[0].PeriodLabel7
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberCountSalesRepReportListXTab[0].PeriodLabel8
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberCountSalesRepReportListXTab[0].PeriodLabel9
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberCountSalesRepReportListXTab[0].PeriodLabel10
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberCountSalesRepReportListXTab[0].PeriodLabel11
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberCountSalesRepReportListXTab[0].PeriodLabel12
+                        </th>
+                        <th style="width:5%;">
+                            @Model.MemberCountSalesRepReportListXTab[0].PeriodLabel13
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.MemberCountSalesRepReportListXTab)
+                    {
+                        if ((lastDisplayName != item.DisplayName) && (lastDisplayName != "Z1"))
+                        {
+                            <span>
+                                <tr>
+                                    <td colspan="15" style="height:25px;">
+                                        &nbsp;
+                                    </td>
+                                <tr>
+                            </span>
+                        }
+                        lastDisplayName = item.DisplayName;
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DisplayName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PeriodData1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PeriodData2)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PeriodData3)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PeriodData4)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PeriodData5)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PeriodData6)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PeriodData7)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PeriodData8)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PeriodData9)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PeriodData10)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PeriodData11)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PeriodData12)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PeriodData13)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="~/Scripts/dimple.v2.1.6.min.js"></script>
+
+    <script>
+        /*
+
+
+    $(document).ready(function () {
+
+        $.ajaxSetup({ cache: false });
+        var svg1 = dimple.newSvg("#chartContainer1", 400, 300);
+        $.getJSON("../MemberCounts/StackedBarChart/?ct=Type&st=MEMBERS", function (data1) {
+
+            chart = new dimple.chart(svg1, data1);
+            var xaxis = chart.addCategoryAxis("x", "Month", null);
+            xaxis.addOrderRule("ID");
+            xaxis.title = "";
+            var yaxis = chart.addMeasureAxis("y", "Value");
+            yaxis.title = "# of Members";
+            chart.addSeries("Measure", dimple.plot.bar);
+            //var s = chart.addSeries(["Order", "MyValue"], dimple.plot.bar);
+            // s.addOrderRule("ID");
+            chart.staggerDraw = true;
+            chart.ease = "bounce";
+            chart.draw(1000);
+            svg1.append("text")
+                .attr("x", 200)
+                .attr("y", 20)
+                .attr("text-anchor", "middle")
+                .style("font-size", "16px")
+                .style("text-decoration", "underline")
+                .text("Active Members");
+        });
+
+        $.ajaxSetup({ cache: false });
+        var svg2 = dimple.newSvg("#chartContainer2", 400, 300);
+        $.getJSON("../MemberCounts/StackedBarChart/?ct=Type&st=NEW", function (data2) {
+
+            chart = new dimple.chart(svg2, data2);
+            var xaxis = chart.addCategoryAxis("x", "Month", null);
+            xaxis.addOrderRule("ID");
+            xaxis.title = "";
+            var yaxis = chart.addMeasureAxis("y", "Value");
+            yaxis.title = "# of Members";
+            chart.addSeries("Measure", dimple.plot.bar);
+            chart.staggerDraw = true;
+            chart.ease = "bounce";
+            chart.draw(1000);
+            svg2.append("text")
+                .attr("x", 200)
+                .attr("y", 20)
+                .attr("text-anchor", "middle")
+                .style("font-size", "16px")
+                .style("text-decoration", "underline")
+                .text("New Members");
+        });
+
+        $.ajaxSetup({ cache: false });
+        var svg3 = dimple.newSvg("#chartContainer3", 400, 300);
+        $.getJSON("../MemberCounts/StackedBarChart/?ct=Type&st=CANCEL", function (data3) {
+
+            chart = new dimple.chart(svg3, data3);
+            var xaxis = chart.addCategoryAxis("x", "Month", null);
+            xaxis.addOrderRule("ID");
+            xaxis.title = "";
+            var yaxis = chart.addMeasureAxis("y", "Value");
+            yaxis.title = "# of Members";
+            chart.addSeries("Measure", dimple.plot.bar);
+            chart.staggerDraw = true;
+            chart.ease = "bounce";
+            chart.draw(1000);
+            svg3.append("text")
+                .attr("x", 200)
+                .attr("y", 20)
+                .attr("text-anchor", "middle")
+                .style("font-size", "16px")
+                .style("text-decoration", "underline")
+                .text("Cancellations");
+        });
+
+    });
+
+
+            // Create the chart without data
+        var chart = new dimple.chart(svg);
+        // Create the days on x with measures nested inside
+        var x1 = chart.addCategoryAxis("x", ["Day", "Measure"]);
+        x1.addOrderRule([
+          "Monday", "Tuesday", "Wednesday", "Thursday",
+          "Friday", "Saturday", "Sunday"]);
+        // Add 2 y axes with titles matching the measure column
+        var y1 = chart.addMeasureAxis("y", "Value");
+        y1.title = "A";
+        var y2 = chart.addMeasureAxis("y", "Value");
+        y2.title = "B";
+        // Create the first series  mapped to the left hand side
+        var s1 = chart.addSeries("Measure", dimple.plot.bar, [x1, y1]);
+        s1.data = data3;
+        // Create the second series mapped to the right hand side
+        // var s2 = chart.addSeries("Measure", dimple.plot.bar, [x1, y2]);
+        //s2.data = data2;
+        // Draw the chart with bounce for no good reason
+        chart.staggerDraw = true;
+        chart.ease = "bounce";
+        chart.draw(1000);
+        */
+
+    /*
+        $.ajaxSetup({ cache: false });
+        $.get("../MemberCounts/StackedBarChart/?searchCustID=194300&searchVendorID=0", function (data1) {
+            var svg = dimple.newSvg("#chartContainer1", 490, 300);
+            var myChart = new dimple.chart(svg, data1);
+            myChart.setBounds(60, 45, 510, 315)
+            myChart.addCategoryAxis("x", ["Price Tier", "Channel"]);
+            myChart.addMeasureAxis("y", "Unit Sales");
+            myChart.addSeries("Owner", dimple.plot.bar);
+            myChart.addLegend(200, 10, 380, 20, "right");
+            myChart.draw();
+        }, 'json');
+    });
+    */
+    </script>
+}
+

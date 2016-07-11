@@ -1,0 +1,11 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.Title = "Error Encountered";
+    ViewBag.EditCookie = "Y";
+}
+
+<div class="row nopadding">
+    <div class="col-sm-12 text-danger " style="text-align:center;margin-top:10px;">
+        @ViewBag.ErrorMessage
+    </div>
+</div>

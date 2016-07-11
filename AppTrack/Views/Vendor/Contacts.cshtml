@@ -1,0 +1,8 @@
+﻿<h2>Vendor Contact Update</h2>
+<div class="col-md-12">
+    @{
+        Html.RenderAction("ContactList", "Vendor", new { VendorID = ViewBag.VendorID });
+    }
+</div>
+<div class="pull-right"><a class="btn btn-info" href="@Url.Action(ViewBag.NextAction, "Vendor", new { VendorID = ViewBag.VendorID })">Continue</a></div>
+

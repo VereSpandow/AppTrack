@@ -1,0 +1,160 @@
+﻿@{
+    ViewBag.Title = "Registration List";
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.PageType = "Meetings";
+}
+<div class="row nopadding">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left" style="min-height:450px;">
+            @{Html.RenderPartial("/Views/Shared/_LeftSideBarIMD.cshtml");}
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding">
+            <div class="col-md-12 nopadding">
+                <div class="h3" style="float:left">Meeting Registration List</div>
+
+                @if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+                {
+                    <div id="contactContainerDiv">
+                        <div class="col-md-12" style="font-size: 1.5em">
+                            <br />
+                            <br />
+                            The following unexpected error was encountered:
+                            <br />
+                            <br />
+                            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+                            <br />
+                            <br />
+                            Please contact technical support.
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @model AppTrack.ViewModels.MeetingRegistrationListViewModel
+
+                    <div style="clear:both;"></div>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="col-sm-6">
+                                <div class="col-sm-5" style="text-align:right;font-weight:bold">
+                                    Date/Time:
+                                </div>
+                                <div class="col-sm-7">
+                                    @Model.meetingEvent.EventStartDate.ToString("MM/dd/yy hh:mm tt")
+                                </div>
+                                <div class="col-sm-5" style="text-align:right;font-weight:bold">
+                                    Topic:
+                                </div>
+                                <div class="col-sm-7">
+                                    @Model.meetingEvent.EventTitle
+                                </div>
+                                <div class="col-sm-5" style="text-align:right;font-weight:bold">
+                                    Sponsor:
+                                </div>
+                                <div class="col-sm-7">
+                                    @Model.meetingEvent.SponsorName
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="col-sm-5" style="text-align:right;font-weight:bold">
+                                    Location:
+                                </div>
+                                <div class="col-sm-7">
+                                    @if (!String.IsNullOrEmpty(@Model.meetingEvent.LocationTitle))
+                                    {
+                                        @Model.meetingEvent.LocationTitle
+                                        <br />
+                                    }
+                                    @Model.meetingEvent.Address1
+                                    @if (Model.meetingEvent.Address2 != "")
+                                    {
+                                        <span>,</span> @Model.meetingEvent.Address2
+                                    }
+                                    <br />
+                                    @Model.meetingEvent.City<span>,</span> @Model.meetingEvent.State @Model.meetingEvent.PostalCode
+                                </div>
+                                <div class="col-sm-5" style="text-align:right;font-weight:bold">
+                                    Capacity:
+                                </div>
+                                <div class="col-sm-7">
+                                    @Model.meetingEvent.Capacity
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="table table-hover table-striped table-responsive" id="thisTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MeetingRegistrationList[0].RegistrationDate)
+                                </th>
+                                <th>
+                                    Attendee Name
+                                </th>
+                                <th>
+                                    Email / Phone
+                                </th>
+                                <th>
+                                    Guest Type
+                                </th>
+                                <th>
+                                    Practice Name
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.MeetingRegistrationList)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RegistrationDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NameTitle) &nbsp; @Html.DisplayFor(modelItem => item.FirstName) &nbsp; @Html.DisplayFor(modelItem => item.LastName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                        <br />
+                                        @Html.DisplayFor(modelItem => item.Phone)
+                                    </td>
+                                    <td>
+                                        @if (item.Flag1 == 1)
+                                        {
+                                            <span>Member</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Guest</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SponsorName)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+
+                @section Scripts {
+                    <script>
+                        $(document).ready(function () {
+                            $('#thisTable').dataTable(
+                            {
+                                "searching": false,
+                                "bLengthChange": false,
+                                "oLanguage": {
+                                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                                    "sLengthMenu": "Show _MENU_ rows per page",
+                                    "sInfoEmpty": "0 records found",
+                                    "sEmptyTable": "No attendess currently registered"
+                                }
+                            });
+                        });
+                    </script>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+﻿<div class="panel panel-danger-dark" style="min-height:250px;">
+    <div class=" panel-heading">
+        Member Status
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("AccountProfile", "Member", FormMethod.Post, new { CustID = @Model.MemberRecord.CustID }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <h3>Select the new status and select Save</h3>
+            <div class="col-sm-8">@Model.MemberRecord.NameTitle @Model.MemberRecord.FirstName @Model.MemberRecord.LastName</div>
+            <div class="col-sm-8">@Model.MemberRecord.Company</div>
+            <div class="col-sm-4" style="clear:both">Phone:</div>
+            <div class="col-sm-8">@Model.MemberRecord.DayPhone</div>
+            <div class="col-sm-4" style="clear:both">Email:</div>
+            <div class="col-sm-8">@Model.MemberRecord.Email</div>
+            <div class="col-sm-4" style="clear:both">Member ID:</div>
+            <div class="col-sm-8">@Model.MemberRecord.MemberID </div>
+            <div class="col-sm-12" style="text-align:center;">
+                Current Status: @Model.MemberRecord.Status: @Model.MemberRecord.StatusID
+            </div>
+            <div class="col-sm-12" style="text-align:center;">
+                Comments <textarea name="comments" rows="5" cols="60"></textarea>
+            </div>
+            <div class="col-sm-12">
+                @Html.DropDownListFor(model => model.cancelReasonCode, Model.CancelReasonCodesList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.cancelReasonCode, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-12">
+                <div class="col-sm-6">
+                    <div class="btn btn-sm bg-success-dark" id="cancelChange">Cancel Change</div>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn btn-sm bg-danger-dark" id="saveChange">Save Change
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        Select the new Status and select "SAVE"
+    </div>
+</div>
+
+

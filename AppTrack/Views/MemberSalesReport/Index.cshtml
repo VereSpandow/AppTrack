@@ -1,0 +1,184 @@
+﻿@model AppTrack.ViewModels.MemberSalesReportViewModel
+@{
+    int i = 0;
+    ViewBag.Title = "Dashboard";
+    string bgcolor = "#FFF;";
+    decimal crp = 0;
+    decimal mrp = 0;
+}
+<div class="container-fluid">
+
+    <div class="col-md-12 nopadding">
+        <h3>Member Sales & Rebates</h3>
+        <a href="../MemberSalesReport/UnexpectedSales">
+            <div class="btn btn-xs btn-default pull-right" style="margin:20px;margin-top:-25px;">Unexpected Sales</div>
+        </a>
+        <a href="../MemberSalesReport/NoSales">
+            <div class="btn btn-xs btn-default pull-right" style="margin:20px;margin-top:-25px;">No Sales</div>
+        </a>
+        <a href="../MemberSalesReport/Delta">
+            <div class="btn btn-xs btn-default pull-right" style="margin:20px;margin-top:-25px;">Changes</div>
+        </a>
+        <a href="../MemberSalesReport/Index">
+            <div class="btn btn-xs btn-success pull-right" style="margin:20px;margin-top:-25px;">All Members (Top)</div>
+        </a>
+        <div class="col-sm-12 pull-left">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @using (Html.BeginForm("Index", "MemberSalesReport", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <strong>Select Vendor</strong>
+                            <br />
+                            @Html.DropDownListFor(model => model.vid, Model.SearchVendorList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.vid, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2">
+                            <strong>Start Period</strong>
+                            <br />
+                            @Html.DropDownListFor(model => model.spid, Model.SearchPeriodList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.spid, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2">
+                            <strong>End Period</strong>
+                            <br />
+                            @Html.DropDownListFor(model => model.epid, Model.SearchPeriodList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.epid, "", new { @class = "text-danger" })
+                        </div>
+                       <div class="col-sm-3" style="text-align:center;padding-top:15px;">
+<!--
+                            <input type="radio" id="isGrouped" name="isGrouped" value=1>Grouped Periods or <br /><input type="radio" id="isGrouped" name="isGrouped" value=0> Separated Periods
+--> 
+                        </div>
+                        <div class="col-sm-2">
+                            <strong>&nbsp;</strong>
+                            <br />
+                            <button class="btn btn-sm btn-info" type="submit" value="Search">Search</button>
+                            <button class="btn fa fa-download" type="submit" name="submit" value="Download"></button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div id="graph" class="aGraph" style="position:absolute;top:0px;left:0; float:left;"></div>
+
+        <div class="col-md-12">
+            <table class="table table-hover table-striped table-responsive" id="thisTable">
+                    <thead>
+                        <tr>
+                            <th style="width:10%;">
+                                Member (ID)
+                            </th>
+                            <th style="width:5%;">
+                                Status
+                            </th>
+                            <th style="width:5%;">
+                                Vendor
+                            </th>
+                            <th style="width:10%;">
+                                Period
+                            </th>
+                            <th style="width:5%;">
+                                Total Sales
+                            </th>
+                            <th style="width:5%;">
+                                Member Rebates
+                            </th>
+                            <th style="width:3%;">
+                                MR/S
+                            </th>
+@if (User.IsInRole("Executive"))
+{
+                            <th style="width:5%;">
+                                Corporate Rebates
+                            </th>
+                            <th style="width:3%;">
+                                CR/S
+                            </th>
+}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.MemberSalesReportList)
+                        {
+                            if (i < 10)
+                            {
+                                bgcolor = "#CFC;";
+                            }
+                            else
+                            {
+                                bgcolor = "#FFF;";
+                            }
+                            i = i + 1;
+                            mrp = 0;
+                            crp = 0;
+                            if (item.Sales > 0)
+                            {
+                                mrp = item.MemberRebateAmount / item.Sales;
+                                crp = item.CorporateRebateAmount / item.Sales;
+                            }
+                            <tr style="background-color:@bgcolor;">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MemberName) ( @Html.DisplayFor(modelItem => item.CustID) )
+                                </td>
+                                <td>
+                                    <span class="status-@item.MemberStatus.ToUpper()">@Html.DisplayFor(modelItem => item.MemberStatus)</span>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VendorName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodName)
+                                </td>
+                                <td>
+                                    @string.Format("{0:C0}", item.Sales)
+                                </td>
+                                <td>
+                                    @string.Format("{0:C0}", item.MemberRebateAmount)
+                                </td>
+                                <td>
+                                    @string.Format("{0:P0}", mrp)
+                                </td>
+                                @if (User.IsInRole("Executive"))
+                                {
+                                    <td>
+                                        @string.Format("{0:C0}", item.CorporateRebateAmount)
+                                    </td>
+                                    <td>
+                                        @string.Format("{0:P0}", crp)
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+</div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $.validator.unobtrusive.parse(document);
+            $("#SearchStartDate").datepicker();
+            $("#SearchEndDate").datepicker();
+            $('#thisTable').dataTable(
+            {
+                "searching": false,
+                "bLengthChange": true,
+                "iDisplayLength": 50,
+                "aaSorting": [ 3, "desc" ],
+                "oLanguage": {
+                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                    "sLengthMenu": "Show _MENU_ rows per page",
+                    "sInfoEmpty": "0 records found",
+                    "sEmptyTable": "No orders found to display"
+                }
+            });
+        });
+    </script>
+}
+

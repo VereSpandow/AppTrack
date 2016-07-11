@@ -1,0 +1,267 @@
+﻿
+<!--sidebar left start-->
+<aside class="sidebar sidebar-left">
+    <div class="sidebar-profile">
+        <div class="avatar">
+            <img class="img-circle profile-image" src="~/content/Images/profile.jpg" alt="profile">
+            <i class="on border-dark animated bounceIn"></i>
+        </div>
+        <div class="profile-body dropdown">
+            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><h4>Current User<span class="caret"></span></h4></a>
+            <small class="title">@PageData["UserTitle"]</small>
+            <ul class="dropdown-menu animated fadeInRight" role="menu">
+                <li class="profile-progress">
+                    <h5>
+                        <span>80%</span>
+                        <small>@Html.DisplayFor(model => model.AdminUserName) Profile</small>
+                    </h5>
+                    <div class="progress progress-xs">
+                        <div class="progress-bar progress-bar-primary" style="width: 80%">
+                        </div>
+                    </div>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <span class="icon">
+                            <i class="fa fa-user"></i>
+                        </span>My Account
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <span class="icon">
+                            <i class="fa fa-envelope"></i>
+                        </span>Messages
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <span class="icon">
+                            <i class="fa fa-cog"></i>
+                        </span>Settings
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <span class="icon">
+                            <i class="fa fa-sign-out"></i>
+                        </span>Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <nav>
+        <h5 class="sidebar-header">Navigation</h5>
+        <ul class="nav nav-pills nav-stacked">
+            <li class="@Html.IsSelected(controller: "Item")">
+                <a href="@Url.Action("Index", "Item")">
+                    <i class="fa fa-fw fa-tachometer"></i> Home
+                </a>
+            </li>
+            <li class="nav-dropdown @Html.IsSelected(controller: "Info")">
+                <a href="#">
+                    <i class="fa fa-fw fa-file-text"></i> Customers
+                </a>
+                <ul class="nav-sub">
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Info", new {customerType=2, statusid=1} )">
+                            Members
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "MemberEnrollPage1")">
+                        <a href="@Url.Action("MemberEnrollPage1", "Info")">
+                            Members
+                        </a>
+                    </li>                   
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Info", new {customerType=7, statusid=1} )">
+                            Vendors
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Info", new {customerType=2, statusid=1} )">
+                            IMDs
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "SalesRep", new {customerType=3, statusid=1} )">
+                            Sales Reps
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-dropdown @Html.IsSelected(controller: "Item")">
+                <a href="#">
+                    <i class="fa fa-fw fa-file-text"></i> Meetings
+                </a>
+                <ul class="nav-sub">
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Item")">
+                            Study Group Meetings
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Item")">
+                            Conferences
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-dropdown @Html.IsSelected(controller: "Item")">
+                <a href="#">
+                    <i class="fa fa-fw fa-file-text"></i> Billings
+                </a>
+                <ul class="nav-sub">
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Info")">
+                            View Billing Orders
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Info", "Home")">
+                            Process Member Billings
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Info")">
+                            Process Credit Card Payments
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Info")">
+                            SAGE Integration
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Info")">
+                            View Billing Profiles
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-dropdown @Html.IsSelected(controller: "Pages")">
+                <a href="#">
+                    <i class="fa fa-fw fa-file-text"></i> Rebates
+                </a>
+                <ul class="nav-sub">
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Home")">
+                            Process Vendor Import
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Home")">
+                            Process Rebates
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Home")">
+                            View Rebates
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Home")">
+                            SAGE Integration
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-dropdown @Html.IsSelected(controller: "Pages")">
+                <a href="#">
+                    <i class="fa fa-fw fa-file-text"></i> Commissions
+                </a>
+                <ul class="nav-sub">
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Home")">
+                            IMD Meeting Payments
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Home")">
+                            Process Commissions
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Home")">
+                            View Commissions
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Home")">
+                            SAGE Integration
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            @if (Model.AccessLevel >= 200)
+            {
+                <li class="nav-dropdown @Html.IsSelected(controller: "Pages")">
+                    <a href="#">
+                        <i class="fa fa-fw fa-file-text"></i> Products & Promotions
+                    </a>
+                    <ul class="nav-sub">
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "Home")">
+                                Products
+                            </a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Index")">
+                            <a href="@Url.Action("Index", "Home")">
+                                Promotions
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+            <li class="nav-dropdown @Html.IsSelected(controller: "Info")">
+                <a href="#">
+                    <i class="fa fa-fw fa-file-text"></i> Reports
+                </a>
+                <ul class="nav-sub">
+                    <li class="@Html.IsSelected(action: "Members")">
+                        <a href="@Url.Action("Members", "Info")">
+                            Members
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Vendors")">
+                        <a href="@Url.Action("Vendors", "Info")">
+                            Vendors
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Home")">
+                            Billings
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "Home")">
+                            Rebates
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="@Html.IsSelected(controller: "Pages")">
+                <a href="@Url.Action("Index", "Item")">
+                    <i class="fa fa-fw fa-tachometer"></i> Website Manager
+                </a>
+            </li>
+            <li class="nav-dropdown @Html.IsSelected(controller: "Pages")">
+                <a href="#">
+                    <i class="fa fa-fw fa-file-text"></i> Administration
+                </a>
+                <ul class="nav-sub">
+                    <li class="@Html.IsSelected(action: "Index")">
+                        <a href="@Url.Action("Index", "AdminUser")">
+                            Manage Users
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</aside>
+<!--sidebar left end-->
+

@@ -1,0 +1,59 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteMobileLayout.cshtml";
+    ViewBag.Title = "Contact";
+    ViewBag.thisPage = "Contact";
+    ViewBag.EditCookie = "Y";
+}
+<div class="row">
+    <div class="container">
+        <div class="col-md-12 pull-left nopadding" style="margin-bottom:25px;">
+            <h1 class="text-info-dark">
+                Contact Us
+            </h1>
+            <h3>
+                We're always happy to hear from you!
+            </h3>
+            <br />
+            Questions? We do our best to answer all inquiries within two business days.
+            </div>
+            <div class="col-md-12 pull-left nopadding" style="margin-bottom:25px; text-align:left;">
+            <strong>Address</strong>
+            <br />
+            AppTrack
+            <br />
+            5 Eversley Avenue
+            <br />
+            Suite 204
+            <br />
+            Norwalk CT 06851
+            <br />
+            <br />
+            <strong>Telephone</strong>
+            <br />
+            203.853.3333
+            <br />
+            <br />
+            <strong>Fax</strong>
+            <br />
+            866.540.6927
+            <br />
+            <strong>Hours</strong>
+            <br />
+            Monday-Friday
+            <br />
+            8:30 am – 5:30 pm
+            <br />
+            <br />
+            <div id="gmap_canvas" style="height:400px;width:100%;">
+                <iframe style="height:100%;width:100%;border:0;" frameborder="0" src="https://www.google.com/maps/embed/v1/place?q=383+Main+Avenue,+Norwalk,+CT,+United+States&key=AIzaSyAN0om9mFmy1QN6Wf54tXAowK4eT0ZUPrU"></iframe>
+            </div>
+            <style>
+                #gmap_canvas img {
+                    max-width: none !important;
+                    background: none !important;
+                }
+            </style>
+            <script src="https://www.embed-map.com/google-maps-authorization.js?id=10de2bfe-5fc8-e40a-d2a5-dfa29d8f0af8" defer="defer" async="async"></script>
+        </div>
+    </div>
+</div>

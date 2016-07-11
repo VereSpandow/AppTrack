@@ -1,0 +1,298 @@
+﻿<div class="h2" style="float:left">Meeting Registration List</div>
+
+@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-md-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.MeetingRegistrationListViewModel
+
+    <div style="clear:both;"></div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-sm-6">
+                <div class="col-sm-5" style="text-align:right;font-weight:bold">
+                    Meeting Date/Time:
+                </div>
+                <div class="col-sm-7">
+                    @Model.meetingEvent.EventStartDate.ToString("MM/dd/yy hh:mm tt")
+                </div>
+                <div class="col-sm-5" style="text-align:right;font-weight:bold">
+                    Topic:
+                </div>
+                <div class="col-sm-7">
+                    @Model.meetingEvent.EventTitle
+                </div>
+                <div class="col-sm-5" style="text-align:right;font-weight:bold">
+                    Sponsor:
+                </div>
+                <div class="col-sm-7">
+                    @Model.meetingEvent.SponsorName
+                </div>
+                <div class="col-sm-5" style="text-align:right;font-weight:bold">
+                    Host:
+                </div>
+                <div class="col-sm-7">
+                    <a href="@Url.Action("AccountProfile", "MemberDirector", new { id = Model.meetingEvent.CustID })">@Model.meetingEvent.HostName</a>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="col-sm-5" style="text-align:right;font-weight:bold">
+                    Location:
+                </div>
+                <div class="col-sm-7">
+                    @if (!String.IsNullOrEmpty(@Model.meetingEvent.LocationTitle))
+                    {
+                        @Model.meetingEvent.LocationTitle
+                        <br />
+                    }                    
+                    @Model.meetingEvent.Address1
+                    @if (Model.meetingEvent.Address2 != "")
+                    {
+                        <span>,</span> @Model.meetingEvent.Address2
+                    }
+                    <br />
+                    @Model.meetingEvent.City<span>,</span> @Model.meetingEvent.State @Model.meetingEvent.PostalCode
+                </div>
+                <div class="col-sm-5" style="text-align:right;font-weight:bold">
+                    Capacity:
+                </div>
+                <div class="col-sm-7">
+                    @Model.meetingEvent.Capacity
+                </div>
+                <div class="col-sm-5" style="text-align:right;font-weight:bold">
+                    Status:
+                </div>
+                <div class="col-sm-7">
+                    <span class="status-@Model.meetingEvent.Status.ToUpper()">@Model.meetingEvent.Status</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    if (Model.meetingEvent.Status.ToUpper() == "ACTIVE")
+    {
+        <div id="addCustomerButton" style="text-align:right;padding-bottom:10px;">
+            <button class="btn btn-xs btn-info" onclick="showAddCustomer()">Add Attendee</button>
+        </div>
+    }
+        <div class="panel panel-default" id="addCustomerFormDiv" style="display:none;">
+        <div class="panel-body">
+            @using (Html.BeginForm("AddCustomer", "Meeting", FormMethod.Post, new { id = "meetingRegForm1", @class = "form-horizontal", role = "form" }))
+            {
+                @Html.HiddenFor(model => model.meetingRegistration.EventID)
+                @Html.AntiForgeryToken()
+                <div class="col-md-12">
+                    <div class="col-md-2" style="margin-top:5px;">
+                        @Html.LabelFor(model => model.meetingRegistration.NameTitle, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                        @Html.DropDownListFor(model => model.meetingRegistration.NameTitle, Model.NameTitleList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.meetingRegistration.NameTitle, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-5" style="margin-top:5px;">
+                        * @Html.LabelFor(model => model.meetingRegistration.FirstName, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                        @Html.EditorFor(model => model.meetingRegistration.FirstName, new { htmlAttributes = new { @class = "form-control", maxlength = "40" } })
+                        @Html.ValidationMessageFor(model => model.meetingRegistration.FirstName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-5" style="margin-top:5px;">
+                        *  @Html.LabelFor(model => model.meetingRegistration.LastName, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                        @Html.EditorFor(model => model.meetingRegistration.LastName, new { htmlAttributes = new { @class = "form-control", maxlength = "40" } })
+                        @Html.ValidationMessageFor(model => model.meetingRegistration.LastName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-6" style="margin-top:5px;">
+                        * @Html.LabelFor(model => model.meetingRegistration.JobTitle, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                        @Html.EditorFor(model => model.meetingRegistration.JobTitle, new { htmlAttributes = new { @class = "form-control", maxlength = "100"} })
+                        @Html.ValidationMessageFor(model => model.meetingRegistration.JobTitle, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-6" style="margin-top:5px;">
+                        * @Html.LabelFor(model => model.meetingRegistration.Email, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                        @Html.EditorFor(model => model.meetingRegistration.Email, new { htmlAttributes = new { @class = "form-control", maxlength = "100", type = "email" } })
+                        @Html.ValidationMessageFor(model => model.meetingRegistration.Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-6" style="margin-top:5px;">
+                        @Html.LabelFor(model => model.meetingRegistration.SponsorName, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;margin-bottom:-3px;" })
+                        @Html.EditorFor(model => model.meetingRegistration.SponsorName, new { htmlAttributes = new { @class = "form-control col-md-8", maxlength = "100" } })
+                        @Html.ValidationMessageFor(model => model.meetingRegistration.SponsorName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-6" style="margin-top:5px;">
+                        @Html.LabelFor(model => model.meetingRegistration.Phone, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                        @Html.EditorFor(model => model.meetingRegistration.Phone, new { htmlAttributes = new { @class = "form-control", type = "tel" } })
+                        @Html.ValidationMessageFor(model => model.meetingRegistration.Phone, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-6" style="margin-top:5px;">
+                        <label class="control-label" style="font-weight:200;color:#333;  margin-bottom:-3px;">Is Attendee an AppTrack Member?</label>
+                        @Html.RadioButtonFor(model => model.meetingRegistration.Flag1, 1) Yes
+                        &nbsp;
+                        @Html.RadioButtonFor(model => model.meetingRegistration.Flag1, 0) No
+                    </div>
+                    <div class="col-md-3" style="margin-top:5px;">
+                        @Html.LabelFor(model => model.meetingRegistration.SponsorID, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;  margin-bottom:-3px;" })
+                        @Html.EditorFor(model => model.meetingRegistration.SponsorID, new { htmlAttributes = new { @class = "form-control"} })
+                        @Html.ValidationMessageFor(model => model.meetingRegistration.SponsorID, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <div class="col-md-3" style="text-align:right">
+                        <label class="control-label">&nbsp;</label>
+                        <br />
+                        <span class="btn btn-sm btn-danger" onclick="hideAddCustomer()">Cancel</span>&nbsp;&nbsp;<input type="Submit" name="Submit" value="Add" class="btn btn-sm btn-primary pull-right">
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+        <table class="table table-hover table-striped table-responsive" id="thisTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MeetingRegistrationList[0].RegistrationDate)
+                    </th>
+                    <th>
+                        Attendee Name
+                    </th>
+                    <th>
+                        Email / Phone
+                    </th>
+                    <th>
+                        Guest Type
+                    </th>
+                    <th>
+                        Practice Name
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.MeetingRegistrationList)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RegistrationDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NameTitle) &nbsp; @Html.DisplayFor(modelItem => item.FirstName) &nbsp; @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                            <br />
+                            @Html.DisplayFor(modelItem => item.Phone)
+                        </td>
+                        <td>
+                            @if (item.Flag1 == 1)
+                        {
+                                <span>Member</span>
+                        }
+                        else
+                        {
+                                <span>Guest</span>
+                        }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SponsorName)
+                        </td>
+                        <td>
+                            @if (item.Status.ToUpper() != "DELETED")
+                        {
+                                <span onclick="deleteCustomer( @Model.meetingEvent.ID, @item.CustID)" class="btn btn-xs btn-danger">
+                                    X
+                                </span>
+                        }
+                        </td>
+                    </tr>
+            }
+            </tbody>
+        </table>
+        <!-- DELETE Customer FORM -->
+        using (Html.BeginForm("DeleteCustomer", "Meeting", FormMethod.Post, new { id = "deleteCustomerForm" }))
+        {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="EventID" id="deleteEventID" value="" />
+        <input type="hidden" name="CustID" id="deleteCustID" value="" />
+        }
+
+        <div class="modal fade" id="deleteCustomerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Delete Confirmation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4>
+                            Are you sure you want to Delete this Customer?
+                        </h4>
+                        <br />
+                        <p>
+                            Deleting the customer cannot be undone.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+
+                        <div class="btn btn-info pull-left" data-dismiss="modal">Cancel without Deleting</div>
+                        <div class="btn btn-danger pull-right" onclick="deleteCustomerConfirm()">Yes, Delete this Customer</div>
+                    </div><!-- /.modal-footer-->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        }
+
+        @section Scripts {
+            <script>
+                $(document).ready(function () {
+                    $('#thisTable').dataTable(
+                    {
+                        "searching": false,
+                        "bLengthChange": false,
+                        "oLanguage": {
+                            "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                            "sLengthMenu": "Show _MENU_ rows per page",
+                            "sInfoEmpty": "0 records found",
+                            "sEmptyTable": "No information available to display"
+                        }
+                    });
+
+                    $("#meetingRegistration_Phone").mask("(999) 999-9999? x9999");
+
+                });
+                function showAddCustomer() {
+                    $('#addCustomerFormDiv').show();
+                };
+                function hideAddCustomer() {
+                    $('#addCustomerFormDiv').hide();
+                };
+
+                function deleteCustomer(thisEventID, thisCustID) {
+                    $("#deleteEventID").val(thisEventID);
+                    $("#deleteCustID").val(thisCustID);
+                    $('#deleteCustomerModal').modal('show');
+                };
+
+                function deleteCustomerConfirm() {
+                    $("#deleteCustomerForm").submit();
+                };
+
+            </script>
+        }
+
+

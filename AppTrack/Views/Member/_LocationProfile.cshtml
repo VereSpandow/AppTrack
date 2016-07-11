@@ -1,0 +1,199 @@
+﻿
+<div id="LocationProfileTab">
+    @if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+    {
+        <div id="contactContainerDiv">
+            <div class="col-sm-12" style="font-size: 1.5em">
+                <br />
+                <br />
+                The following unexpected error was encountered:
+                <br />
+                <br />
+                <span class=" text-danger">@ViewBag.ErrorMessage</span>
+                <br />
+                <br />
+                Please contact technical support.
+            </div>
+        </div>
+    }
+    else
+    {
+        @model AppTrack.ViewModels.LocationProfileViewModel
+
+        <div class="col-sm-8">
+            <h3 class="text-success">@(Model.LocationRecord.DisplayName)</h3>
+        </div>
+        <div class="col-sm-4 pull-right" style="text-align:right;">
+            <button class="btn btn-xs btn-info" onclick="location.href = '@Url.Action("AccountProfile", "Member", new { id = Model.LocationRecord.ParentID })'">Member Profile</button>
+        </div>
+
+        <div class="col-md-12">
+            <ul id="tabstrip" class="nav nav-tabs" role="tablist">
+                <li><a id="LocationProfileLink" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#LocationProfileTab" href="/Member/LocationProfile/@Model.LocationRecord.CustID"><span class="text-success">Profile</span></a></li>
+                <li><a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#SubProfile" href="/Member/LocationEditAccount?CustID=@Model.LocationRecord.CustID"><span class="text-success">Account</span></a></li>
+                <!--
+                                 <li><a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#SubProfile" href="/Member/ContactList/@Model.LocationRecord.CustID">Contacts</a></li>
+                 -->
+                <li><a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#SubProfile" href="/Member/RebateCommissionList/@Model.LocationRecord.CustID"><span class="text-success">Rebate</span></a></li>
+                <li><a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#SubProfile" href="/Member/RebatePayee/@Model.LocationRecord.CustID"><span class="text-success">Payee</span></a></li>
+                <li><a data-ajax="true" data-ajax-mode="replace" data-ajax-update="#SubProfile" href="/CustomerNotes/NotesList/@Model.LocationRecord.CustID"><span class="text-success">Notes</span></a></li>
+            </ul>
+
+            <!-- Tab Content Containers -->
+            <div class="tab-content" style="padding-top:15px;">
+                <div class="tab-pane fade in active" id="SubProfile">
+
+                    <div class="col-md-6 col-sm-12 pull-left">
+                        <div class="panel panel-default" style="min-height:250px;">
+                            <div class=" panel-heading">Location Information</div>
+                            <div class="panel-body">
+                                <div class="col-sm-4" style="clear:both">Location ID:</div>
+                                <div class="col-sm-8">@Model.LocationRecord.CustID </div>
+                                <div class="col-sm-4" style="clear:both">TIN Name:</div>
+                                <div class="col-sm-8">@Model.LocationRecord.Company</div>
+                                <div class="col-sm-4" style="clear:both">Address:</div>
+                                <div class="col-sm-8">
+                                    @if (Model.LocationRecord.Address1 != "")
+                                    {
+                                        @Model.LocationRecord.Address1
+                                        if (!String.IsNullOrEmpty(Model.LocationRecord.Address2))
+                                        {
+                                            <span>,</span> @Model.LocationRecord.Address2
+                                        }
+                                        <br />
+                                        @Model.LocationRecord.City<span>,</span> @(Model.LocationRecord.State)@:&nbsp;@(Model.LocationRecord.PostalCode)
+                                        <br />
+                                    }
+                                </div>
+                                <div class="col-sm-4">ContactName:</div>
+                                <div class="col-sm-8">@Model.LocationRecord.NameTitle @Model.LocationRecord.FirstName @Model.LocationRecord.LastName</div>
+                                <div class="col-sm-4" style="clear:both">Phone:</div>
+                                <div class="col-sm-8">@Helpers.FormatPhone(@Model.LocationRecord.DayPhone)</div>
+                                <div class="col-sm-4" style="clear:both">Email:</div>
+                                <div class="col-sm-8">@Model.LocationRecord.Email</div>
+                                <div class="col-sm-4" style="clear:both">Status:</div>
+                                <div class="col-sm-8"><span class="status-@Model.LocationRecord.Status.ToUpper()">@Model.LocationRecord.Status</span></div>
+
+                                @if (@Model.LocationRecord.Status.ToUpper() != "CANCELLED")
+                                {
+                                    <div class="btn btn-danger btn-sm pull-right" id="cancelLocationLink" style="margin-right:25px;">
+                                        Cancel
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12 pull-left">
+                        <div class="panel panel-default" style="min-height:250px;">
+                            <div class=" panel-heading">Rebates</div>
+                            <div class="panel-body">
+                                <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:.8em">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Period
+                                            </th>
+                                            <th>
+                                                Vendor
+                                            </th>
+                                            <th>
+                                                Amount
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.CommissionHeaderList)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.PeriodName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CommissionName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Commission)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="cancelPanel" style="position:fixed; top:-300px; left:50%;margin-left:-350px; width:700px; height:400px; background-color:#fff; border:1px #369 solid; display:none;z-index:3;">
+            <div class="panel panel-danger-dark" style="min-height:250px;">
+                <div class=" panel-heading">
+                    <h3 style="color:#FFF;">CANCEL @Model.LocationRecord.DisplayName </h3>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("CancelLocation", "Member", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.CustID, new { Value = @Model.LocationRecord.CustID })
+                        @Html.HiddenFor(model => model.ParentID, new { Value = @Model.LocationRecord.ParentID })
+                        @Html.HiddenFor(model => model.StatusID, new { Value = 3})
+                        @Html.HiddenFor(model => model.Status, new { Value = "Cancelled" })
+                        <div class="clearfix"></div>
+                        <div class="col-sm-6" style="margin-top:15px;">
+                            Cancel Reason:
+                            @Html.DropDownListFor(model => model.cancelReasonCode, Model.CancelReasonCodesList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.cancelReasonCode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-sm-12" style="margin-top:15px;margin-bottom:20px;">
+                            Comments
+                            <br />
+                            <textarea name="Comments" rows="5" cols="60"></textarea>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="btn btn-sm btn-default" id="cancelCancel">Do not Cancel</div>
+                            </div>
+                            <div class="col-sm-6">
+                                <button class="btn btn-sm bg-danger-dark" id="saveCancel">Confirm Cancel</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <script>
+
+            $("#cancelLocationLink").click(function () {
+                if ($("#cancelPanel").css("display") == "none") {
+                    $(".alphapagelayer").show();
+                    $("#cancelPanel").show();
+                    $("#cancelPanel").animate({ top: "70px" }, 1000).delay(100).animate({ top: "50px" }, 500);
+                }
+                else {
+                    $("#cancelPanel").animate({ top: "-500px" }, 1000).delay(100).hide().delay(100);
+                    $("#cancelPanel").hide();
+                    $(".alphapagelayer").hide();
+                }
+            });
+            $("#cancelCancel").click(function () {
+                $("#cancelPanel").animate({ top: "-500px" }, 1000).delay(100).hide().delay(100);
+                $("#cancelPanel").hide();
+                $(".alphapagelayer").hide();
+            });
+
+            function cancelLocationFailure() {
+                alert("Error: Location could not be cancelled");
+            }
+        </script>
+
+
+
+    }
+
+</div>

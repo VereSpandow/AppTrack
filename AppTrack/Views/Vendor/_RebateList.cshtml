@@ -1,0 +1,294 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="rebateContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.VendorRebateViewModel
+    if (User.IsInRole("Finance") )
+    {
+        ViewBag.Disabled = "";
+    }
+    else
+    {
+        ViewBag.Disabled = " disabled";
+    }
+
+    <div id="rebateContainerDiv">
+        <div class="col-sm-6">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+
+        @if (ViewBag.Disabled == "")
+        {
+            <div class="col-sm-6 pull-right" style="text-align:right;">
+                &nbsp;<button class="btn btn-xs btn-info" onclick="showAddRebateForm()" id="addRebateButton">
+                    Add Rebate
+                </button>
+            </div>
+        }
+        <div style="clear:both"></div>
+
+        <div class="row" style="padding-top:10px;">
+
+            <div class="filterbar" id="updateRebateFormDiv" style="display:none;">
+                @using (Ajax.BeginForm("RebateList", "Vendor", null,
+                new AjaxOptions
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "POST",
+                    OnFailure = "updateRebateFailure",
+                    OnSuccess = "updateRebateSuccess",
+                    LoadingElementId = "ajax-loader",
+                    UpdateTargetId = "rebateContainerDiv"
+                }, new { id = "updateRebateForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div>
+                        <input type="hidden" name="ErrorCode" id="ErrorCode" value="@ViewBag.ErrorCode" />
+
+                        @Html.HiddenFor(model => model.VendorRebate.CustID)
+                        @Html.HiddenFor(model => model.VendorRebate.VolumeID, new { @id = "vendorRebateID" })
+
+                        <div class="col-md-6">
+                            <label class="control-label">Rebate Name</label>
+                            <br />
+                            @Html.EditorFor(model => model.VendorRebate.VolumeName, new { htmlAttributes = new { @class = "form-control" + ViewBag.Disabled, maxlength = "100" } })
+                            @Html.ValidationMessageFor(model => model.VendorRebate.VolumeName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6" style="clear:both;">
+                            <label class="control-label">Rebate Description</label>
+                            <br />
+                            @Html.TextAreaFor(model => model.VendorRebate.VolumeDesc, new { @rows = 3, @class = "form-control" + ViewBag.Disabled, maxlength = "2500" })
+                            @Html.ValidationMessageFor(model => model.VendorRebate.VolumeDesc, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-12 pull-right" style="text-align:right; padding-top:15px;margin-bottom:20px;">
+                            @if (ViewBag.Disabled == "")
+                            {
+                                <input type="submit" name="SubmitAction" value="Save" class="btn btn-xs btn-info" />
+                            }
+                            &nbsp;
+                            <span class="btn btn-xs btn-info" onclick="editRebateInit(@Model.VendorRebate.CustID,0)">Cancel</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center">
+                        <img id="ajax-loader" src="@Url.Content("~/Content/images/ajaxLoader.gif")" style="display:none;" />
+                    </div>
+                }
+            </div>
+            <table class="table table-hover table-striped table-responsive" id="rebatesTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Rebate Type ID
+                        </th>
+                        <th>
+                            Rebate Name
+                        </th>
+                        <th>
+                            Rebate Description
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.VendorRebateList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VolumeID)
+                            </td>
+                            <td>
+                                @if (ViewBag.Disabled == "")
+                                {
+                                    <a href="#" onclick="editRebateInit(@item.CustID, @item.VolumeID)">@Html.DisplayFor(modelItem => item.VolumeName)</a>
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.VolumeName)
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VolumeDesc)
+                            </td>
+                            <td>
+                                @if (item.StatusID == 1)
+                                {
+                                    <span>Active</span>
+                                }
+                                else
+                                {
+                                    <span>InActive</span>
+                                }
+                            </td>
+                            <td>
+                                @if (ViewBag.Disabled == "")
+                                {
+                                    <span onclick="deleteRebate(@item.CustID, @item.VolumeID, '@item.VolumeName')" class="btn btn-xs btn-danger">
+                                        X
+                                    </span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+        <!-- EDIT CONTACT INITIALIZATION FORM -->
+    <div id="editRebateInitFormDiv" style="display:block;">
+        @using (Ajax.BeginForm("RebateList", "Vendor", null,
+             new AjaxOptions
+             {
+                 InsertionMode = InsertionMode.Replace,
+                 HttpMethod = "GET",
+                 OnFailure = "editRebateInitFailure",
+                 OnSuccess = "editRebateInitSuccess",
+                 LoadingElementId = "ajax-loader",
+                 UpdateTargetId = "rebateContainerDiv"
+             }, new { id = "editRebateInitForm" }
+             ))
+        {
+            <input type="hidden" name="VendorID" id="editRebateVendorID" value="" />
+            <input type="hidden" name="VolumeID" id="editVolumeID" value="" />
+        }
+    </div>
+    <!-- DELETE PROGRAM INITIALIZATION FORM -->
+    <div id="deleteRebateFormDiv" style="display:block;">
+        @using (Ajax.BeginForm("RebateList", "Vendor", new { ActionType = "D" },
+             new AjaxOptions
+             {
+                 InsertionMode = InsertionMode.Replace,
+                 HttpMethod = "GET",
+                 OnFailure = "deleteRebateFailure",
+                 OnSuccess = "deleteRebateSuccess",
+                 LoadingElementId = "ajax-loader",
+                 UpdateTargetId = "rebateContainerDiv"
+             }, new { id = "deleteRebateForm" }
+             ))
+        {
+            <input type="hidden" name="VendorID" id="deleteRebateVendorID" value="" />
+            <input type="hidden" name="VolumeID" id="deleteVolumeID" value="" />
+        }
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteRebateModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Delete Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>
+                        Are you sure you want to Delete <span id="deleteRebateName"></span>?
+                    </h4>
+                    <br />
+                    <p>
+                        Deleting the Rebate can not be undone without contacting technical support.
+                    </p>
+                </div>
+                <div class="modal-footer">
+
+                    <div class="btn btn-info pull-left" data-dismiss="modal">Cancel without Deleting</div>
+                    <div class="btn btn-danger pull-right" onclick="deleteRebateConfirm()">Yes. Delete this Rebate</div>
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <script>
+
+        $(document).ready(function () {
+            initializeRebatesTable();
+            $.validator.unobtrusive.parse(updateRebateForm);
+            $('.disabled').attr("disabled", "disabled");
+        });
+
+        function initializeRebatesTable() {
+            $('#rebatesTable').dataTable(
+            {
+                "searching": false,
+                "bLengthChange": false,
+                "oLanguage": {
+                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                    "sLengthMenu": "Show _MENU_ rows per page",
+                    "sInfoEmpty": "0 records found",
+                    "sEmptyTable": "No rebates available to display"
+                }
+            });
+        };
+
+        function showAddRebateForm() {
+            $('#addRebateButton').hide();
+            $('#updateRebateFormDiv').show();
+        };
+
+        function editRebateInit(thisVendorID, thisVolumeID) {
+            $("#editRebateVendorID").val(thisVendorID);
+            $("#editVolumeID").val(thisVolumeID);
+            $("#editRebateInitForm").submit();
+        };
+
+        function editRebateInitSuccess() {
+            if ($('#vendorRebateID').val() > 0) {
+                $('#addRebateButton').hide();
+                $('#updateRebateFormDiv').show();
+            }
+        };
+
+        function editRebateInitFailure() {
+            alert("Edit Rebate initialization failed");
+        };
+
+        function updateRebateSuccess() {
+            if ($('#ErrorCode').val() != 0) {
+                $('#addRebateButton').hide();
+                $('#updateRebateFormDiv').show();
+            }
+        };
+
+        function updateRebateFailure() {
+            alert("Update Rebate failed");
+        };
+
+        function deleteRebate(thisVendorID, thisVolumeID, thisRebateDisplayName) {
+            $("#deleteRebateVendorID").val(thisVendorID);
+            $("#deleteVolumeID").val(thisVolumeID);
+            $('#deleteRebateModal').modal('show');
+            $("#deleteRebateName").html(thisRebateDisplayName);
+
+        };
+        function deleteRebateConfirm() {
+            $("#deleteRebateForm").submit();
+            $('#deleteRebateModal').modal('hide');
+        };
+
+        function deleteRebateSuccess() {
+        };
+
+        function deleteRebateFailure() {
+            alert("Delete Rebate failed");
+        };
+
+    </script>
+}

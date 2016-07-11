@@ -1,0 +1,19 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    }
+
+<div class="row nopadding">
+    <div class="col-sm-12 text-danger ">
+        <br /><br />
+        Sorry, an unexpected error was encountered.  
+        @if (ViewBag.ErrorMessage == "")
+        {
+            <br />
+            <br />
+            @ViewBag.ErrorMessage
+        }
+        <br />
+        <br />
+        Our technical team has been notified. We apologize for any inconvenience. 
+    </div>
+</div>

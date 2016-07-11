@@ -1,0 +1,126 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="commissionContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.CommissionSummaryViewModel
+
+    <div id="commissionContainerDiv">
+        <div class="h2" style="float:left;width:70%;">Commission Summary</div>
+
+        <div class="filterbar" style="display:block;clear:both;">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div id="searchFormDiv">
+                @using (Html.BeginForm("RebateSummary", "Rebate", FormMethod.Post, new { id = "formOrderList" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label>Period From</label>
+                                <br />
+                                @Html.DropDownListFor(model => model.StartPeriodID, Model.PeriodList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.StartPeriodID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label>To</label>
+                                <br />
+                                @Html.DropDownListFor(model => model.EndPeriodID, Model.PeriodList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.EndPeriodID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.CommissionID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.CommissionID, Model.CommissionList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CommissionID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-5 pull-right" style="text-align:right;">
+                                <label>&nbsp;</label>
+                                <br />
+                                <button class="btn btn-sm btn-info" type="submit" value="Search">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <hr />
+            </div>
+        </div>
+
+        <table class="table table-hover table-striped table-responsive" id="commissionsTable" style="padding-top:10px;">
+            <thead>
+                <tr>
+                    <th>
+                        Period
+                    </th>
+                    <th>
+                        Commission Type
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CommissionSummaryList)
+                {
+                    <tr onclick="location.href = '@Url.Action("CommissionDetail", "Commission", new { StartPeriodID = item.PeriodID, EndPeriodID = item.PeriodID, CommissionID = item.CommissionID })'">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PeriodName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CommissionName)
+                        </td>
+                        <td style="text-align:right;">
+                            @Html.DisplayFor(modelItem => item.Commission)
+                        </td>
+                        <td>
+                            <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                        </td>
+                        <td style="text-align:center;"></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+                    <script>
+
+                        $(document).ready(function () {
+                            $.validator.unobtrusive.parse(document);
+                            //        initializeCommissionsTable();
+                        });
+
+                        function initializeCommissionsTable() {
+                            $('#commissionsTable').dataTable(
+                            {
+                                "searching": false,
+                                "bLengthChange": false,
+                                "oLanguage": {
+                                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                                    "sLengthMenu": "Show _MENU_ rows per page",
+                                    "sInfoEmpty": "0 records found",
+                                    "sEmptyTable": "No commissions available to display"
+                                }
+                            });
+                        };
+                    </script>
+}
+

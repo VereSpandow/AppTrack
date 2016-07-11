@@ -1,0 +1,245 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="findPayeeContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.RebateFindPayeeModel
+
+    <div id="findPayeeContainerDiv">
+
+        <div class="col-sm-6"><h4>Rebate Transaction Information</h4></div>
+        @if (@Model.VendorRebateTransaction.CustID == 0)
+        {
+            <div class="col-sm-6 pull-right" style="text-align:right;"><button onclick="showFindPayeeForm()" class="btn btn-info btn-xs">Advanced Search</button></div>
+        }
+            <div style="clear:both;"></div>
+
+            <div class="col-md-2"><label class="control-label">Vendor Payee ID</label></div>
+            <div class="col-md-3"><label class="control-label">Payee Name</label></div>
+            <div class="col-md-3"><label class="control-label">Address</label></div>
+            <div class="col-md-2"><label class="control-label">Phone</label></div>
+            <div class="col-md-2"><label class="control-label">AppTrack ID</label></div>
+            <div style="clear:both;"></div>
+
+            <div class="col-md-2">@Model.VendorRebateTransaction.VendorPayeeID</div>
+            <div class="col-md-3">@Model.VendorRebateTransaction.PayeeName</div>
+            <div class="col-md-3">
+                @Model.VendorRebateTransaction.Address1
+                <br />
+                @Model.VendorRebateTransaction.City <span>,</span> @Model.VendorRebateTransaction.State<span> </span> @Model.VendorRebateTransaction.PostalCode
+            </div>
+            <div class="col-md-2">@Model.VendorRebateTransaction.Phone</div>
+            <div class="col-md-2">@Model.VendorRebateTransaction.SecID</div>
+            <div style="clear:both;"></div>
+
+            @if (@Model.VendorRebateTransaction.CustID == 0)
+        {
+                <div class="filterbar" id="findPayeeFormDiv" style="display:none;">
+                    @using (Ajax.BeginForm("FindVendorPayee", "Rebate", null,
+                new AjaxOptions
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "POST",
+                    OnFailure = "findPayeeFailure",
+                    OnSuccess = "findPayeeSuccess",
+                    LoadingElementId = "ajax-loader",
+                    UpdateTargetId = "findPayeeContainerDiv"
+                }, new { id = "findPayeeForm" }))
+                {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.TransactionID)
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div>
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.SearchCompany, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.SearchCompany, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.SearchCompany, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.SearchDisplayName, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.SearchDisplayName, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.SearchDisplayName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.SearchPhone, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.SearchPhone, new { htmlAttributes = new { @class = "form-control phone", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.SearchPhone, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.SearchSecID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.SearchSecID, new { htmlAttributes = new { @class = "form-control phone", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.SearchSecID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.SearchAddress1, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.SearchAddress1, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.SearchAddress1, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.SearchCity, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.SearchCity, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.SearchCity, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.SearchState, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.SearchState, Model.StateList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.SearchState, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.SearchPostalCode, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.SearchPostalCode, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.SearchPostalCode, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-12 pull-right" style="text-align:right;padding-top:15px;">
+                                <button class="btn btn-xs btn-info" type="submit" value="Search">Search</button>
+                            </div>
+                        </div>
+                        <div style="text-align: center">
+                            <img id="ajax-loader" src="@Url.Content("~/Content/images/ajaxLoader.gif")" style="display:none;" />
+                        </div>
+                }
+                </div>
+
+
+                <div class="col-sm-12">
+                    <h4>Member Lookup Results</h4>
+                    <table class="table table-hover table-striped table-responsive" id="payeeTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Type
+                                </th>
+                                <th>
+                                    TIN / Practice Name
+                                </th>
+                                <td>
+                                    AppTrack ID
+                                </td>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    &nbsp;
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.MemberList)
+                        {
+                                <tr>
+                                    <td>
+                                        @if (item.CustomerType == 6)
+                                    {
+                                            <span>Member</span>
+                                    }
+                                    else
+                                    {
+                                            <span>Location</span>
+                                    }
+                                        <br />
+                                        @item.CustID
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Company) / @Html.DisplayFor(modelItem => item.DisplayName)
+                                        <br />
+                                        @item.Address1&nbsp;@item.City<span>,</span> @item.State @item.PostalCode
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SecID)
+                                    </td>
+                                    <td>
+                                        <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                                    </td>
+                                    <td>
+                                        @using (Html.BeginForm("UpdateVendorPayee", "Rebate", FormMethod.Post, new { id = "updatePayeeForm" }))
+                                    {
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="CustID" value="@item.CustID" />
+                                            <input type="hidden" name="TransactionID" value="@Model.TransactionID" />
+                                            <input class="info" type="submit" name="submit" value="Update">
+                                    }
+                                    </td>
+                                </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+        }
+            <div class="col-sm-6" style="text-align:left">
+                @using (Html.BeginForm("UpdateTransactionStatus", "Rebate", FormMethod.Post, new { id = "voidTransactionForm" }))
+            {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="TransactionID" value="@Model.TransactionID" />
+                    <input type="hidden" name="Status" value="Void" />
+                    <button class="btn btn-xs btn-danger" type="submit" value="Void Transaction">Void Transaction</button>
+            }
+            </div>
+            @if (Model.VendorRebateTransaction.Status.ToUpper() == "INACTIVE")
+        {
+                <div class="col-sm-6" style="text-align:right">
+                    @using (Html.BeginForm("UpdateTransactionStatus", "Rebate", FormMethod.Post, new { id = "voidTransactionForm" }))
+                {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="TransactionID" value="@Model.TransactionID" />
+                        <input type="hidden" name="Status" value="Match-Override" />
+                        <button class="btn btn-xs btn-success" type="submit" value="Void Transaction">Pay Cancelled Member</button>
+                }
+                </div>
+        }
+        </div>
+            <div style="clear:both;"></div>
+
+            <script>
+                $(document).ready(function () {
+                    $.validator.unobtrusive.parse(document);
+                    $('#payeeTable').dataTable(
+                    {
+                        "searching": false,
+                        "bLengthChange": false,
+                        "iDisplayLength": 20,
+                        "oLanguage": {
+                            "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                            "sLengthMenu": "Show _MENU_ rows per page",
+                            "sInfoEmpty": "0 records found",
+                            "sEmptyTable": "No records found to display"
+                        }
+                    });
+                });
+
+                function showFindPayeeForm() {
+                    $('#findPayeeFormDiv').show();
+                }
+                function findPayeeSuccess() {
+                    $('#findPayeeFormDiv').show();
+                };
+
+                function findPayeeFailure() {
+                    alert("failed");
+                };
+
+
+            </script>
+
+}

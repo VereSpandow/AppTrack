@@ -1,0 +1,290 @@
+﻿@model AppTrack.Models.C_PaymentMethod
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>C_PaymentMethod</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentProfileID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentProfileID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BatchID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BatchID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PRefNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PRefNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PFirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PFirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PMiddleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PMiddleName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PLastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PLastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PAddress1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PAddress1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PAddress2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PAddress2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PCity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PCity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PState)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PState)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PPostalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PPostalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PPhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PPhone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PCardType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PCardType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PBinNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PBinNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PCardNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PCardNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PExpirationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PExpirationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PBankName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PBankName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PRoutingNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PRoutingNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PAccountNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PAccountNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PAccountType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PAccountType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PCheckNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PCheckNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PPriority)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PPriority)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreditAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreditAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreditBalance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreditBalance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PMID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

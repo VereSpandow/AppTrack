@@ -1,0 +1,159 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.PayeeChangeListViewModel
+
+    <div id="profileContainerDiv">
+        <div class="h2" style="float:left">Payee Change List</div>
+        <div class="filterbar" style="display:block;clear:both;">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div id="searchFormDiv">
+                @using (Html.BeginForm("PayeeChangeList", "SAGE", FormMethod.Post, new { id = "formPayeeList" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-5" style="padding:0;">
+                                <div class="col-sm-6">
+                                    <label class="control-label">Change Date From</label>
+                                    <br />
+                                    @Html.JQueryUI().DatepickerFor(model => model.SearchStartDate, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.SearchStartDate, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="control-label">To</label>
+                                    <br />
+                                    @Html.JQueryUI().DatepickerFor(model => model.SearchEndDate, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.SearchEndDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.SearchChangeConfirmed, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.SearchChangeConfirmed, Model.SearchChangeConfirmedList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.SearchChangeConfirmed, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-4" style="text-align:right;">
+                                <label class="control-label">&nbsp;</label>
+                                <br />
+                                <input class="btn btn-info" type="submit" name="submitAction" value="Search">
+                            </div>
+                        </div>
+                    </div>
+                }
+                <hr />
+            </div>
+        </div>
+
+        <table class="table table-hover table-striped table-responsive" id="thisTable">
+            <thead>
+                <tr>
+                    <th>
+                        Customer ID
+                    </th>
+                    <th>
+                        Sage ID
+                    </th>
+                    <th>
+                        Change Date
+                    </th>
+                    <th>
+                        Old Payee Info
+                    </th>
+                    <th>
+                        New Payee Info
+                    </th>
+                    <th>
+                        Confirmed
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ChangeLogList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ChangeID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AccountingID)
+                        </td>
+                        <td>
+                            @(item.PostDate != null ? item.PostDate.Value.ToString("MM/dd/yy") : "")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OldValue)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NewValue)
+                        </td>
+                        <td>
+                            @if (item.ConfirmedDate != null)
+                            {
+                                <span>@item.ConfirmedDate.Value.ToString("MM/dd/yy")</span>
+                            }
+                            else
+                            {
+                                if (!String.IsNullOrEmpty(item.AccountingID))
+                                {
+                                    <a href="@Url.Action("PayeeChangeConfirm", "SAGE", new { ID = item.ID, StartDate = Model.SearchStartDate, EndDate  = Model.SearchEndDate})">Confirm</a>
+                                }
+                                else
+                                {
+                                    if (item.CustomerType == 6)
+                                    {
+                                        <a href="@Url.Action("AccountProfile", "Member", new { ID = item.ChangeID})">Sage ID</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("LocationProfileMain", "Member", new { ID = item.ChangeID})">Sage ID</a>
+                                    }
+                                }
+                            }
+                        </td>
+
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                $.validator.unobtrusive.parse(document);
+                $("#SearchStartDate").datepicker();
+                $("#SearchEndDate").datepicker();
+                $('#thisTable').dataTable(
+                {
+                    "searching": false,
+                    "bLengthChange": true,
+                    "iDisplayLength": 50,
+                    "oLanguage": {
+                        "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                        "sLengthMenu": "Show _MENU_ rows per page",
+                        "sInfoEmpty": "0 records found",
+                        "sEmptyTable": "No changes found to display"
+                    }
+                });
+            });
+        </script>
+    }
+}

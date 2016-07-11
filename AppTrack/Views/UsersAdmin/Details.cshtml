@@ -1,0 +1,30 @@
+﻿@model AppTrack.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Admin User Account";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+
+<p class="h4">Name:&nbsp;@Html.DisplayFor(model => model.DisplayName)</p>
+<p class="h4">Email:&nbsp;@Html.DisplayFor(model => model.Email)</p>
+
+@if (ViewBag.RoleNames.Count == 0)
+{
+    <p class="h4">Roles: No roles found for this user.</p>
+}
+
+<span class="h4">Roles: </span>
+@foreach (var item in ViewBag.RoleNames)
+{
+    <span class="h4">@item &nbsp;</span>
+}
+
+<p>
+    <br />
+    <a class="btn btn-sm btn-info" href="@ViewBag.callbackUrl">Reset Password</a>
+</p>
+
+
+

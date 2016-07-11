@@ -1,0 +1,478 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="meetingContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.MeetingViewModel
+
+            <div id="meetingContainerDiv">
+        <div class="col-sm-6">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-sm-6 pull-right" style="text-align:right;">
+            <button class="btn btn-xs btn-info" onclick="showUpdateMeetingForm()" id="addMeetingButton">
+                Add Meeting
+            </button>
+            <button class="btn btn-xs btn-info" onclick="showSearchMeetingForm()">
+                Search Meetings
+            </button>
+        </div>
+
+        <div style="clear:both"></div>
+
+        <div class="row" style="padding-top:10px;">
+
+            <div class="filterbar" id="updateMeetingFormDiv" style="display:none;">
+                @using (Ajax.BeginForm("MeetingUpdate", "Meeting", null,
+                new AjaxOptions
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "POST",
+                    OnFailure = "updateMeetingFailure",
+                    OnSuccess = "updateMeetingSuccess",
+                    LoadingElementId = "ajax-loader",
+                    UpdateTargetId = "meetingContainerDiv"
+                }, new { id = "updateMeetingForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="col-sm-6" style="padding:0">
+                        <input type="hidden" name="ErrorCode" id="ErrorCode" value="@ViewBag.ErrorCode" />
+
+                        @Html.HiddenFor(model => model.meetingEvent.CategoryID)
+                        @Html.HiddenFor(model => model.meetingEvent.ID)
+
+                        <div class="col-sm-12">
+                            <label for="EventTitle" class="control-label">Topic</label>
+                            <br />
+                            @Html.EditorFor(model => model.meetingEvent.EventTitle, new { htmlAttributes = new { @class = "form-control" , maxlength = "100" } })
+                            @Html.ValidationMessageFor(model => model.meetingEvent.EventTitle, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="control-label">Member Director</label>
+                            <br />
+                            @Html.DropDownListFor(model => model.meetingEvent.CustID, Model.SearchMemberDirectorList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.meetingEvent.CustID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-12">
+                            @Html.LabelFor(model => model.meetingEvent.SponsorName, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.meetingEvent.SponsorName, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+                            @Html.ValidationMessageFor(model => model.meetingEvent.SponsorName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-sm-12">
+                            @Html.LabelFor(model => model.meetingEvent.EventDescription, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.TextAreaFor(model => model.meetingEvent.EventDescription, new { @rows = 5, @class = "form-control", maxlength = "2500" })
+                            @Html.ValidationMessageFor(model => model.meetingEvent.EventDescription, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.LabelFor(model => model.meetingEvent.Capacity, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.meetingEvent.Capacity, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+                            @Html.ValidationMessageFor(model => model.meetingEvent.Capacity, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6" style="padding:0">
+
+                        <div class="col-sm-4">
+                            @Html.LabelFor(model => model.meetingEvent.EventStartDate, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.JQueryUI().DatepickerFor(model => model.meetingEvent.EventStartDate, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.meetingEvent.EventStartDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-8">
+                            @Html.LabelFor(model => model.eventStartHour, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            <div class="pull-left">@Html.DropDownListFor(model => model.eventStartHour, Model.TimeHourList, new { @class = "form-control" })</div>
+                            <div class="pull-left" style="padding-left:5px;">@Html.DropDownListFor(model => model.eventStartMinute, Model.TimeMinuteList, new { @class = "form-control" })</div>
+                            <div class="pull-left" style="padding-left:5px;">@Html.DropDownListFor(model => model.eventStartAMPM, Model.TimeAMPMList, new { @class = "form-control" })</div>
+                            <div style="clear:left">@Html.ValidationMessageFor(model => model.eventStartHour, "", new { @class = "text-danger" })</div>
+                            <div style="clear:left">@Html.ValidationMessageFor(model => model.eventStartMinute, "", new { @class = "text-danger" })</div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            @Html.LabelFor(model => model.meetingEvent.LocationTitle, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.meetingEvent.LocationTitle, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+                            @Html.ValidationMessageFor(model => model.meetingEvent.LocationTitle, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-12">
+                            @Html.LabelFor(model => model.meetingEvent.Address1, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.meetingEvent.Address1, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                            @Html.ValidationMessageFor(model => model.meetingEvent.Address1, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-12">
+                            @Html.LabelFor(model => model.meetingEvent.Address2, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.meetingEvent.Address2, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                            @Html.ValidationMessageFor(model => model.meetingEvent.Address2, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.LabelFor(model => model.meetingEvent.City, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.meetingEvent.City, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                            @Html.ValidationMessageFor(model => model.meetingEvent.City, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.LabelFor(model => model.meetingEvent.State, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DropDownListFor(model => model.meetingEvent.State, Model.StateList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.meetingEvent.State, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.LabelFor(model => model.meetingEvent.PostalCode, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.meetingEvent.PostalCode, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                            @Html.ValidationMessageFor(model => model.meetingEvent.PostalCode, "", new { @class = "text-danger" })
+                        </div>
+
+                        @if (Model.meetingEvent.ID == 0 || Model.meetingEvent.StatusID > 3)
+                    {
+                            @Html.HiddenFor(model => model.meetingEvent.Status)
+                    }
+                    else
+                    {
+                            <div class="col-sm-6">
+                                <label class="control-label">Status</label>
+                                <br />
+                                @Html.DropDownListFor(model => model.meetingEvent.Status, Model.StatusList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.meetingEvent.Status, "", new { @class = "text-danger" })
+                            </div>
+
+                    }
+                        <div class="col-sm-6 pull-right" style="text-align:right; padding-top:15px;margin-bottom:20px;">
+                            <label class="control-label">&nbsp;</label>
+                            <br />
+                            <input type="submit" name="SubmitAction" value="Save" class="btn btn-xs btn-info" />
+                            &nbsp;
+                            <span class="btn btn-xs btn-danger" onclick="editMeetingInit(@Model.meetingEvent.CustID,0)">Cancel</span>
+                        </div>
+                    </div>
+                    <div style="width:100%;text-align: center">
+                        <img id="ajax-loader" src="@Url.Content("~/Content/images/ajaxLoader.gif")" style="display:none;" />
+                    </div>
+                }
+            </div>
+    <!-- SEARCH FORM -->
+            <div class="filterbar" id="searchMeetingFormDiv" style="display:none;">
+                @using (Ajax.BeginForm("MeetingList", "Meeting", null,
+                new AjaxOptions
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "POST",
+                    OnFailure = "meetingListFailure",
+                    OnSuccess = "meetingListSuccess",
+                    LoadingElementId = "ajax-loader",
+                    UpdateTargetId = "meetingContainerDiv"
+                }, new { id = "searchMeetingForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div>
+                        <div class="col-sm-2">
+                            <label class="control-label">Search From</label>
+                            <br />
+                            @Html.JQueryUI().DatepickerFor(model => model.SearchStartDate, new { @class = "form-control" })
+                            @*@Html.EditorFor(model => model.SearchStartDate, new { htmlAttributes = new { @class = "form-control date-picker" } })*@
+                            @Html.ValidationMessageFor(model => model.SearchStartDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2">
+                            <label class="control-label">To</label>
+                            <br />
+                            @Html.JQueryUI().DatepickerFor(model => model.SearchEndDate, new { @class = "form-control" })
+                            @*@Html.EditorFor(model => model.SearchEndDate, new { htmlAttributes = new { @class = "form-control date-picker" } })*@
+                            @Html.ValidationMessageFor(model => model.SearchEndDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.LabelFor(model => model.SearchCustID, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DropDownListFor(model => model.SearchCustID, Model.SearchMemberDirectorList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SearchCustID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-3">
+                            @Html.LabelFor(model => model.SearchStatus, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DropDownListFor(model => model.SearchStatus, Model.SearchStatusList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SearchStatus, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.LabelFor(model => model.SearchPhrase, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.EditorFor(model => model.SearchPhrase, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.SearchPhrase, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.LabelFor(model => model.SearchState, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DropDownListFor(model => model.SearchState, Model.StateList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SearchState, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-6 pull-right" style="text-align:right;">
+                            <label class="control-label">&nbsp;</label>
+                            <br />
+                            <button class="btn btn-sm btn-info" type="submit" value="Search">Search</button>
+                        </div>
+                    </div>
+                    <div style="text-align: center">
+                        <img id="ajax-loader" src="@Url.Content("~/Content/images/ajaxLoader.gif")" style="display:none;" />
+                    </div>
+                }
+            </div>
+        </div>
+        <table class="table table-hover table-striped table-responsive" id="meetingsTable" style="padding-top:10px;">
+            <thead>
+                <tr>
+                    <th>
+                        Meeting Date Time
+                    </th>
+                    <th>
+                        Host
+                    </th>
+                    <th>
+                        Sponsor / Topic
+                    </th>
+                    <th>
+                        Location
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.MeetingEventList)
+                {
+                    <tr>
+                        <td>
+                            @item.EventStartDate.ToString("MM/dd/yy hh:mm tt")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HostName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SponsorName)
+                            <br />
+                            @Html.DisplayFor(modelItem => item.EventTitle)
+                        </td>
+                        <td>
+                            @if (!String.IsNullOrEmpty(item.LocationTitle))
+                            {
+                                @item.LocationTitle
+                                <br />
+                            }
+                            @item.Address1
+                            @if (item.Address2 != "")
+                            {
+                                <span>,</span> @item.Address2
+                            }
+                            <br />
+                            @item.City<span>,</span> @item.State @item.PostalCode
+
+
+                        </td>
+
+                        <td>
+                            <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="@Url.Action("RegistrationList", "Meeting", new { EventID = item.ID })"><span class="fa fa-2x fa-users"></span></a>
+                            <br />
+                            @if (item.StatusID < 3)
+                            {
+                                <a href="#" onclick="editMeetingInit(@item.CustID, @item.ID)"><span class="fa fa-2x fa-edit"></span></a>
+                                <span class="btn btn-xs btn-danger" style="margin-bottom:10px;" onclick="deleteMeeting(@item.CustID, @item.ID, '@item.EventStartDate.ToShortDateString()','@item.HostName')">X</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- EDIT CONTACT INITIALIZATION FORM -->
+    <div id="editMeetingInitFormDiv" style="display:block;">
+        @using (Ajax.BeginForm("MeetingList", "Meeting", null,
+            new AjaxOptions                        
+            {
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "GET",
+                OnFailure = "editMeetingInitFailure",
+                OnSuccess = "editMeetingInitSuccess",
+                LoadingElementId = "ajax-loader",
+                UpdateTargetId = "meetingContainerDiv"
+            }, new { id = "editMeetingInitForm" }))
+            {
+                <input type="hidden" name="CustID" id="editCustID" value="" />
+                <input type="hidden" name="EventID" id="editEventID" value="" />
+            }
+    </div>
+
+        <!-- DELETE Meeting INITIALIZATION FORM -->
+    <div id="deleteMeetingFormDiv" style="display:block;">
+        @using (Ajax.BeginForm("MeetingList", "Meeting", new { ActionType = "D" },
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "GET",
+                OnFailure = "deleteMeetingFailure",
+                OnSuccess = "deleteMeetingSuccess",
+                LoadingElementId = "ajax-loader",
+                UpdateTargetId = "meetingContainerDiv"
+            }, new { id = "deleteMeetingForm" }))
+            {
+                <input type="hidden" name="CustID" id="deleteCustID" value="" />
+                <input type="hidden" name="EventID" id="deleteEventID" value="" />
+            }
+    </div>
+    @*     <!--DELETE MEETING FORM -->
+        using (Html.BeginForm("MeetingList", "Meeting", FormMethod.Get, new { id = "deleteMeetingForm" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="CustID" id="deleteCustID" value="" />
+        <input type="hidden" name="EventID" id="deleteEventID" value="" />
+        <input type="hidden" name="ActionType" value="D"  />
+    }
+    *@
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteMeetingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Cancel Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>
+                        Are you sure you want to Cancel the meeting on <span id="deleteMeetingDate"></span> hosted by <span id="deleteMeetingHost"></span>?
+                    </h4>
+                    <br />
+                    <p>
+                        Cancelling the Meeting can not be undone without contacting technical support.
+                    </p>
+                </div>
+                <div class="modal-footer">
+
+                    <div class="btn btn-info pull-left" data-dismiss="modal">No, do not Cancel</div>
+                    <div class="btn btn-danger pull-right" onclick="deleteMeetingConfirm()">Yes, Cancel this Meeting</div>
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <script>
+
+        $(document).ready(function () {
+            initializeMeetingsTable();
+            $.validator.unobtrusive.parse(document);
+            $("#meetingEvent_EventStartDate").datepicker();
+            $("#SearchStartDate").datepicker();
+            $("#SearchEndDate").datepicker();
+
+        });
+
+        function initializeMeetingsTable() {
+            $('#meetingsTable').dataTable(
+            {
+                "searching": false,
+                "bLengthChange": false,
+                "oLanguage": {
+                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                    "sLengthMenu": "Show _MENU_ rows per page",
+                    "sInfoEmpty": "0 records found",
+                    "sEmptyTable": "No meetings available to display"
+                }
+            });
+        };
+        function deleteMeeting(thisCustID, thisEventID, thisEventDate, thisEventHost) {
+            $("#deleteCustID").val(thisCustID);
+            $("#deleteEventID").val(thisEventID);
+            $("#deleteMeetingDate").html(thisEventDate);
+            $("#deleteMeetingHost").html(thisEventHost);
+            $('#deleteMeetingModal').modal('show');
+        };
+
+        function deleteMeetingConfirm() {
+            $("#deleteMeetingForm").submit();
+            $('#deleteMeetingModal').modal('hide');
+        };
+
+        function showUpdateMeetingForm() {
+            $('#addMeetingButton').hide();
+            $('#searchMeetingFormDiv').hide();
+            $('#updateMeetingFormDiv').show();
+        };
+
+        function showSearchMeetingForm() {
+            $('#addMeetingButton').show();
+            $('#updateMeetingFormDiv').hide();
+            $('#searchMeetingFormDiv').show();
+        }
+
+        function meetingListSuccess() {
+            $('#searchMeetingFormDiv').show();
+        }
+
+        function meetingListFailure() {
+            alert("Search meetings failed");
+        }
+
+        function editMeetingInit(thisCustID, thisEventID) {
+            $("#editCustID").val(thisCustID);
+            $("#editEventID").val(thisEventID);
+            $("#editMeetingInitForm").submit();
+        };
+
+        function editMeetingInitSuccess() {
+            if ($('#meetingEvent_ID').val() > 0) {
+                $('#addMeetingButton').hide();
+                $('#searchMeetingFormDiv').hide();
+                $('#updateMeetingFormDiv').show();
+            }
+        };
+
+        function editMeetingInitFailure() {
+            alert("Edit Meeting initialization failed");
+        };
+
+        function updateMeetingSuccess() {
+            if ($('#ErrorCode').val() != 0) {
+                $('#addMeetingButton').hide();
+                $('#updateMeetingFormDiv').show();
+            }
+        };
+
+        function updateMeetingFailure() {
+            alert("Update Meeting failed");
+        };
+
+        function deleteMeetingSuccess() {
+        };
+
+        function deleteMeetingFailure() {
+            alert("Delete Meeting failed");
+        };
+
+
+    </script>
+}

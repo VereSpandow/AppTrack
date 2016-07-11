@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteMobileLayout.cshtml";
+    ViewBag.Title = "MembershipOptions";
+    ViewBag.thisPage = "MembershipOptions";
+    ViewBag.PageType = "MembershipOptions";
+    ViewBag.EditCookie = "Y";
+}
+<div class="row nopadding">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left hidden-xs hidden-sm" style="min-height:450px;">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding">
+            <div class="no-offset nopadding" style="background-color:#c0d0e6;width:100%;padding:0px;margin:0px;">
+                <img class="img-responsive" src="../../Images/MemberShipOptions.png" style="height:auto; width:100%;padding:0px" />
+            </div>
+            <div class="col-md-12 nopadding noteditable" id="MOMain">
+                <h1 class="text-royalty-dark">Membership Options</h1>
+                <h3 class="text-royalty-dark">Choose the option that works for you</h3>
+
+                <div class="row" style="min-height: 150px;">
+                    <div class="editable" id="MemberShipOptionsAppTrack">
+                        <div style="font-size: 14px;">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "MemberShipOptionsAppTrack", status = "LIVE", viewName = "MembershipOptions" });}
+                        </div>
+                    </div>
+                    <a href="~/Site/AppTrack"><div class="btn btn-primary" style="margin-top:10px;">Tell Me More</div></a>
+                </div>
+
+                <div class="row" style="min-height: 150px;">
+                    <div class="editable" id="MemberShipOptionsAppTrackSelect">
+                        <div style="font-size: 14px;">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "MemberShipOptionsAppTrackSelect", status = "LIVE", viewName = "MembershipOptions" });}
+                        </div>
+                    </div>
+                    <a href="~/Site/AppTrackSelect"><div class="btn btn-primary" style="margin-top:10px;">Tell Me More</div></a>
+                </div>
+            </div>
+            <div class="row nopadding" style="width:100%;height:25px;">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,341 @@
+﻿@model AppTrack.ViewModels.CustomerNoteListViewModel
+
+@{
+    string searchNoteForm = "searchNoteForm" + @Model.SearchActivityID;
+    string searchNoteFormDiv = "searchNoteFormDiv" + @Model.SearchActivityID;
+    string editNoteID = "editNoteID" + @Model.SearchActivityID;
+    string editNoteInitForm = "editNoteInitForm" + @Model.SearchActivityID;
+    string editNoteContainerDiv = "editNoteContainerDiv" + @Model.SearchActivityID;
+    string addNoteContainerDiv = "addNoteContainerDiv" + @Model.SearchActivityID;
+    string customerNotesListDiv = "customerNotesListDiv" + @Model.SearchActivityID;
+}
+<div id="@customerNotesListDiv">
+
+    <div class="col-sm-6">
+        <button class="btn btn-xs btn-info" onclick="showSearchNoteForm(@Model.SearchActivityID)">
+            View Search
+        </button>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </div>
+
+    @if (ViewBag.ShowAddEdit == "Y")
+    {
+    <div class="col-sm-1 pull-right">
+        @using (Ajax.BeginForm("AddNoteInit", "CustomerNotes", null,
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "POST",
+                OnFailure = "addNoteInitFailed('" + @Model.SearchActivityID + "')",
+                OnSuccess = "addNoteInitSuccess('" + @Model.SearchActivityID + "')",
+                UpdateTargetId = addNoteContainerDiv
+            }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.SearchActivityID)
+            @Html.HiddenFor(model => model.SearchCustID)
+            @Html.HiddenFor(model => model.SearchAssignedToID)
+            @Html.HiddenFor(model => model.SearchStartDate)
+            @Html.HiddenFor(model => model.SearchEndDate)
+            @Html.HiddenFor(model => model.SearchScheduledStartDate)
+            @Html.HiddenFor(model => model.SearchScheduledEndDate)
+            @Html.HiddenFor(model => model.SearchCompletedStartDate)
+            @Html.HiddenFor(model => model.SearchCompletedEndDate)
+            @Html.HiddenFor(model => model.SearchPhrase)
+            @Html.HiddenFor(model => model.SearchNoteType)
+            @Html.HiddenFor(model => model.SearchCommType)
+            @Html.HiddenFor(model => model.SearchCommDirection)
+            <input type="hidden" name="NoteType" value="Task" />
+            <button class="btn btn-xs btn-info" id="addNoteButton">
+                Add Task
+            </button>
+        }
+    </div>
+    <div class="col-sm-5 pull-right" style="text-align:right;">
+        @using (Ajax.BeginForm("AddNoteInit", "CustomerNotes", null,
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "POST",
+                OnFailure = "addNoteInitFailed('" + @Model.SearchActivityID + "')",
+                OnSuccess = "addNoteInitSuccess('" + @Model.SearchActivityID + "')",
+                UpdateTargetId = addNoteContainerDiv
+            }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.SearchActivityID)
+            @Html.HiddenFor(model => model.SearchCustID)
+            @Html.HiddenFor(model => model.SearchAssignedToID)
+            @Html.HiddenFor(model => model.SearchStartDate)
+            @Html.HiddenFor(model => model.SearchEndDate)
+            @Html.HiddenFor(model => model.SearchScheduledStartDate)
+            @Html.HiddenFor(model => model.SearchScheduledEndDate)
+            @Html.HiddenFor(model => model.SearchCompletedStartDate)
+            @Html.HiddenFor(model => model.SearchCompletedEndDate)
+            @Html.HiddenFor(model => model.SearchPhrase)
+            @Html.HiddenFor(model => model.SearchNoteType)
+            @Html.HiddenFor(model => model.SearchCommType)
+            @Html.HiddenFor(model => model.SearchCommDirection)
+            <input type="hidden" name="NoteType" value="Note" />
+            <button class="btn btn-xs btn-info" id="addNoteButton">
+                Add Note
+            </button>
+        }
+    </div>
+    }
+    <div style="clear:both"></div>
+
+    <div class="row" style="padding-top:10px;">
+
+        <div id="@addNoteContainerDiv" class="row" style="padding-top:10px;display:none;">
+        </div>
+
+        <div id="@editNoteContainerDiv" class="row" style="padding-top:10px;display:none;">
+        </div>
+
+        @if (ViewBag.ShowSearchForm == null)
+        {
+            ViewBag.ShowSearchForm = "none";
+        }
+        <!-- SEARCH NOTES FORM -->
+        <div class="filterbar" id=@searchNoteFormDiv style="display:@ViewBag.ShowSearchForm;">
+            @using (Ajax.BeginForm("NotesList", "CustomerNotes",
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "POST",
+                OnFailure = "notesListFailed",
+                LoadingElementId = "ajax-loader",
+                UpdateTargetId = customerNotesListDiv
+            }, new { id = searchNoteForm }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.SearchCustID)
+                @Html.HiddenFor(model => model.SearchActivityID)
+                <div>
+                    <div class="col-sm-2">
+                        <label class="control-label">Entered From</label>
+                        <br />
+                        @Html.JQueryUI().DatepickerFor(model => model.SearchStartDate, new { @class = "form-control", @id = "SearchStartDateID" })
+                        @*@Html.EditorFor(model => model.SearchStartDate, new { htmlAttributes = new { @class = "form-control date-picker" } })*@
+                        @Html.ValidationMessageFor(model => model.SearchStartDate, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="control-label">To</label>
+                        <br />
+                        @Html.JQueryUI().DatepickerFor(model => model.SearchEndDate, new { @class = "form-control", @id = "SearchEndDateID" })
+                        @*@Html.EditorFor(model => model.SearchEndDate, new { htmlAttributes = new { @class = "form-control date-picker" } })*@
+                        @Html.ValidationMessageFor(model => model.SearchEndDate, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.SearchPhrase, htmlAttributes: new { @class = "control-label" })
+                        <br />
+                        @Html.EditorFor(model => model.SearchPhrase, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SearchPhrase, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.SearchNoteStatus, htmlAttributes: new { @class = "control-label" })
+                        <br />
+                        @Html.DropDownListFor(model => model.SearchNoteStatus, Model.SearchNoteStatusList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SearchNoteStatus, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="control-label">&nbsp;</label>
+                        <br />
+                        <button class="btn btn-sm btn-info" type="submit" value="Search">Search</button>
+                    </div>
+                </div>
+                <img id="ajax-loader" src="@Url.Content("~/Content/images/ajax-loader.gif")" style="display:none;" />
+            }
+        </div>
+    </div>
+    <div style="clear:both;height:10px;"></div>
+
+    <table class="table table-hover table-striped table-responsive" id="volumesTable" style="padding-top:5px;font-size:1.1em;">
+        <thead>
+            <tr>
+                <th width=5%>
+                    &nbsp;
+                </th>
+                <th width="20%">
+                    Added
+                </th>
+                <th width="15%">
+                    &nbsp;
+                </th>
+                <th width="15%">
+                    Assigned To
+                </th>
+                <th width="10%">
+                    Assigned
+                </th>
+                <th width="10%">
+                    Due
+                </th>
+                <th width="10%">
+                    Status
+                </th>
+                <th width="10%">
+                    Completed
+                </th>
+                <th width="5%">
+                    &nbsp;
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.CustomerNoteList)
+            {
+                <tr>
+                    <td>
+                        @if (@item.NoteType == "Task")
+                        {
+                            <span class="status-NEW">Task</span>
+                        }
+                        else
+                        {
+                            <span>Note</span>
+                        }
+                    </td>
+                    <td>
+                        @item.PostDate.ToString("MM/dd/yy") by @item.OwnerName
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CommType) - @Html.DisplayFor(modelItem => item.CommDirection)
+                    </td>
+                    <td>
+                        @if (@item.NoteType == "Task")
+                        {
+                            @Html.DisplayFor(modelItem => item.AssignedToName)
+                        }
+                    </td>
+                    <td>
+                        @if (@item.NoteType == "Task")
+                        {
+                            @Html.DisplayFor(modelItem => item.AssignedDate)
+                        }
+                    </td>
+                    <td>
+                        @if (@item.NoteType == "Task")
+                        {
+                            if (@item.ScheduledDate != null)
+                            {
+
+                                int cmp = item.ScheduledDate.Value.CompareTo(DateTime.Now);
+
+                                if (cmp >= 0 || item.Status.ToUpper() == "COMPLETE")
+                                {
+                                    <span class="status-NEW">@Html.DisplayFor(modelItem => item.ScheduledDate)</span>
+                                }
+                                else
+                                {
+                                    <span class="status-DELETED">@Html.DisplayFor(modelItem => item.ScheduledDate)</span>
+                                }
+                            }
+                        }
+                    </td>
+                    <td>
+                        @if (@item.NoteType == "Task")
+                        {
+                            <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                        }
+                    </td>
+                    <td>
+                        @if (@item.NoteType == "Task")
+                        {
+                            @Html.DisplayFor(modelItem => item.EndDate)
+                        }
+                    </td>
+                    <td>
+                        @if (item.OwnerID == ViewBag.AdminID || User.IsInRole("MemberServicesManager") || item.AssignedTo == ViewBag.AdminID)
+                        {
+                            <div class="pull-left" style="padding-right:10px;">
+                                <a href="#" onclick="editNoteInit(@Model.SearchActivityID, @item.NoteID)"><span class="fa fa-2x fa-edit"></span></a>
+                            </div>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td colspan="9">
+                        @Html.DisplayFor(modelItem => item.NoteText)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div id="editNoteAjaxForm" style="display:block;">
+
+    @using (Ajax.BeginForm("EditNoteInit", "CustomerNotes", null,
+       new AjaxOptions
+       {
+           InsertionMode = InsertionMode.Replace,
+           HttpMethod = "POST",
+           OnFailure = "editNoteInitFailed('" + @Model.SearchActivityID + "')",
+           OnSuccess = "editNoteInitSuccess('" + @Model.SearchActivityID + "')",
+           UpdateTargetId = editNoteContainerDiv
+       }, new { id = editNoteInitForm }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.SearchActivityID)
+        @Html.HiddenFor(model => model.SearchCustID)
+        @Html.HiddenFor(model => model.SearchAssignedToID)
+        @Html.HiddenFor(model => model.SearchStartDate)
+        @Html.HiddenFor(model => model.SearchEndDate)
+        @Html.HiddenFor(model => model.SearchScheduledStartDate)
+        @Html.HiddenFor(model => model.SearchScheduledEndDate)
+        @Html.HiddenFor(model => model.SearchCompletedStartDate)
+        @Html.HiddenFor(model => model.SearchCompletedEndDate)
+        @Html.HiddenFor(model => model.SearchPhrase)
+        @Html.HiddenFor(model => model.SearchNoteType)
+        @Html.HiddenFor(model => model.SearchCommType)
+        @Html.HiddenFor(model => model.SearchCommDirection)
+        <input type="hidden" name="NoteID" id=@editNoteID value="" />
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#SearchStartDateID").datepicker();
+        $("#SearchEndDateID").datepicker();
+        $.validator.unobtrusive.parse("@searchNoteForm");
+    });
+
+    function editNoteInit(thisActivityID, thisNoteID) {
+        $("#editNoteID" + thisActivityID).val(thisNoteID);
+        $("#editNoteInitForm" + thisActivityID).submit();
+    };
+
+    function addNoteInitFailed(thisActivityID) {
+        alert("Error encountered, unable to initialize Add Note form.");
+    }
+
+    function addNoteInitSuccess(thisActivityID) {
+        $("#addNoteContainerDiv" + thisActivityID).show();
+        $("#editNoteContainerDiv" + thisActivityID).hide();
+        $('#searchNoteFormDiv' + thisActivityID).hide();
+    }
+    function editNoteInitFailed(thisActivityID) {
+        alert("Error encountered, unable to initialize Edit Note form.");
+    }
+
+    function editNoteInitSuccess(thisActivityID) {
+        $("#addNoteContainerDiv" + thisActivityID).hide();
+        $("#editNoteContainerDiv" + thisActivityID).show();
+        $('#searchNoteFormDiv' + thisActivityID).hide();
+    }
+
+    function showSearchNoteForm(thisActivityID) {
+        $('#addNoteContainerDiv' + thisActivityID).hide();
+        $("#editNoteContainerDiv" + thisActivityID).hide();
+        $('#searchNoteFormDiv' + thisActivityID).show();
+    }
+
+    function notesListFailed() {
+        alert("Error encountered, unable to list notes.");
+    }
+</script>

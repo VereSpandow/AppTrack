@@ -1,0 +1,109 @@
+﻿@model AppTrack.ViewModels.VendorListViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+    <div class="h2" style="float:left">Vendor List</div>
+    <div class="h2" style="float:right"><a class="btn btn-info" href="@Url.Action("Company","Vendor")">Add New</a></div>
+    <div class="filterbar" style="display:block;clear:both;">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.SearchCompany, htmlAttributes: new { @class = "control-label" })
+                        <br />
+                        @Html.EditorFor(model => model.SearchCompany, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                        @Html.ValidationMessageFor(model => model.SearchCompany, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.SelectedStatus, htmlAttributes: new { @class = "control-label" })
+                        <br />
+                        @Html.DropDownListFor(model => model.SelectedStatus, Model.StatusList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SelectedStatus, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="control-label">&nbsp;</label>
+                        <br />
+                        <button class="btn btn-info" type="submit" value="Search">Search</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <hr />
+
+    <table class="table table-hover table-striped table-responsive" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.VendorList[0].Company)
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    Contact
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VendorList[0].Status)
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.VendorList)
+            {
+                <tr onclick="location.href = 'Vendor/AccountProfile/@item.CustID';">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Company)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address1)
+                        @if (item.Address2 != null && item.Address2 != "")
+                        {
+                            <span>,</span> @Html.DisplayFor(modelItem => item.Address2)
+                        }
+                        <br />
+                        @Html.DisplayFor(modelItem => item.City), @Html.DisplayFor(modelItem => item.State) @Html.DisplayFor(modelItem => item.PostalCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)&nbsp;@Html.DisplayFor(modelItem => item.LastName)
+                        <br />
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("AccountProfile", "Vendor", new { id = item.CustID })"><span class="fa fa-fw fa-user"></span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                $('#myTable').dataTable(
+                {
+                    "searching": false,
+                    "bLengthChange": false,
+                    "iDisplayLength" :  100,
+                    "oLanguage": {
+                        "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                        "sLengthMenu": "Show _MENU_ rows per page",
+                        "sInfoEmpty": "0 records found",
+                        "sEmptyTable": "No information available to display"
+                    }
+                });
+            });
+        </script>
+    }

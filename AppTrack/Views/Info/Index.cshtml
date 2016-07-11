@@ -1,0 +1,639 @@
+﻿@model IEnumerable<AppTrack.Models.AC_GetC_infoListByCustomerType_Result>
+
+    @{
+    ViewBag.Title = "Index";
+    }
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm())
+{
+@Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+
+    <div class="form-group">
+        <div class="col-md-2">
+        <input type="text" name="Pin" id="Pin" value="@ViewBag.Pin" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-2">
+            <input type="text" name="StartDate" id="StartDate" value="@ViewBag.StartDate" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-2">
+            <input type="text" name="SearchPhrase" id="SearchPhrase" value="@ViewBag.SearchPhrase" />
+        </div>
+    </div>
+
+    <input type="submit" value="Search" />
+
+</div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CustID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AlternateID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SponsorID).
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecSponsorID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ParentID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BillingCustID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PayoutCustID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SourceID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SourceCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerProfileID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SalesForceID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccountingID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccountLockoutDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FailedLoginAttempts)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaxAttemptsAllowed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NameTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Suffix)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Company)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.C1099Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BITypeID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisplayName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaxID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostalCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.County)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DayPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EvePhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mobile)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fax)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DOB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipFirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipLastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipAddress1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipAddress2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipCity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipState)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipCounty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipPostalCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipCountry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PricingLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PeriodQualificationLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerQualificationLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EnrollmentEmailSent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AgreementAccepted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SiteName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Logo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HideFlag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailFlag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TextFlag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Eligible)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AutoOptionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccessLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SentToSynchronize)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BatchID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrimaryLanguage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VariantData1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VariantData2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VariantData3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VariantData4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Flag1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Flag2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Flag3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Flag4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Volume1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Volume2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Volume3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Volume4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Latitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Longitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GeoPrecision)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AdminID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivationStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivationStatusDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StatusDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StatusID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Change_Date)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>            
+            @Html.DisplayFor(modelItem => item.CustID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AlternateID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SponsorID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecSponsorID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ParentID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BillingCustID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PayoutCustID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SourceID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SourceCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerProfileID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SalesForceID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccountingID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccountLockoutDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FailedLoginAttempts)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaxAttemptsAllowed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NameTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MiddleName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Suffix)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Company)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.C1099Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BITypeID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DisplayName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaxID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.State)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostalCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.County)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Country)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyPhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DayPhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EvePhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mobile)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fax)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gender)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DOB)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipFirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipLastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipAddress1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipAddress2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipCity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipState)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipCounty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipPostalCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipCountry)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipPhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PricingLevel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PeriodQualificationLevel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerQualificationLevel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EnrollmentEmailSent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AgreementAccepted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SiteName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Logo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HideFlag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailFlag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TextFlag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Eligible)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AutoOptionID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccessLevel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SentToSynchronize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BatchID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrimaryLanguage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VariantData1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VariantData2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VariantData3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VariantData4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Flag1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Flag2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Flag3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Flag4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Volume1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Volume2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Volume3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Volume4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Latitude)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Longitude)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GeoPrecision)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdminID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActivationStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActivationStatusDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StatusDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StatusID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Change_Date)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

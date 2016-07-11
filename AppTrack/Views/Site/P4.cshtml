@@ -1,0 +1,8 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.thisPage = "P4";
+    ViewBag.PageType = "Landing";
+}
+<div class="row editable">
+    @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "P4", status = "LIVE", viewName = "P4" });}
+</div>

@@ -1,0 +1,209 @@
+﻿@model AppTrack.ViewModels.SalesPoPReportViewModel
+
+@{
+    ViewBag.Title = "Index";
+    string PeriodLabelOne = "1";
+    string PeriodLabelTwo = "2";
+    string PeriodLabelThree = "3";
+    string PeriodLabelFour = "4";
+    string PeriodLabelFive = "5";
+    int thisVendorID1 = 0;
+    int thisCustID1 = 0;
+    int thisVendorID = 0;
+    int thisCustID = 0;
+    if (@Model.SalesPoPReportList.Count > 0)
+    {
+    thisVendorID1 = Model.SalesPoPReportList[0].VendorID;
+    thisCustID1 = Model.SalesPoPReportList[0].CustID;
+    }
+    if (@Model.SalesPoPReportList.Count > 1)
+    {
+        PeriodLabelOne = Model.SalesPoPReportList[1].PeriodLabelOne;
+        PeriodLabelTwo = Model.SalesPoPReportList[1].PeriodLabelTwo;
+        PeriodLabelThree = Model.SalesPoPReportList[1].PeriodLabelThree;
+        PeriodLabelFour = Model.SalesPoPReportList[1].PeriodLabelFour;
+        PeriodLabelFive = Model.SalesPoPReportList[1].PeriodLabelFive;
+        thisVendorID = Model.SalesPoPReportList[1].VendorID;
+        thisCustID = Model.SalesPoPReportList[1].CustID;
+    }
+    if (thisCustID != thisCustID1)
+    {
+        thisCustID = 0;
+    }
+    if (thisVendorID != thisVendorID1)
+    {
+        thisVendorID = 0;
+    }
+}
+
+<div class="h2" style="float:left">Member Payee -Vendor Sales Trends</div>
+<div style="display:block;clear:both;"></div>
+<div class="col-sm-12 pull-left">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <strong>Select Vendor</strong>
+                    <br />
+                    @Html.DropDownListFor(model => model.searchVendorID, Model.SearchVendorList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.searchVendorID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-1">
+                    <strong>&nbsp;</strong>
+                    <br />
+                    - OR -
+                </div>
+                <div class="col-sm-3">
+                    <strong>Enter Member ID</strong>
+                    <br />
+                    @Html.EditorFor(model => model.searchCustID, new { htmlAttributes = new { @class = "form-control", maxlength = "10" } })
+                    @Html.ValidationMessageFor(model => model.searchCustID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-1">
+                    <strong>&nbsp;</strong>
+                    <br />
+                    AND
+                </div>
+                <div class="col-sm-3">
+                    <strong>Select Period</strong>
+                    <br />
+                    @Html.DropDownListFor(model => model.searchPeriodID, Model.SearchPeriodList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.searchPeriodID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-1">
+                    <strong>&nbsp;</strong>
+                    <br />
+                    <button class="btn btn-info" type="submit" value="Search">Search</button>
+                    <button class="btn fa fa-download" type="submit" name="submit" value="Download"></button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div id="chartContainer" class="col-md-12 hidden-sm hidden-xs">
+</div>
+<hr />
+
+<div id="graph" class="aGraph" style="position:absolute;top:0px;left:0; float:left;"></div>
+
+<table class="table table-hover table-striped table-responsive" id="myTable">
+    <thead>
+        <tr>
+            <th style="width:5%;">
+                @Html.DisplayNameFor(model => model.SalesPoPReportList[0].CustID)
+            </th>
+            <th style="width:20%;">
+                @Html.DisplayNameFor(model => model.SalesPoPReportList[0].MemberName)
+            </th>
+            <th style="width:5%;">
+                @Html.DisplayNameFor(model => model.SalesPoPReportList[0].VendorID)
+            </th>
+            <th style="width:10%;">
+                @Html.DisplayNameFor(model => model.SalesPoPReportList[0].VendorName)
+            </th>
+            <th style="width:10%;">
+                @PeriodLabelOne
+            </th>
+            <th style="width:10%;">
+                @PeriodLabelTwo
+            </th>
+            <th style="width:10%;">
+                @PeriodLabelThree
+            </th>
+            <th style="width:10%;">
+                @PeriodLabelFour
+            </th>
+            <th style="width:10%;">
+                @PeriodLabelFive
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model.SalesPoPReportList)
+        {
+            if ((item.CustID > 0) && (item.VendorID > 0) && (item.MemberName != null))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MemberName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VendorID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VendorName)
+                    </td>
+                    <td>
+                        @string.Format("{0:C}", item.SalesPeriodOne)
+                    </td>
+                    <td>
+                        @string.Format("{0:C}", item.SalesPeriodTwo)
+                    </td>
+                    <td>
+                        @string.Format("{0:C}", item.SalesPeriodThree)
+                    </td>
+                    <td>
+                        @string.Format("{0:C}", item.SalesPeriodFour)
+                    </td>
+                    <td>
+                        @string.Format("{0:C}", item.SalesPeriodFive)
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@section Scripts {
+<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="~/Scripts/dimple.v2.1.6.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').dataTable(
+            {
+                "searching": false,
+                "bLengthChange": false,
+                "iDisplayLength": 100,
+                "oLanguage": {
+                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                    "sLengthMenu": "Show _MENU_ rows per page",
+                    "sInfoEmpty": "0 records found",
+                    "sEmptyTable": "No information available to display"
+                }
+            });
+        });
+        $.ajaxSetup({ cache: false });
+        $.get("../SalesPopReport/LineChart/?searchCustID=@thisCustID&searchVendorID=@thisVendorID", function (data2) {
+            var svg2 = dimple.newSvg("#chartContainer", 700, 300);
+            var myChart2 = new dimple.chart(svg2, data2);
+            // Filter for a single SKU and Channel
+
+            // Create and Position a Chart
+            var myChart2 = new dimple.chart(svg2, data2);
+            myChart2.setMargins(50, 20, 20, 40)
+            var x = myChart2.addCategoryAxis("x", "Period")
+            myChart2.addMeasureAxis("y", "Sales");
+
+            // Order the x axis by date
+            x.addOrderRule("Period");
+
+            // Min price will be green, middle price yellow and max red
+            myChart2.addColorAxis("Sales", ["red", "yellow", "green"]);
+
+            // Add a thick line with markers
+            var lines = myChart2.addSeries(null, dimple.plot.line);
+            lines.lineWeight = 5;
+            lines.lineMarkers = true;
+
+            // Draw the chart
+            myChart2.draw();
+        }, 'json');
+    </script>
+}

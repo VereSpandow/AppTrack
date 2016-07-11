@@ -1,0 +1,64 @@
+﻿@model AppTrack.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Create New User";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Create", "UsersAdmin", FormMethod.Post, new { @id="CreateAdminUser", @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.DisplayName, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-6">
+            @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", maxlength = "50"  })
+            @Html.ValidationMessageFor(m => m.DisplayName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-6">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control email" , maxlength = "100"  })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-6">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control password", maxlength = "25"  })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-6">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control password" })
+            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">
+            Select User Role
+        </label>
+        <div class="col-sm-6">
+            @foreach (var item in (SelectList)ViewBag.RoleId)
+            {
+                <input id="SelectedRoles" type="checkbox" name="SelectedRoles" value="@item.Value" class="checkbox-inline required" />
+                @Html.Label(item.Value, new { @class = "control-label" })
+                <br />
+            }
+            <span id="RoleError" class="field-validation-valid text-danger" data-valmsg-for="SelectedRoles" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-6">
+            <input type="submit" class="btn btn-info" value="Create" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

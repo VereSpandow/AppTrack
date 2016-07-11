@@ -1,0 +1,27 @@
+﻿@model AppTrack.ViewModels.LocalMeetingList
+
+@foreach (var item in Model.localMeetings)
+{
+    <a href="/Site/MeetingRegistration/@item.ID">
+        <div class="col-sm-12 pull-left text-left nopadding">
+            <span class="text-primary-dark" style="font-size:1.1em;">
+                @Html.DisplayFor(modelItem => item.City),
+                @Html.DisplayFor(modelItem => item.State)
+                --
+                @item.EventStartDate.ToString("MM/dd/yy h:mm tt")
+            </span>
+            @if (item.Status.ToUpper() == "POSTPONED")
+            {
+                <span class="status-CANCELLED" style="font-weight:bold">Postponed</span>
+            }
+        </div>
+    </a>
+    <div class="col-sm-12" style="text-align:left;font-size:1.0em;">
+        @Html.DisplayFor(modelItem => item.EventTitle)
+    </div>
+}
+
+<div class="row nopadding" style="width:100%;height:25px;">
+    &nbsp;
+</div>
+

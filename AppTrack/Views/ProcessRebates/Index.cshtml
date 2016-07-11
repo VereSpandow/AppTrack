@@ -1,0 +1,99 @@
+﻿@model AppTrack.ViewModels.ProcessRebatesViewModel
+@{
+    ViewBag.Title = "Member Rebates";
+}
+<h2>@ViewBag.Title</h2>
+
+<div class="col-md-12">
+    <div class="alert">@ViewBag.ErrorMessage</div>
+
+    @if (Model.RebateProcessingPeriodList.Count() == 0 && Model.RebatePostingPeriodList.Count() == 0)
+    {
+        <div class="alert">There are no Periods available to Process or Post at this time.</div>
+    }
+    
+    @if (Model.RebateProcessingPeriodList.Count() > 0 )
+    {
+        <div class="col-md-6 col-sm-12 pull-left">
+            <div class="panel panel-primary" style="min-height:250px;">
+                <div class=" panel-heading">Process Rebates</div>
+                <div class="panel-body text-center" style="padding:20px;">
+                    @using (Html.BeginForm("ProcessRebates", "ProcessRebates", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.AdminID)
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        <div class="col-md-12">
+                            <div class="col-md-6 text-right">
+                                Select Period
+                            </div>
+                            <div class="col-md-6 text-left">
+                                @Html.DropDownListFor(model => model.PeriodID, Model.RebateProcessingPeriodList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PeriodID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <br />
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="checkbox" id="ProcessRebatesConfirmation" name="ProcessRebatesConfirmation" value="Y" class="checkbox-inline" style="margin-top:-2px;" onclick="processRebateEnabled();" />&nbsp;Check To Confirm
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="submit" class="btn btn-default btn-primary" value="Process Rebates" id="processRebateButton" disabled/>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="row">
+            </div>
+        </div>
+    }
+    @if (Model.RebatePostingPeriodList.Count() > 0 )
+    {
+        <div class="col-md-6 col-sm-12 pull-left">
+            <div class="panel panel-success-dark" style="min-height:250px; border:1px #808080 solid">
+                <div class=" panel-heading">Post Rebates</div>
+                <div class="panel-body text-center">
+                    @using (Html.BeginForm("PostRebates", "ProcessRebates", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.AdminID)
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        <div class="col-md-12">
+                            <div class="col-md-6 text-right">
+                                Select Period
+                            </div>
+                            <div class="col-md-6 text-left">
+                                @Html.DropDownListFor(model => model.PeriodID, Model.RebatePostingPeriodList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PeriodID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <br />
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="checkbox" id="ProcessRebatesConfirmation" name="ProcessRebatesConfirmation" value="Y" class="checkbox-inline" style="margin-top:-2px;" onclick="postRebateEnabled();" />&nbsp;Check To Confirm
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="submit" class="btn btn-default btn-primary" value="Post Rebates" id="postRebateButton" disabled/>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    function processRebateEnabled() {
+        $('#processRebateButton').prop('disabled',false);
+    }
+    function postRebateEnabled() {
+        $('#postRebateButton').prop('disabled',false);
+    }
+
+</script>

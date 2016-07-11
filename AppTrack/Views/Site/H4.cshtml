@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.thisPage = "H4";
+    ViewBag.PageType = "Landing";
+}
+<style>
+    .bg-gray {
+        padding: 5px;
+    }
+</style>
+<div class="row">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-12 nopadding editable">
+            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "H4", status = "LIVE", viewName = "H4" });}
+        </div>
+    </div>
+</div>
+<div class="row nopadding" style="width:100%;height:25px;">
+    &nbsp;
+</div>

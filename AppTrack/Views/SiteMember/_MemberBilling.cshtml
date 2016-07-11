@@ -1,0 +1,74 @@
+﻿@model AppTrack.ViewModels.MemberEnrollmentPaymentMethod
+
+<div id="enrollRightCol4">
+    <div class="panel panel-info panel-info-dark">
+        <div class="panel-heading">
+            <div class="panel-title">
+                Complete the form below with the preferred credit card to be used for monthly billing.
+            </div>
+        </div>
+        <div class="panel-body">
+            @using (Ajax.BeginForm("MemberEnrollmentPaymentMethod", "MemberEnrollment", null,
+                         new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            HttpMethod = "POST",
+                            OnSuccess = "OnSuccess2",
+                            OnFailure = "OnFailure",
+                            LoadingElementId = "ajax-loader",
+                            UpdateTargetId = "enrollRightCol4"
+                        }, new { id = "memberEnrollmentForm3" }))
+            {
+                @Html.AntiForgeryToken()
+                <img id="ajax-loader" src="@Url.Content("~/Images/ajax-loader.gif")" style="display:none;" />
+                <div class="col-md-12">
+                    @Html.HiddenFor(model => model.CustID)
+
+                    <div class="col-md-12" style="margin-top:5px;">
+                        @Html.LabelFor(model => model.PName, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;margin-bottom:-3px;" })
+                        @Html.EditorFor(model => model.PName, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+                        @Html.ValidationMessageFor(model => model.PName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-4" style="margin-top:5px;">
+
+                        @Html.LabelFor(model => model.PCardType, htmlAttributes: new { @class = "control-label" })
+                        <br />
+                        @Html.DropDownListFor(model => model.PCardType, Model.CardTypeList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PCardType, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-8" style="margin-top:5px;">
+                        @Html.LabelFor(model => model.PCardNumber, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;margin-bottom:-3px;" })
+                        @Html.EditorFor(model => model.PCardNumber, new { htmlAttributes = new { @class = "form-control", maxlength = "16" } })
+                        @Html.ValidationMessageFor(model => model.PCardNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-4" style="margin-top:5px;">
+                        @Html.LabelFor(model => model.PExpirationMonth, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;margin-bottom:-3px;" })
+                        @Html.DropDownListFor(model => model.PExpirationMonth, Model.CardExpMonthList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PExpirationMonth, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-4" style="margin-top:5px;">
+                        @Html.LabelFor(model => model.PExpirationYear, htmlAttributes: new { @class = "control-label", style = "font-weight:200;color:#333;margin-bottom:-3px;" })
+                        @Html.DropDownListFor(model => model.PExpirationYear, Model.CardExpYearList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PExpirationYear, "", new { @class = "text-danger" })
+                    </div>
+
+
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input type="submit" name="button" value="Save" class="btn btn-sm btn-danger-dark pull-right">
+                    </div>
+                </div>
+            }
+
+        </div>
+        <div class="panel-footer">
+            Next Step -->  Select Associated Vendors
+        </div>
+    </div>
+</div>
+

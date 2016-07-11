@@ -1,0 +1,178 @@
+﻿@model AppTrack.ViewModels.MemberVendorViewModel
+
+@{
+    var YesChecked = "";
+    var NoChecked = "";
+    var NotWithAppTrackChecked = "";
+}
+
+<div id="row">
+    <div class="panel panel-default" style="box-shadow:#ccc 7px 7px;max-width:850px;">
+        <div class="panel-heading">
+            <div class="panel-title h4">
+                Select the Vendors from which the Practice currently makes purchases.
+            </div>
+        </div>
+        <div class="panel-body">
+            <img id="ajax-loader" src="@Url.Content("~/images/ajax-loader.gif")" style="display:none;" />
+            <div class="col-md-12 nopadding" style="max-width:800px;">
+                <div class="col-md-4 text-left h4">
+                    Vendor
+                </div>
+                <div class="col-md-5 col-md-offset-1 pull-left text-left h4">
+                    Participation
+                </div>
+                <div class="col-md-2 h4">
+                    Requirements
+                </div>
+            </div>
+            <div class="col-md-12" style="padding-bottom:5px;margin-bottom:5px;">
+            </div>
+            @foreach (var item in Model.MemberVendorList)
+            {
+            var textColor = "#000000;";
+            if (String.IsNullOrEmpty(item.Participation))
+            {
+            textColor = "#00CC00;";
+            }
+            <div class="col-md-12 nopadding" style="max-width:800px;">
+                <div class="col-md-4 text-left" style="color:@textColor;">
+                    <strong>
+                        @Html.DisplayFor(modelItem => item.Company)
+                    </strong>
+                    @if (item.C_ProgramID > 1)
+                    {
+                    <br>
+                    @item.ProgramName
+                    }
+                </div>
+                <div class="col-md-5 col-md-offset-1 pull-left text-left">
+                    @if (item.Participation != null)
+                    {
+                    YesChecked = "";
+                    NoChecked = "";
+                    NotWithAppTrackChecked = "";
+                    switch (item.Participation)
+                    {
+                    case "Yes":
+                    YesChecked = "checked";
+                    break;
+                    case "No":
+                    NoChecked = "checked";
+                    break;
+                    case "NotWithAppTrack":
+                    NotWithAppTrackChecked = "checked";
+                    break;
+                    default:
+                    break;
+                    }
+                    }
+
+                    <input type="radio" name="@item.CustID" id="@item.CustID" @YesChecked value="Yes" class="checkbox-inline" style="margin-top:-2px;" />&nbsp;Yes
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="@item.CustID" id="@item.CustID" @NoChecked value="No" class="checkbox-inline" style="margin-top:-2px;" />&nbsp;No
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="@item.CustID" id="@item.CustID" @NotWithAppTrackChecked value="NotWithAppTrack" class="checkbox-inline" style="margin-top:-2px;" />&nbsp;Not with AppTrack
+                </div>
+                <div class="col-md-1">
+                    @if ((item.HasRequirement != null) && (item.HasRequirement > 0))
+                    {
+                    var thisStyle = "none";
+                    if (item.Participation == "Yes")
+                    {
+                    thisStyle = "block";
+                    }
+                    if ((item.RequirementStatus == null) || (item.RequirementStatus == ""))
+                    {
+                    item.RequirementStatus = "Requirements";
+                    }
+                    <span class="req-inline btn fa fa-search" id="MR-@item.CustID" style="display:@thisStyle;">Show Requirements</span>
+                    }
+                </div>
+            </div>
+            <div class="col-md-12" id="MSG-@item.CustID" style="padding-bottom:5px;margin-bottom:10px;border-bottom:#CCC 1px dashed;max-width:800px;">
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+
+    $('.checkbox-inline').click(function (event) {
+        var vendor = event.target.id;
+        var participation = $(this).val();
+        var targetID = "#MSG-"+ vendor;
+        var reqTargetID = "#MR-"+ vendor;
+        if ( $( reqTargetID).length ){
+            if (participation == "Yes"){
+                $(reqTargetID).fadeIn();
+            }else{
+                $(reqTargetID).fadeOut();
+            }
+        }
+        var itemID = 0;
+        var sendData = { CustID: @Model.CustID, VendorID: vendor, Participation: participation, ItemID: itemID };
+        var url = "/Member/MemberVendorProgramSelect";
+        $.post(url, sendData)
+          .done(function (data) {
+              //      alert("Data Sent: " + data);
+              //      alert("Data Loaded: " + data);
+              $(targetID).empty().append(data);
+          })
+          .error(function (data) {
+              alert("Data Not Loaded: " + data);
+          })
+    });
+
+
+    $('.req-inline').click(function (event) {
+        var vendor = event.target.id;
+        vendor = vendor.replace("MR-","");
+        var targetID = "#MSG-"+ vendor;
+        event.preventDefault();
+        $(targetID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+        $.ajax({
+            url: "/Member/MemberVendorRequirement?CustID=@Model.CustID&VendorID="+vendor,
+            cache: false,
+            type: "get",
+            dataType: "html",
+            success: function (result) {
+                $(targetID).html(result);
+                $.validator.unobtrusive.parse(document);
+            },
+            failure: function () {
+                alert("Ooops - something went wrong");
+            }
+        });
+    });
+
+    // This script is for the 
+
+    function sendDocuSign(thisVendorID, thisMemberID, thisRequirementID) {
+        var targetID = "#MSG-" + thisVendorID;
+        $(targetID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+        $.ajax({
+            url: "/DocuSign/SendDocument?CustID=" + thisMemberID + "&ID=" + thisRequirementID,
+            cache: false,
+            type: "get",
+            dataType: "html",
+            success: function (result) {
+                //                alert(result);
+                $(targetID).html(result);
+                $.validator.unobtrusive.parse(document);
+            },
+            failure: function () {
+                alert("Ooops - something went wrong");
+            }
+        });
+    }
+
+    function showUploadDocument(thisDocumentID) {
+        var targetID = "#uploadDocument-"+ thisDocumentID;
+        $(targetID).show();
+    };
+
+</script>

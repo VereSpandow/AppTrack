@@ -1,0 +1,114 @@
+        [HttpGet]
+        public ActionResult NotesList(int ID = 0)
+        {
+             DateTime   startDateTime = new DateTime(2015, 5, 1);
+             DateTime   endDateTime = new DateTime(2017, 5, 1);
+             string searchPhrase = "";
+             string searchStatus = "";
+			 int custID = 0 
+
+			ViewBag.SearchStartDate = startDateTime;
+            ViewBag.SearchEndDate   = endDateTime;
+            ViewBag.searchPhrase    = searchPhrase;
+            ViewBag.SearchStatus    = searchStatus;
+			ViewBag.Pin             = custID;
+
+            // Debug.WriteLine("Get-" + searchPhrase + "|" + searchStatus + "|" + startDateTime + "|" + endDateTime);
+             var salesRepNotes = db.Database.SqlQuery<SalesRepNotes>("exec dbo.[LB_GetNotes] @StartDate, @EndDate, @LastName, @Status", @CustID, 
+             new SqlParameter("@StartDate", startDateTime),
+             new SqlParameter("@EndDate", endDateTime),
+             new SqlParameter("@LastName", searchPhrase),
+             new SqlParameter("@Status", searchStatus),
+             new SqlParameter("@CustID", custID)
+             ).ToList();
+
+            var model = new SalesRepListViewModel
+            {
+
+                SalesRepNotes = salesRepNotes,
+                SearchStartDate = startDateTime,
+                SearchEndDate = endDateTime,
+                searchPhrase = searchPhrase,
+                SearchStatus = searchStatus
+            };
+            
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index([Bind(Include = "SearchStartDate, SearchEndDate, searchPhrase, SearchStatus")] SalesRepListViewModel SalesRepListViewModel)
+        {
+            DateTime startDateTime = SalesRepListViewModel.SearchStartDate;
+            DateTime endDateTime = SalesRepListViewModel.SearchEndDate;
+            if (startDateTime > endDateTime)
+            {
+            }
+            string searchPhrase = SalesRepListViewModel.searchPhrase;
+            string searchStatus = SalesRepListViewModel.SearchStatus;
+
+//            DateTime startDateTime = new DateTime();
+//            if (DateTime.TryParse(searchStartDate, out startDateTime))
+//            {
+//                startDateTime = DateTime.Parse(searchStartDate);
+//           }
+//            else
+//            {
+//                startDateTime = new DateTime(2015, 5, 1);
+//            }
+//            DateTime endDateTime = new DateTime();
+//            if (DateTime.TryParse(searchEndDate, out endDateTime))
+//            {
+//                endDateTime = DateTime.Parse(searchEndDate);
+//            }
+//            else
+//            {
+//                endDateTime = new DateTime(2017, 5, 1);
+//            }
+            ViewBag.SearchStartDate = startDateTime;
+            ViewBag.SearchEndDate = endDateTime;
+            ViewBag.searchPhrase = searchPhrase;
+            ViewBag.SearchStatus = searchStatus;
+            Debug.WriteLine("Post-" + searchPhrase + "|" + searchStatus + "|" + startDateTime + "|" + endDateTime);
+            var infoRows = db.Database.SqlQuery<SalesRepList>("exec dbo.[LB_GetSalesRepList] @StartDate, @EndDate, @LastName, @Status",
+             new SqlParameter("@StartDate", startDateTime),
+             new SqlParameter("@EndDate", endDateTime),
+             new SqlParameter("@LastName", searchPhrase),
+             new SqlParameter("@Status", searchStatus)
+             ).ToList();
+
+//            var salesRepLists = new List<SalesRepList>();
+//            foreach (var sr in infoRows)
+//            {
+//               salesRepLists.Add(new SalesRepList
+//                {
+//                    CustID = sr.CustID,
+//                    SalesForceID = sr.SalesForceID,
+//                    Displayname = sr.Displayname,
+//                    FirstName = sr.FirstName,
+//                    LastName = sr.LastName,
+//                    Email = sr.Email,
+//                    TaxID = sr.TaxID,
+//                    Status = sr.Status,
+//                    StatusDate = sr.StatusDate,
+//                    StatusID = sr.StatusID,
+//                    AdminID = sr.AdminID
+//                });
+//           }
+
+            var model = new SalesRepListViewModel
+            {
+
+                SalesRepLists = infoRows,
+                SearchStartDate = startDateTime,
+                SearchEndDate = endDateTime,
+                searchPhrase = searchPhrase,
+                SearchStatus = searchStatus
+            };
+
+            return View(model);
+        }
+
+
+		
+		

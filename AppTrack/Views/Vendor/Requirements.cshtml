@@ -1,0 +1,8 @@
+﻿<h2>Vendor Requirements Update</h2>
+<div class="col-md-12" style="padding-top:25px;">
+    @{
+        Html.RenderAction("RequirementList", "Vendor", new { VendorID = ViewBag.VendorID });
+    }
+</div>
+
+<div class="pull-right"><a class="btn btn-info" href="@Url.Action(ViewBag.NextAction, "Vendor", new { ID = ViewBag.VendorID })">Continue</a></div>

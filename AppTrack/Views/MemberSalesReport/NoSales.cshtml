@@ -1,0 +1,155 @@
+﻿@model AppTrack.ViewModels.MemberNoSalesReportViewModel
+@{
+    int i = 0;
+    ViewBag.Title = "Dashboard";
+    string bgcolor = "#FFF;";
+}
+<div class="container-fluid">
+   <div class="col-md-12 nopadding">
+            <h3>Participating Members with No Sales</h3>
+            <a href="../MemberSalesReport/UnexpectedSales">
+                <div class="btn btn-xs btn-default pull-right" style="margin:20px;margin-top:-25px;">Unexpected Sales</div>
+            </a>
+            <a href="../MemberSalesReport/NoSales">
+                <div class="btn btn-xs btn-success pull-right" style="margin:20px;margin-top:-25px;">No Sales</div>
+            </a>
+            <a href="../MemberSalesReport/Delta">
+                <div class="btn btn-xs btn-default pull-right" style="margin:20px;margin-top:-25px;">Changes</div>
+            </a>
+            <a href="../MemberSalesReport/Index">
+                <div class="btn btn-xs btn-default pull-right" style="margin:20px;margin-top:-25px;">All Members (Top)</div>
+            </a>
+            <div class="col-sm-12 pull-left">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @using (Html.BeginForm("NoSales", "MemberSalesReport", FormMethod.Get))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <strong>Select Vendor</strong>
+                                <br />
+                                @Html.DropDownListFor(model => model.vid, Model.SearchVendorList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.vid, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                <strong>Period</strong>
+                                <br />
+                                @Html.DropDownListFor(model => model.pid, Model.SearchPeriodList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.pid, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                            </div>
+                            <div class="col-sm-3" style="text-align:center;padding-top:15px;">
+                            </div>
+                            <div class="col-sm-2">
+                                <strong>&nbsp;</strong>
+                                <br />
+                                <button class="btn btn-sm btn-info" type="submit" value="Search">Search</button>
+                                <button class="btn fa fa-download" type="submit" name="submit" value="Download"></button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div id="graph" class="aGraph" style="position:absolute;top:0px;left:0; float:left;"></div>
+
+            <div class="col-md-12">
+                @if ((Model.vid == 0) && (Model.pid == 0))
+                {
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-6 alert alert-warning">
+                        @Model.vid  Due to the length of this report, please select either a Vendor, a Period, or Both and click search to proceed.
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                }
+                else
+                {
+                <table class="table table-hover table-striped table-responsive" id="thisTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                Member Name (ID)
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                Vendor Name
+                            </th>
+                            <th>
+                                Started on
+                            </th>
+                            <th>
+                                Acive Through
+                            </th>
+                            <th>
+                                No Sales In
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.MemberNoSalesReportList)
+                        {
+                            <tr style="background-color:@bgcolor;">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MemberName) ( )@Html.DisplayFor(modelItem => item.CustID) )
+                                </td>
+                                <td>
+                                    <span class="status-@item.MemberStatus.ToUpper()">@Html.DisplayFor(modelItem => item.MemberStatus)</span>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VendorName)
+                                </td>
+                                <td>
+                                    @String.Format("{0:MM-dd-yyyy}", item.StartDate)
+                                </td>
+                                <td>
+                                    @if (@String.Format("{0:MM-dd-yyyy}", item.EndDate) == "12/31/2199")
+                                    {
+                                        <span>-</span>
+                                    }
+                                    else
+                                    {
+                                        String.Format("{0:MM-dd-yyyy}", item.EndDate);
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodName)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                }
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $.validator.unobtrusive.parse(document);
+            $("#SearchStartDate").datepicker();
+            $("#SearchEndDate").datepicker();
+            $('#thisTable').dataTable(
+            {
+                "searching": false,
+                "bLengthChange": true,
+                "iDisplayLength": 50,
+                "oLanguage": {
+                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                    "sLengthMenu": "Show _MENU_ rows per page",
+                    "sInfoEmpty": "0 records found",
+                    "sEmptyTable": "No orders found to display"
+                }
+            });
+        });
+    </script>
+}
+
+
+

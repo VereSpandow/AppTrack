@@ -1,0 +1,99 @@
+﻿@model IEnumerable<AppTrack.Models.C_ItemPricing>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SKU)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustTypeID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PricingTypeID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PriceLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RetailPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaxPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShippingPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SalesPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Volume)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StatusID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SKU)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustTypeID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PricingTypeID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PriceLevel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RetailPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaxPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShippingPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SalesPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Volume)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StatusID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

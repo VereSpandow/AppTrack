@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "Member Director Resources";
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.PageType = "Resources";
+}
+<div class="row nopadding">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left" style="min-height:450px;">
+            @{Html.RenderPartial("/Views/Shared/_LeftSideBarIMD.cshtml");}
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding">
+            <div class="col-md-12 nopadding">
+
+                @if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+                {
+                    <div id="memberContainerDiv">
+                        <div class="col-sm-12" style="font-size: 1.5em">
+                            <br />
+                            <br />
+                            The following unexpected error was encountered:
+                            <br />
+                            <br />
+                            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+                            <br />
+                            <br />
+                            Please contact technical support.
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-sm-12 nopadding">
+                        <h3>AppTrack Member Director Resources</h3>
+                        <p>Listed below are a number of downloadable files that will prove useful in your role as an IMD. <br /><br /> Please contact Ilana Thombs at 203.853.3333 if there are any materials you would like us to add.</p>
+
+                        <h4>Study Group Materials</h4>
+                        <ul>
+                            <li>
+                                <a href="~/Documents/IMD/AppTrack_sign-in_r7.pdf" target="_blank">Sign-in Sheet</a>
+                            </li>
+                            <li>
+                                <a href="~/Documents/IMD/Membership Application - Updated 10.27.2015.pdf" target="_blank">Membership application</a>
+                            </li>
+                            <li>
+                                <a href="~/Documents/IMD/Tonight Only Special Application - Updated 1.8.2016.pdf" target="_blank">TOS application</a>
+                            </li>
+                            <li>
+                                <a href="~/Documents/IMD/Sales Aid 9_1_2015.pdf" target="_blank">Sales aid</a>
+                            </li>
+                        </ul>
+
+                        <h4>IMD Resources</h4>
+                        <ul>
+                            <li>
+                                <a href="http://idocprograms.com/imd_success" target="_blank">How to run a great study group meeting video</a>
+                            </li>
+                            <li>
+                                <a href="~/Documents/IMD/Study Group Reference Guide.pdf" target="_blank">How to run a great study group meeting reference guide</a>
+                            </li>
+                            <li>
+                                <a href="~/Documents/IMD/Who does what at AppTrack.pdf" target="_blank">Who does what at AppTrack?</a>
+                            </li>
+                            <li>
+                                <a href="~/Documents/IMD/FactSheet_Compensation.pdf" target="_blank">IMD Benefits and Compensation</a>
+                            </li>
+                            <li>
+                                <a href="~/Documents/IMD/FactSheet_Effectiveness.pdf" target="_blank">IMD effectiveness index overview</a>
+                            </li>
+                            <li>
+                                <a href="~/Documents/IMD/AppTrack Select Info.pdf" target="_blank">AppTrack Select overview</a>
+                            </li>
+                            <li>
+                                <a href="~/Documents/IMD/AppTrack Select FAQs.pdf" target="_blank">AppTrack Select FAQs overview</a>
+                            </li>
+                        </ul>
+
+                        <h4>Q2 2016 Curriculum</h4>
+                        <ul>
+                            <li>
+                                <a href="~/Documents/IMD/Q22016Topic.pdf" target="_blank">What is New in Your Practice?</a>
+                            </li>
+                        </ul>
+                        <h4>Q1 2016 Curriculum</h4>
+                        <ul>
+                            <li>
+                                <a href="~/Documents/IMD/Managed Care Strategies Administrator guide[1].pdf" target="_blank">Managed Care Strategies (Administrator guide)</a>
+                            </li>
+                            <li>
+                                <a href="~/Documents/IMD/Managed Care Strategies participant guide[1].pdf" target="_blank">Managed Care Strategies (Participant guide)</a>
+                            </li>
+                        </ul>
+
+                        <h4>2016 Digital Resources</h4>
+                        <ul>
+                            <li>
+                                <a href="http://idocprograms.com/imd_success" target="_blank">How to run a great study group meeting video</a>
+                            </li>
+
+                            <li>
+                                <a href="#" id="showV1">AppTrack-Prima Advantage Webinar</a>
+                                <div id="video1" class="no-offset nopadding" style="width:100%;padding:10px;margin:0px;min-height:300px;text-align:center;display:none;">
+                                    <iframe src="https://player.vimeo.com/video/163593646" width="640" height="400" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                </div>
+                            </li>
+
+
+</div>
+                    <div style="clear:both"></div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#showV1').click(function showVideo1() {
+        $('#video1').show();
+        $('html, body').scrollTop($('#video1').offset().top);
+        return false;
+    });
+
+</script>

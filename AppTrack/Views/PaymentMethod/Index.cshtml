@@ -1,0 +1,231 @@
+﻿@model IEnumerable<AppTrack.Models.C_PaymentMethod>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentProfileID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BatchID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PRefNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PFirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PMiddleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PLastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PAddress1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PAddress2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PCity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PState)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PPostalCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PCountry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PCardType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PBinNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PCardNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PExpirationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PBankName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PRoutingNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PAccountNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PAccountType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PCheckNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PPriority)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PStartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PEndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreditAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreditBalance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StatusID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentProfileID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BatchID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PRefNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PFirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PMiddleName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PLastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PAddress1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PAddress2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PCity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PState)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PPostalCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PCountry)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PPhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PCardType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PBinNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PCardNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PExpirationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PBankName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PRoutingNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PAccountNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PAccountType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PCheckNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PPriority)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PStartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PEndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreditAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreditBalance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StatusID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PMID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PMID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PMID })
+        </td>
+    </tr>
+}
+
+</table>

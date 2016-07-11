@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteMobileLayout.cshtml";
+    ViewBag.Title = "Blog";
+    ViewBag.thisPage = "Blog";
+    ViewBag.PageType= "Blog";
+    ViewBag.EditCookie = "Y";
+}
+
+
+<div class="row nopadding">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left hidden-xs hidden-sm" style="min-height:450px;">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding">
+            <div class="no-offset nopadding" style="background-color:#c0d0e6;width:100%;padding:0px;margin:0px;">
+                <img class="img-responsive" src="../../Images/AppTrackSelect.png" style="height:auto; width:100%;padding:0px" />
+            </div>
+            <div class="col-md-12 nopadding noteditable" id="MOMain">
+                <h2 class="text-royalty-dark">Read and Be Informed, Comment and be Counted </h2>
+                <div class="editable" id="BlogMain">
+                    <div style="font-size: 14px;min-height:150px;">
+                        @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "BLOGMain", status = "LIVE", viewName = "BLOG" });}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row nopadding" style="width:100%;height:25px;">
+            &nbsp;
+        </div>
+    </div>
+</div>
+
+
+
+
+

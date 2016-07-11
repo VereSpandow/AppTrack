@@ -1,0 +1,55 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayoutMember.cshtml";
+    ViewBag.PageType = "MemberVendorList";
+    var LastCategoryName = "";
+    int i = 0;
+}
+
+@model AppTrack.ViewModels.MemberVendorViewModel
+
+<div id="row">
+    <div class="panel panel-default" style="box-shadow:#ccc 7px 7px;margin-top:20px;">
+        <div class="panel-body nopadding">
+            <div class="col-sm-12">
+                <h4 style="margin-bottom:0;">Vendor Programs</h4>
+                @foreach (var item in Model.MemberVendorList)
+                {
+                    if (LastCategoryName != item.CategoryName)
+                    {
+                        i = i + 1;
+                        if (LastCategoryName != "")
+                        {
+                            @Html.Raw("</div>");
+                            @Html.Raw("</div>");
+                            if (i == 4)
+                            {
+                                @Html.Raw("<div style='clear:both;'></div>");
+                                i = 1;
+                            }
+                        }
+                        @:<div class='col-md-4 pull-left nopadding' style='padding-right:5px;'>
+                        @:<div style='position:relative;color:#008ed3;font-size:16px;vertical-align:bottom;font-weight:600;min-height:45px;'><div style="position:absolute;bottom:0;">@item.CategoryName</div></div>
+                        if (i == 1)
+                        {
+                            <img src='../../images/RoyalBlueShortBar.png' style='width:100%;margin-bottom:-7px;' />
+                        }
+                        if (i == 2)
+                        {
+                            <img src="../../images/BlueGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        }
+                        if (i == 3)
+                        {
+                            <img src="../../images/GreenLightGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        }
+                        @:<div style='min-height:100px;' id='SRContactLens'>
+                    LastCategoryName = item.CategoryName;
+                    }
+                    <strong><a href="@Url.Action("VendorDetail", "SiteMember", new { @id = item.CustID })">@Html.DisplayFor(modelItem => item.Company)</a></strong>
+                    <br />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>

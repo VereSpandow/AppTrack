@@ -1,0 +1,146 @@
+﻿@model AppTrack.ViewModels.MemberPaymentMethodViewModel
+
+<div class="panel panel-default" style="min-height:350px; box-shadow:#CCC 7px 7px;">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <span class="h4">Payment Method</span>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="col-sm-12 pull-left" style="padding:0;">
+            @if (Model.currentPaymentMethod.PName != "")
+            {
+                <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:.9em">
+                    <thead>
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Card Type
+                            </th>
+                            <th>
+                                Card Number
+                            </th>
+                            <th>
+                                Exp Date
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Model.currentPaymentMethod.PName
+                            </td>
+                            <td>
+                                @Model.currentPaymentMethod.PCardType
+                            </td>
+                            <td>
+                                @Model.currentPaymentMethod.PCardNumber
+                            </td>
+                            <td>
+                                @if (@Model.currentPaymentMethod.PExpirationDate != "na")
+                                {
+                                    @Model.currentPaymentMethod.PExpirationDate
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                if (Model.currentPaymentMethod.PCardType == "Paypal" || Model.currentPaymentMethod.PCardType == "FirstData")
+                {
+                    <span class="status-DELETED">This Member does not have a credit card on file with AppTrack.</span>
+                }
+            }
+            else
+            {
+                <span class="status-DELETED">This Member does not have a credit card on file.</span>
+            }
+        </div>
+
+
+        @using (Ajax.BeginForm("MemberPaymentMethod", "Member", null,
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "POST",
+                AllowCache = false,
+                OnSuccess = "updatePaymentSuccess",
+                OnFailure = "updatePaymentFailure",
+                LoadingElementId = "ajax-loaderProgramChange",
+                UpdateTargetId = "paymentMethodPanel"
+            }, new { id = "memberEnrollmentForm3" }))
+        {
+            @Html.AntiForgeryToken()
+            <img id="ajax-loaderProgramChange" src="@Url.Content("~/Images/ajax-loader.gif")" style="display:none;" />
+            <div class="col-md-12">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.CustID)
+                @if (ViewBag.ErrorMessage != "")
+                {
+                    <span class="text-danger">@ViewBag.ErrorMessage</span>
+                }
+
+                <div class="col-md-8" style="margin-top:5px;">
+                    @Html.LabelFor(model => model.PName, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.PName, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+                    @Html.ValidationMessageFor(model => model.PName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-4" style="margin-top:5px;">
+
+                    @Html.LabelFor(model => model.PCardType, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.DropDownListFor(model => model.PCardType, Model.CardTypeList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PCardType, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-8" style="margin-top:5px;">
+                    @Html.LabelFor(model => model.PCardNumber, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.PCardNumber, new { htmlAttributes = new { @class = "form-control", maxlength = "16" } })
+                    @Html.ValidationMessageFor(model => model.PCardNumber, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-4" style="margin-top:5px;">
+                    @Html.LabelFor(model => model.CardCode, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.CardCode, new { htmlAttributes = new { @class = "form-control", maxlength = "4" } })
+                    @Html.ValidationMessageFor(model => model.CardCode, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-3" style="margin-top:5px;">
+                    <label class="control-label">Exp Month</label>
+                    <br />
+                    @Html.DropDownListFor(model => model.PExpirationMonth, Model.CardExpMonthList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PExpirationMonth, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-3" style="margin-top:5px;">
+                    <label class="control-label">Exp Year</label>
+                    <br />
+                    @Html.DropDownListFor(model => model.PExpirationYear, Model.CardExpYearList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PExpirationYear, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6 pull-right" style="text-align:right;padding-top:25px;">
+                    <input type="submit" value="Update Credit Card" class="btn btn-primary" />
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse(document);
+    });
+
+    function updatePaymentSuccess() {
+    };
+
+    function updatePaymentFailure() {
+        alert("Update Profile failed");
+    };
+
+</script>
+

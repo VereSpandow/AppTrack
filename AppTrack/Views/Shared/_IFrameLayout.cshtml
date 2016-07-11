@@ -1,0 +1,54 @@
+﻿@using AppTrack;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@PageData{"CompanyName"}|</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
+    <link rel="stylesheet" href="~/Content/jquery.dataTables.min.lb.css">
+    <style>
+        .pagination {
+            margin: 0;
+        }
+    </style>
+    @Scripts.Render("~/bundles/modernizr")
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+     @Scripts.Render("~/bundles/ie")
+     <![endif]-->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+
+    <script>/*<![CDATA[*/(function (w, a, b, d, s) { w[a] = w[a] || {}; w[a][b] = w[a][b] || { q: [], track: function (r, e, t) { this.q.push({ r: r, e: e, t: t || +new Date }); } }; var e = d.createElement(s); var f = d.getElementsByTagName(s)[0]; e.async = 1; e.src = '//marketing.AppTrack.net/cdnr/28/acton/bn/tracker/18857'; f.parentNode.insertBefore(e, f); })(window, 'ActOn', 'Beacon', document, 'script'); ActOn.Beacon.track();/*]]>*/</script>
+
+</head>
+<body style="padding:0;">
+    <div class="container-fluid">
+
+        <div class="row" style="overflow-x:auto;">
+            @RenderBody()
+        </div>
+    </div>
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $.extend($.fn.dataTable.defaults, {
+                "searching": false
+            });
+
+            $.validator.unobtrusive.parse(document);
+        });
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.RebateBatchImportDetailViewModel
+
+    <div id="profileContainerDiv">
+        <div class="h2" style="float:left;width:100%;">Rebate Transaction List</div>
+        <div class="h4" style="float:left;width:50%;">
+            Vendor: @Model.VendorName
+        </div>
+        <div class="h4" style="float:left;width:50%;">
+            Rebate Type: @Model.RebateType
+        </div>
+        <div class="filterbar" style="display:block;clear:both;">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div id="searchFormDiv">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @using (Html.BeginForm("BatchImportDetail", "Rebate", FormMethod.Post, new { id = "formBatchList" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.BatchID)
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.SearchStatus, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.SearchStatus, Model.StatusList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.SearchStatus, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.VendorPayeeID, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.VendorPayeeID, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.VendorPayeeID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.PayeeName, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.PayeeName, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.PayeeName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="control-label">&nbsp;</label>
+                                <br />
+                                <input class="btn btn-info" type="submit" name="submitAction" value="Search">
+                            </div>
+                        }
+                        @if (Model.PendingCount == 0 && Model.BatchStatus.ToUpper() == "PENDING")
+                        {
+                            <div id="approveFormDiv" class="col-sm-2 pull-right" style="text-align:right;">
+                                @using (Html.BeginForm("ApproveImportBatch", "Rebate", FormMethod.Post, new { id = "formApproveList" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.HiddenFor(model => model.BatchID)
+                                    <label class="control-label">&nbsp;</label>
+                                    <br />
+                                    <input class="btn btn-success" type="submit" name="submitAction" value="Approve">
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr />
+            </div>
+        </div>
+
+        <table class="table table-hover table-striped table-responsive" id="thisTable">
+            <thead>
+                <tr>
+                    <th>
+                        Member ID
+                    </th>
+                    <th>
+                        Payee
+                    </th>
+                    <th>
+                        Vendor Payee
+                    </th>
+                    <th>
+                        AppTrack ID
+                    </th>
+                    <th>
+                        Total Sales
+                    </th>
+                    <th>
+                        Member Rebate
+                    </th>
+                    <th>
+                        Corporate Rebate
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.RebateTransactionList)
+                {
+                    <tr>
+                        <td>
+                            @if (item.CustID == 0)
+                            {
+                                <span class="text-danger">missing</span>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("AccountProfile", "Member", new { id = item.CustID })" target="_blank">@Html.DisplayFor(modelItem => item.CustID)</a>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PayeeName)
+                            @if (!String.IsNullOrEmpty(item.Address1))
+                            {
+                                <br />
+                                @item.Address1
+                                if (!String.IsNullOrEmpty(item.Address2))
+                                {
+                                    <span>,</span> @item.Address2
+                                }
+                                <span>&nbsp;</span>@item.City<span>,</span> @item.State<span>&nbsp;</span>@item.PostalCode
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VendorPayeeID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SecID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalSalesAmount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MemberRebateAmount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CorporateRebateAmount)
+                        </td>
+                        <td>
+                            <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                        </td>
+                        <td>
+                            @if (item.CustID == 0 || item.Status.ToUpper() == "INACTIVE")
+                            {
+                                <a href="#" onclick="getPayeeUpdateForm(@item.ID)"><span class="fa fa-2x fa-edit"></span></a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+        <!-- Modal -->
+    <div class="modal fade" id="updatePayeeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:80%;height:auto;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body" id="updatePayeeFormContainerDiv">
+                </div>
+                <div class="modal-footer">
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <script>
+        $(document).ready(function () {
+            $.validator.unobtrusive.parse(document);
+/*            $('#thisTable').dataTable(
+            {
+                "searching": false,
+                "bLengthChange": true,
+                "iDisplayLength": 100,
+                "oLanguage": {
+                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                    "sLengthMenu": "Show _MENU_ rows per page",
+                    "sInfoEmpty": "0 records found",
+                    "sEmptyTable": "No records found to display"
+                },
+                "order": [[7, "desc"]],
+                "dom": '<"top"i>rt<"bottom"lp><"clear">'
+            });
+*/
+        });
+        function getPayeeUpdateForm(TranID) {
+            $('#updatePayeeModal').modal('show');
+            $("#updatePayeeFormContainerDiv").html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+            $.ajax({
+                url: "/Rebate/FindVendorPayee/" + TranID,
+                cache: false,
+                type: "get",
+                dataType: "html",
+                success: function (result) {
+                    $("#updatePayeeFormContainerDiv").html(result);
+                    $('#updatePayeeFormContainerDiv').css('height', 'auto');
+                },
+                failure: function () {
+                    alert("Ooops - something went wrong");
+                }
+            });
+        }
+
+    </script>
+}

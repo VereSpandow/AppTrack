@@ -1,0 +1,56 @@
+﻿@model CMS.ViewModels.MeetingRegistrationList
+
+@{
+    ViewBag.Title = "Local Meeting List";
+}
+
+<h2>Local Meetings</h2>
+<table class="table">
+    <tr>
+        <th>
+            City
+        </th>
+        <th>
+            State
+        </th>
+        <th>
+            Topic
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Time
+        </th>
+        <th>
+        </th>
+    </tr>
+
+    @foreach (var item in Model.MeetingRegistrationList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetingRegistrationList.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetingRegistrationList.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetingRegistrationList.Topic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetingRegistrationList.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetingRegistrationList.Time)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.MeetingRegistrationList.Id }) |
+            </td>
+        </tr>
+    }
+
+</table>
+<div class="row nopadding" style="width:100%;height:25px;">
+    &nbsp;
+</div>

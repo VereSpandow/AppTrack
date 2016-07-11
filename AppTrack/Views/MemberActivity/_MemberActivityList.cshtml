@@ -1,0 +1,319 @@
+﻿@model AppTrack.ViewModels.MemberActivityListViewModel
+
+@{
+    string rowColor = "bg-success";   
+}
+
+<div id="activityListDiv">
+
+    <div class="col-sm-6">
+        <button class="btn btn-xs btn-info" onclick="showSearchActivityForm()">
+            Search Activities
+        </button>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="col-sm-6 pull-right" style="text-align:right;">
+        @using (Ajax.BeginForm("AddActivityInit", "MemberActivity", null,
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "POST",
+                OnFailure = "addActivityInitFailed",
+                OnSuccess = "addActivityInitSuccess",
+                UpdateTargetId = "addActivityContainerDiv"
+            }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.SearchActivityID)
+            @Html.HiddenFor(model => model.SearchCustID)
+            @Html.HiddenFor(model => model.SearchOwnerID)
+            @Html.HiddenFor(model => model.SearchVendorID)
+            @Html.HiddenFor(model => model.SearchCategoryID)
+            @Html.HiddenFor(model => model.SearchActivityStatus)
+            @Html.HiddenFor(model => model.SearchScheduledStartDate)
+            @Html.HiddenFor(model => model.SearchScheduledEndDate)
+            @Html.HiddenFor(model => model.SearchCompletedStartDate)
+            @Html.HiddenFor(model => model.SearchCompletedEndDate)
+            <button class="btn btn-xs btn-info">
+                Add Activity
+            </button>
+        }
+    </div>
+    <div style="clear:both"></div>
+
+    <div id="addActivityContainerDiv" class="row" style="padding-top:10px;">
+    </div>
+
+    <div id="editActivityContainerDiv" class="row" style="padding-top:10px;display:none;">
+    </div>
+
+    @if (ViewBag.ShowSearchForm == null)
+    {
+        ViewBag.ShowSearchForm = "none";
+    }
+    <!-- SEARCH Activities FORM -->
+    <div class="filterbar" id="searchActivityFormDiv" style="display:@ViewBag.ShowSearchForm;">
+        @using (Ajax.BeginForm("ActivityList", "MemberActivity",
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "POST",
+                OnFailure = "activitiesListFailed",
+                LoadingElementId = "ajax-loader",
+                UpdateTargetId = "memberActivityListDiv"
+            }, new { id = "searchActivityForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.SearchCustID)
+            <div>
+                <div class="col-sm-2">
+                    <label class="control-label">Scheduled From</label>
+                    <br />
+                    @Html.JQueryUI().DatepickerFor(model => model.SearchScheduledStartDate, new { @class = "form-control", @id = "SearchScheduledStartDateID" })
+                    @*@Html.EditorFor(model => model.SearchStartDate, new { htmlAttributes = new { @class = "form-control date-picker" } })*@
+                    @Html.ValidationMessageFor(model => model.SearchScheduledStartDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2">
+                    <label class="control-label">To</label>
+                    <br />
+                    @Html.JQueryUI().DatepickerFor(model => model.SearchScheduledEndDate, new { @class = "form-control", @id = "SearchScheduledEndDateID" })
+                    @*@Html.EditorFor(model => model.SearchEndDate, new { htmlAttributes = new { @class = "form-control date-picker" } })*@
+                    @Html.ValidationMessageFor(model => model.SearchScheduledEndDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2">
+                    <label class="control-label">Completed From</label>
+                    <br />
+                    @Html.JQueryUI().DatepickerFor(model => model.SearchCompletedStartDate, new { @class = "form-control", @id = "SearchCompletedStartDateID" })
+                    @*@Html.EditorFor(model => model.SearchStartDate, new { htmlAttributes = new { @class = "form-control date-picker" } })*@
+                    @Html.ValidationMessageFor(model => model.SearchCompletedStartDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2">
+                    <label class="control-label">To</label>
+                    <br />
+                    @Html.JQueryUI().DatepickerFor(model => model.SearchCompletedEndDate, new { @class = "form-control", @id = "SearchCompletedEndDateID" })
+                    @*@Html.EditorFor(model => model.SearchEndDate, new { htmlAttributes = new { @class = "form-control date-picker" } })*@
+                    @Html.ValidationMessageFor(model => model.SearchCompletedEndDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.SearchCategoryID, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.DropDownListFor(model => model.SearchCategoryID, Model.SearchCategoryList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SearchCategoryList, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.SearchActivityStatus, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.DropDownListFor(model => model.SearchActivityStatus, Model.SearchActivityStatusList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SearchActivityStatus, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2">
+                    <label class="control-label">&nbsp;</label>
+                    <br />
+                    <button class="btn btn-xs btn-info" type="submit" value="Search">Search</button>
+                </div>
+            </div>
+            <img id="ajax-loader" src="@Url.Content("~/Content/images/ajax-loader.gif")" style="display:none;" />
+        }
+    </div>
+    <div style="clear:both;height:10px;"></div>
+    <table class="table table-responsive" id="ActivitiesTable">
+        <thead>
+            <tr>
+                <th style="width:10%;">
+                    Added
+                </th>
+                <th style="width:10%;">
+                    Activity Type
+                </th>
+                <th style="width:50%;">
+                    Activity Title
+                </th>
+                <th style="width:10%;">
+                    Status
+                </th>
+                <th style="width:10%;">
+                    &nbsp;
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.MemberActivityList)
+            {
+                if (rowColor == "bg-info")
+                {
+                    rowColor = "bg-warning";
+                }
+                else
+                {
+                    rowColor = "bg-info";
+                }
+                <tr class="@rowColor">
+                    <td>
+                        @item.PostDate.Value.ToString("MM/dd/yy") by
+                        <br />@item.AdminName
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CategoryName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                        <div id="detailRow@(item.ActivityID)" style="display:none;">
+                            @if (!String.IsNullOrEmpty(@item.ShortDescription))
+                            {
+                                <br />
+                                @item.ShortDescription
+                            }
+                            @if (!String.IsNullOrEmpty(item.Description))
+                            {
+                                <br />
+                                @item.Description
+                            }
+                            @if (!String.IsNullOrEmpty(item.Outcome))
+                            {
+                                <br />
+                                <strong>Outcome</strong>
+                                <br />
+                                @item.Outcome
+                            }
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
+                        @if (@item.CompletionDate != null)
+                        {
+                            <br />
+                            @item.CompletionDate.Value.ToString("MM/dd/yy")
+                        }
+                    </td>
+                    <td>
+                        @if (item.AdminID == ViewBag.AdminID || User.IsInRole("MemberServicesManager") || item.AssignedToID == ViewBag.AdminID)
+                        {
+                            <div class="pull-left" style="padding-right:10px;">
+                                <a href="#" onclick="editActivityInit(@item.ActivityID)"><span class="fa fa-2x fa-edit"></span></a>
+                            </div>
+                        }
+                        <div id="showAct@(item.ActivityID)">
+                            <a href="#" onclick="getActivityNotes(@item.ActivityID)"><span class="fa fa-2x fa-search-plus"></span></a>
+                        </div>
+                        <div id="hideAct@(item.ActivityID)" style="display:none;">
+                            <a href="#" onclick="hideActivityNotes(@item.ActivityID)"><span class="fa fa-2x fa-search-minus"></span></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="@rowColor">
+                    <td colspan="6">
+                        <div id="row@(item.ActivityID)" style="padding-left:20px;padding-right:20px;"></div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+<!-- EDIT ACTIVITY INITIALIZATION FORM -->
+<div id="editActivityInitFormDiv" style="display:block;">
+   @using (Ajax.BeginForm("EditActivityInit", "MemberActivity", null,
+    new AjaxOptions
+    {
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "POST",
+        OnFailure = "editActivityInitFailed",
+        OnSuccess = "editActivityInitSuccess",
+        LoadingElementId = "ajax-loader",
+        UpdateTargetId = "editActivityContainerDiv"
+    }, new { id = "editActivityInitForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.SearchActivityID)
+        @Html.HiddenFor(model => model.SearchCustID)
+        @Html.HiddenFor(model => model.SearchOwnerID)
+        @Html.HiddenFor(model => model.SearchVendorID)
+        @Html.HiddenFor(model => model.SearchCategoryID)
+        @Html.HiddenFor(model => model.SearchActivityStatus)
+        @Html.HiddenFor(model => model.SearchScheduledStartDate)
+        @Html.HiddenFor(model => model.SearchScheduledEndDate)
+        @Html.HiddenFor(model => model.SearchCompletedStartDate)
+        @Html.HiddenFor(model => model.SearchCompletedEndDate)
+        <input type="hidden" name="ActivityID" id="editActivityID" value="" />
+   }
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#SearchScheduledStartDateID").datepicker();
+        $("#SearchScheduledEndDateID").datepicker();
+        $("#SearchCompletedStartDateID").datepicker();
+        $("#SearchCompletedEndDateID").datepicker();
+        $.validator.unobtrusive.parse(searchActivityForm);
+    });
+
+    function showSearchActivityForm() {
+        $('#addActivityContainerDiv').hide();
+        $("#editActivityContainerDiv").hide();
+        $('#searchActivityFormDiv').show();
+    }
+
+    function activitiesListFailed() {
+        alert("Error encountered, unable to list Activities.");
+    }
+
+    function addActivityInitFailed() {
+        alert("Error encountered, unable to initialize Add Activity form.");
+    }
+
+    function addActivityInitSuccess() {
+        $('#addActivityContainerDiv').show();
+        $("#editActivityContainerDiv").hide();
+        $('#searchActivityFormDiv').hide();
+    }
+
+    function editActivityInit(thisActivityID) {
+        $("#editActivityID").val(thisActivityID);
+        $("#editActivityInitForm").submit();
+    };
+
+    function editActivityInitFailed() {
+        alert("Error encountered, unable to initialize Edit Activity form.");
+    }
+
+    function editActivityInitSuccess() {
+        $("#addActivityContainerDiv").hide();
+        $("#editActivityContainerDiv").show();
+        $('#searchActivityFormDiv').hide();
+    }
+
+    function getActivityNotes(rowid) {
+        $("#detailRow" + rowid).show();
+        $("#row" + rowid).show();
+        $("#showAct" + rowid).hide();
+        $("#hideAct" + rowid).show();
+        $("#row" + rowid).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+        var url = "/CustomerNotes/NotesList/?ActivityID=" + rowid + "&ID=" + @Model.SearchCustID;
+        $.ajax({
+            url: "/CustomerNotes/NotesList/?ActivityID=" + rowid + "&ID=" + @Model.SearchCustID,
+            cache: false,
+            type: "get",
+            dataType: "html",
+            success: function (result) {
+                $("#row" + rowid).html(result);
+            },
+            failure: function () {
+                alert("Ooops - something went wrong");
+            }
+        });
+    }
+
+    function hideActivityNotes(rowid) {
+        $("#detailRow" + rowid).hide();
+        $("#row" + rowid).hide();
+        $("#showAct" + rowid).show();
+        $("#hideAct" + rowid).hide();
+    }
+
+</script>
+
+
+

@@ -1,0 +1,19 @@
+﻿<div style="padding:5px;">
+    @if (ViewBag.Message != "")
+    {
+        <span>@ViewBag.Message</span>
+    }
+    else
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        using (Html.BeginForm("DocumentUploadIFrame", "Member", FormMethod.Post, new { enctype = "multipart/form-data", @Id = "updateDocumentForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="CustID" value="@ViewBag.CustID" />
+            <input type="hidden" name="VendorID" value="@ViewBag.VendorID" />
+            <input type="hidden" name="MVRID" value="@ViewBag.MVRID" />
+            <div class="pull-left" style="display:inline;"><input type="file" name="documentFile" id="documentFileID" size="50" style="display: inline;" /></div><div class="pull-left">&nbsp; &nbsp;<input type="submit" name="SubmitAction" value="Upload" class="btn btn-xs btn-info" /></div>
+        }
+    }
+</div>

@@ -1,0 +1,114 @@
+﻿<div id="payeeForm"></div>
+@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="payeeContainerDiv">
+        <div class="col-md-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.MemberRebatePayeeViewModel
+
+    using (Ajax.BeginForm("RebatePayee", "Member", null,
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "POST",
+                AllowCache = false,
+                OnSuccess = "payeeUpdateSuccess",
+                OnFailure = "payeeUpdateFailee",
+                LoadingElementId = "ajax-loaderProgramChange",
+                UpdateTargetId = "PayeeTab"
+            }, new { id = "payeeForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.CustID)
+
+        <div id="payeeContainerDiv">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title h4">
+                            Enter the Payee address and contact information. Changing the Payee name requires creating a new account.
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-6">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="col-sm-12">
+                                @Html.LabelFor(model => model.ShipAddress1, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.ShipAddress1, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.ShipAddress1, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-12">
+                                @Html.LabelFor(model => model.ShipAddress2, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.ShipAddress2, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.ShipAddress2, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.LabelFor(model => model.ShipCity, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.ShipCity, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.ShipCity, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.ShipState, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.ShipState, Model.StateList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ShipState, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-3">
+                                <label class = "control-label">Zip</label>
+                                <br />
+                                @Html.EditorFor(model => model.ShipPostalCode, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.ShipPostalCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ShipEmail, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.ShipEmail, new { htmlAttributes = new { @class = "form-control email", maxlength = "100" } })
+                                @Html.ValidationMessageFor(model => model.ShipEmail, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.LabelFor(model => model.ShipPhone, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.ShipPhone, new { htmlAttributes = new { @class = "form-control phone", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.ShipPhone, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-12 pull-right" style="text-align:right;padding-top:25px;">
+                                <input type="submit" value="Save" class="btn btn-info" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+<script>
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse(payeeForm);
+        $("#ShipPhone").mask("(999) 999-9999? x9999");
+    });
+    function payeeUpdateFailed() {
+        alert("Payee update failed");
+    }
+    function payeeUpdateSuccess() {
+    }
+
+</script>
+

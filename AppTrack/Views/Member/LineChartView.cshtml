@@ -1,0 +1,93 @@
+﻿@model AppTrack.ViewModels.MembershipActivityViewModel
+    
+@{
+    ViewBag.Title = "Index";
+    DateTime futureDate = new DateTime(2099, 12, 1);
+}
+
+<div class="h2" style="float:left">Membership Timeline</div>
+<div class="filterbar" style="display:block;clear:both;">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div id="chartContainer" class="col-md-12 hidden-sm hidden-xs">
+        <button class="btn btn-sm btn-info pull-right" id="showChart">View Chart</button>
+    </div>
+    <hr />
+
+    <table class="table table-hover table-striped table-responsive" id="myTable">
+        <thead>
+            <tr>
+                <th >
+                    Membership Type
+                </th>
+                <th >
+                    Membership Product
+                </th>
+                <th >
+                    Start Date
+                </th>
+                <th >
+                    End Date
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.MembershipActivityList != null)
+            {
+                foreach (var item in Model.MembershipActivityList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StoreName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DepartmentName)
+                        </td>
+                        <td>
+                            @(item.StartDate < futureDate ? item.StartDate.Value.ToString("MM/dd/yy") : "")
+                        </td>
+                        <td>
+                            @(item.EndDate < futureDate ? item.EndDate.Value.ToString("MM/dd/yy") : "")
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+
+    </table>
+
+</div>
+<hr />
+
+@section Scripts {
+    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://dimplejs.org/dist/dimple.v2.1.6.min.js"></script>
+    <script>
+        $('#showChart').click(function () {
+
+            $.ajaxSetup({ cache: false });
+            $.get("../Member/LineChart2/?searchCustID=100500", function (data2) {
+                var svg2 = dimple.newSvg("#chartContainer", 900, 300);
+                // Create and Position a Chart
+                var myChart2 = new dimple.chart(svg2, data2);
+                myChart2.setMargins(50, 50, 50, 60)
+                var x = myChart2.addCategoryAxis("x", "Period")
+                var y = myChart2.addMeasureAxis("y", "Membership");
+
+                y.hidden = true;
+
+                // Order the x axis by date
+                x.addOrderRule("StartDate");
+
+                // Add a thick line with markers
+                var lines = myChart2.addSeries("SeriesName", dimple.plot.bar);
+                lines.stacked = false;
+                myChart2.addLegend(0, 0, 1000, 30, "left");
+                //lines.lineWeight = 5;
+                //lines.lineMarkers = true;
+                x.showGridlines = true;
+                // Draw the chart
+                myChart2.draw();
+            }, 'json');
+        });
+    </script>
+}

@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Admin File Upload";
+}
+
+<div class="clearfix" style="height:45px;"></div>
+<div class="jumbotron">
+    <h1>AppTrack.NET</h1>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h2>File Upload</h2>
+        @using (Html.BeginForm("Index",
+                        "Home",
+                        FormMethod.Post,
+                        new { enctype = "multipart/form-data" }))
+        {
+            <label for="file">Upload File:</label>
+            <input type="file" name="file" id="file" /><br><br>
+            <input type="submit" value="Upload" />
+            <br><br>
+            @ViewBag.Message
+        }
+    </div>
+</div>
+

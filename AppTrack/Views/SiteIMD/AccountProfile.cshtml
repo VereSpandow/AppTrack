@@ -1,0 +1,246 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.PageType = "Account";
+
+}
+
+@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.MemberDirectorProfileViewModel
+
+    <div class="row nopadding">
+        <div class="container nopadding" style="margin-top:0px;">
+            <div class="col-md-4  pull-left" style="min-height:450px;">
+                @{Html.RenderPartial("/Views/Shared/_LeftSideBarIMD.cshtml");}
+            </div>
+            <div class="col-md-8 pull-right no-offset nopadding">
+                <div class="col-sm-12 nopadding">
+                    <h3>Account Profile</h3>
+                </div>
+                <div class="col-md-6 col-sm-12 pull-left">
+                    <div class="panel panel-default" style="min-height:300px;">
+                        <div class=" panel-heading">
+                            Meetings
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:.9em">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Meeting Date
+                                        </th>
+                                        <th>
+                                            Topic / Location
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.MeetingEventList.Count == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="2">
+                                                No recent or upcoming meetings found
+                                            </td>
+                                        </tr>
+
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in Model.MeetingEventList)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.EventStartDate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.EventTitle)
+                                                    <br>
+                                                    @Html.DisplayFor(modelItem => item.LocationTitle)
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12 pull-left">
+                    <div class="panel panel-default" style="min-height:300px;">
+                        <div class=" panel-heading">
+                            Members
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-hover table-striped table-responsive" id="membersTable" style="font-size:.9em">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Join Date
+                                        </th>
+                                        <th>
+                                            Member Practice
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.MemberList.Count == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="2">
+                                                No members enrolled to date
+                                            </td>
+                                        </tr>
+
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in Model.MemberList)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.StartDate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DisplayName)
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    }
+                                </tbody>
+
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="col-md-6 col-sm-12 pull-left">
+                    <div class="panel panel-default" style="min-height:300px;">
+                        <div class=" panel-heading">
+                            Contact Information
+                        </div>
+                        <div class="panel-body" style="font-size: .9em;">
+                            <div class="col-sm-4">Name:</div>
+                            <div class="col-sm-8">@Model.MemberDirectorRecord.DisplayName </div>
+                            <div class="col-sm-4" style="clear:both">Payee Name:</div>
+                            <div class="col-sm-8">@Model.MemberDirectorRecord.Company</div>
+                            <div class="col-sm-4" style="clear:both">Address:</div>
+                            <div class="col-sm-8">
+                                @if (!String.IsNullOrEmpty(Model.MemberDirectorRecord.Address1))
+                                {
+                                    @Model.MemberDirectorRecord.Address1
+                                    if (!String.IsNullOrEmpty(Model.MemberDirectorRecord.Address2))
+                                    {
+                                        <span>,</span> @Model.MemberDirectorRecord.Address2
+                                    }
+                                    <br />
+                                    @Model.MemberDirectorRecord.City<span>,</span> @Model.MemberDirectorRecord.State <span> </span> @Model.MemberDirectorRecord.PostalCode
+                                    <br />
+                                }
+                            </div>
+                            <div class="col-sm-4" style="clear:both">Phone:</div>
+                            <div class="col-sm-8">@Helpers.FormatPhone(@Model.MemberDirectorRecord.DayPhone)</div>
+                            <div class="col-sm-4" style="clear:both">Email:</div>
+                            <div class="col-sm-8">@Model.MemberDirectorRecord.Email</div>
+                            @if (Model.MemberDirectorRecord.SponsorID > 1000)
+                            {
+                                <div class="col-sm-4" style="clear:both">Member ID:</div>
+                                <div class="col-sm-8">@Model.MemberDirectorRecord.SponsorID</div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6 col-sm-12 pull-left">
+                    <div class="panel panel-default" style="min-height:300px;">
+                        <div class=" panel-heading">
+                            Commissions
+                        </div>
+                        <div class="panel-body">
+                            <br />
+                            <br />
+                            Commission information will be coming soon!
+                            <br />
+                            <br />
+                            @*
+                               <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:.9em">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Period
+                                            </th>
+                                            <th>
+                                                Type of Commission
+                                            </th>
+                                            <th style="text-align:right">
+                                                Amount
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.CommissionHeaderList.Count == 0)
+                                        {
+                                            <tr>
+                                                <td colspan="3">
+                                                    No commissions earned in the last 6 months
+                                                </td>
+                                            </tr>
+
+                                        }
+                                        else
+                                        {
+                                            foreach (var item in Model.CommissionHeaderList)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.PeriodName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.CommissionName)
+                                                    </td>
+                                                    <td style="text-align:right">
+                                                        @Html.DisplayFor(modelItem => item.Commission)
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+
+                                </table>
+                            *@
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
+

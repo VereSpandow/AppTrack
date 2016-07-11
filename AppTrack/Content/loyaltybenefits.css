@@ -1,0 +1,212 @@
+﻿        .btn-lbnav, .btn-lbtopnav
+        {
+            color: #fff;
+            text-align:left;
+            background-color:transparent;
+            border:0;
+        }
+        .btn-lbtopnav{
+            border-right:1px #ccc dashed;
+        }
+
+        .sidebar-menu-collapsed {
+          width: 50px; 
+
+        }
+/*         .sidebar-menu-expanded {
+          width: 100%; 
+
+         }
+*/
+        .subnavlink{
+            color:#fff;
+            font-size:12px;
+            line-height:16px;
+        }
+        .bg-primary-dark {
+          color: #fff;
+          background-color: #337ab7;
+        }
+        .bg-success-dark {
+          color: #fff;
+          background-color: #52aa45;
+        }
+        .bg-info-dark {
+          color: #fff;
+          background-color: #0094ff;
+        }
+        .bg-warning-dark {
+          color: #fff;
+          background-color: #e6af32;
+        }
+        .bg-danger-dark {
+          color: #fff;
+          background-color: #e33d43;
+        }
+        .statusbar{
+            margin:2px;
+        }
+        .statusbar .statusbar-statistic{
+            font-size:1.5em;
+            font-weight:600;
+        }
+        .panel-info-dark > .panel-heading {
+          color: #fff;
+          background-color: #0094ff;
+  border-color: #ddd;
+        }
+        .panel-success-dark > .panel-heading {
+          color: #fff;
+          background-color: #52aa45;
+  border-color: #ddd;
+        }
+        .panel-danger-dark > .panel-heading {
+          color: #fff;
+          background-color: #e33d43;
+  border-color: #ddd;
+        }
+        .panel-warning-dark > .panel-heading {
+          color: #fff;
+          background-color: #e6af32;
+  border-color: #ddd;
+        }
+
+        .status-ACTIVE {
+          color: #52aa45;
+        }
+        .status-OPEN {
+          color: #52aa45;
+        }
+        .status-POSTED {
+          color: #808080;
+        }
+        .status-COMPLETED {
+          color: #808080;
+        }
+        .status-APPROVED {
+          color: #52aa45;
+        }
+        .status-INPROGRESS {
+          color: #52aa45;
+        }
+        .status-NEW {
+          color: #0094ff;
+        }
+        .status-PENDING {
+          color: #0094ff;
+        }
+        .status-ONHOLD {
+          color: #e6af32;
+        }
+        .status-SENT {
+          color: #e6af32;
+        }
+        .status-INACTIVE {
+          color: #e6af32;
+        }
+        .status-POSTPONED {
+          color: #e6af32;
+        }
+        .status-SUSPENDED {
+          color: #e6af32;
+        }
+        .status-CANCELLED {
+          color: #e33d43;
+        }
+        .status-DELETED {
+          color: #e33d43;
+        }
+        .status-VOID {
+          color: #e33d43;
+        }
+
+/*Bootstrap overrides*/
+
+        .container-fluid {
+          padding-right: 0;
+          padding-left: 0;
+        }
+        .row {
+          margin-right: 0;
+          margin-left: 0;
+        }
+
+h2,
+h3,
+h4,
+h5,
+h6,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  color: #337ab7;
+  margin-top: 10px;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  font-size: .9em;
+}
+
+.nav > li > a {
+  padding: 5px 15px;
+}
+.nav > li > a:hover,
+.nav > li > a:focus {
+  color: #000;
+}
+
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+    color: #fff;
+    background-color: #31B0D5;
+}
+
+.fa-fw {
+    width:35px;
+}
+
+.text-danger {
+  color: #e33d43;
+}
+
+.text-danger ul, ol {
+list-style-type:none;
+}
+
+.nopadding{
+padding:0px;
+}
+
+.panel{
+    box-shadow:#CCC 7px 7px;
+}
+
+#Description{
+    box-shadow:#EEE 4px 4px;
+    width:80%;
+    height:100px;
+}
+
+#OutcomeDescription{
+    box-shadow:#EEE 4px 4px;
+    width:80%;
+    height:100px;
+}
+
+.btn-primary{
+    background-color: #0038A8;
+}
+
+.btn-primary:active,.active.btn-primary{
+    background-color: #52aa45;
+}

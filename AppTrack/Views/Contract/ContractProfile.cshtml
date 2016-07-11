@@ -1,0 +1,228 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.ContractProfileViewModel
+
+    <div class="col-sm-6 h2" style="float:left"><h2>@Model.ContractRecord.ContractTitle</h2></div>
+    <div class="col-sm-3 pull-right" style="text-align:right;padding-top:20px;">
+        <button class="btn btn-xs btn-info" onclick="location.href = '@Url.Action("Index", "Contract")'">Back To Contracts</button>
+    </div>
+
+    <div class="col-sm-3 pull-right" style="text-align:right;">
+    </div>
+
+    <div class="col-md-12">
+        <ul id="tabstrip" class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="#Summary" role="tab" data-toggle="tab">Contract Summary</a></li>
+            <li><a href="#UpdateContract" role="tab" data-toggle="tab">Update Contract</a></li>
+            <li><a class="ajax" href="#ContractDetailList" role="tab" data-toggle="tab">Update Details</a></li>
+            <li><a href="#ContractDocuments" role="tab" data-toggle="tab">Contract Documents</a></li>
+        </ul>
+
+        <!-- Tab Content Containers -->
+        <div class="tab-content" style="padding-top:15px;">
+            <div class="tab-pane fade in active" id="Summary">
+                <div class="col-sm-12">
+                    <strong>Agreement Type: </strong>@Model.ContractRecord.ContractType
+                    <br /><br />
+                    <strong>Effective Date: </strong>@(Model.ContractRecord.EffectiveDate != null ? Model.ContractRecord.EffectiveDate.Value.ToString("MM/dd/yy") : "")
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <strong>Expiration Date:</strong> @(Model.ContractRecord.ExpirationDate != null ? Model.ContractRecord.ExpirationDate.Value.ToString("MM/dd/yy") : "")
+                    &nbsp;&nbsp;@if (ViewBag.Disabled != "")
+                    {
+                        if (Model.ContractRecord.Status.ToUpper() == "ACTIVE" && Model.ContractRecord.ExpirationDate < DateTime.Now)
+                        {
+                            <span onclick="deleteContract()" class="btn btn-xs btn-danger">
+                                Set InActive
+                            </span>
+                        }
+                    }
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <strong>Executed On: </strong> @(Model.ContractRecord.SignatureDate != null ? Model.ContractRecord.SignatureDate.Value.ToString("MM/dd/yy") : "")
+                    <br /><br />
+                    <strong>Summary:</strong>
+                    <br />
+                    @Model.ContractRecord.ContractDescription
+                    <br /><br />
+                    <strong>Exclusivity:</strong>
+                    <br />
+                    @if (Model.ContractRecord.ExclusivityFlag == 0)
+                    {
+                        <span>None</span>
+                    }
+                    else
+                    {
+                        @Model.ContractRecord.ExclusivityDescription
+                    }
+                    <br /><br />
+                    <strong>Special Terms:</strong>
+                    <br />
+                    @Model.ContractRecord.SpecialTerms
+
+                    @if (Model.ContractDetailList.Count > 0)
+                    {
+                        <br /><br />
+                        <strong>Contract Details:</strong>
+                        <table class="table table-hover table-striped table-responsive" id="contractDetailsHomeTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ContractDetailList[0].ContractAmount)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ContractDetailList[0].ContractPercent)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ContractDetailList[0].ProjectedAmount)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.ContractDetailList)
+                                {
+                                    <tr>
+                                        <td>
+                                            <strong>@Html.DisplayFor(modelItem => item.DetailType)</strong>
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ContractAmount)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ContractPercent)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ProjectedAmount)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5">
+                                            Description: @Html.DisplayFor(modelItem => item.DetailDescription)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+            <div class="tab-pane fade" id="UpdateContract"><iframe src="@Url.Action("UpdateContract", "Contract", new { ContractID = @ViewBag.ContractID, PageLayout = "I" }, @Constants.secureProtocol )" frameborder="0" style="width:100%;height:1000px;"></iframe></div>
+            <div class="tab-pane fade" id="ContractDetailList"></div>
+            <div class="tab-pane fade" id="ContractDocuments" style="width:100%;height:auto;"><iframe src="@Url.Action("ContractDocuments", "Contract", new { ContractID = @ViewBag.ContractID, PageLayout = "I" }, @Constants.secureProtocol)" frameborder=" 0" style="width:100%;height:1000px;"></iframe></div>
+        </div>
+    </div>
+
+    <!-- DELETE CONTRACT FORM -->
+    using (Html.BeginForm("UpdateContractStatus", "Contract", FormMethod.Post, new { id = "updateContractForm" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="ContractID" id="updateContractID" value="@Model.ContractRecord.ID" />
+        <input type="hidden" name="Status" id="updateStatus" value="" />
+    }
+
+    <div class="modal fade" id="deleteContractModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>
+                        Are you sure you want to make this Contract InActive?
+                    </h4>
+                </div>
+                <div class="modal-footer">
+
+                    <div class="btn btn-info pull-left" data-dismiss="modal">No, Keep Contract Active</div>
+                    <div class="btn btn-danger pull-right" onclick="deleteContractConfirm()">Yes, Make Contract InActive</div>
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="undeleteContractModal" tabindex="-1" role="dialog" aria-labelledby="undeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>
+                        Are you sure you want to make this Contract Active?
+                    </h4>
+                    <br />
+                    <p>
+                        Contracts can be set to InActive at any time.
+                    </p>
+                </div>
+                <div class="modal-footer">
+
+                    <div class="btn btn-info pull-left" data-dismiss="modal">No, Keep Contract InActive</div>
+                    <div class="btn btn-success pull-right" onclick="undeleteContractConfirm()">Yes, Make Contract Active</div>
+                </div><!-- /.modal-footer-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <script>
+        function deleteContract() {
+            $("#updateStatus").val('InActive');
+            $('#deleteContractModal').modal('show');
+        };
+
+        function deleteContractConfirm() {
+            $('#deleteContractModal').modal('hide');
+            $("#updateContractForm").submit();
+        };
+
+        function undeleteContract() {
+            $("#updateStatus").val('Active');
+            $('#undeleteContractModal').modal('show');
+        };
+
+        function undeleteContractConfirm() {
+            $('#undeleteContractModal').modal('hide');
+            $("#updateContractForm").submit();
+        };
+
+        $('#tabstrip .ajax').click(function (e) {
+            var tabID = $(this).attr("href").substr(1);
+            if ($("#" + tabID).html() == "") {
+                e.preventDefault()
+                $(this).tab('show')
+                $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+                $.ajax({
+                    url: "/@ViewContext.RouteData.Values["controller"]/" + tabID + "?ContractID=@ViewBag.ContractID",
+                    cache: false,
+                    type: "get",
+                    dataType: "html",
+                    success: function (result) {
+                        $("#" + tabID).html(result);
+                    },
+                    failure: function () {
+                        alert("Ooops - something went wrong");
+                    }
+                });
+            }
+        });
+    </script>
+}

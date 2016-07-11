@@ -1,0 +1,431 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteMobileLayout.cshtml";
+    ViewBag.Title = "SavingsAndRebates";
+    ViewBag.thisPage = "SavingsAndRebates";
+    ViewBag.PageType = "SavingsAndRebates";
+    ViewBag.EditCookie = "Y";
+    ViewBag.callbackURL = "~/Site/SavingsAndRebates.cshtml";
+    if (ViewBag.Status == null)
+    {
+        ViewBag.Status = "New";
+    }
+}
+<style>
+    .bg-gray{
+        padding:5px;
+    }
+
+</style>
+<div class="row">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left hidden-xs hidden-sm" style="min-height:450px;">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+        </div>
+        <div class="col-md-8 pull-right nopadding noteditable">
+            <div class="col-md-12 pull-right nopadding noteditable">
+                <h1 class="text-info-dark">
+                    AppTrack Helps You Save
+                </h1>
+                <h4 class="text-info-dark">
+                    Discounts and rebates are just the start. But a great start.
+                </h4>
+                    <div class="editable" id="SavingsAndRebatesMain" style="padding-bottom:0px;margin-bottom:0px;">
+                        @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SavingsAndRebatesMain", status = "LIVE", viewName = "SavingsAndRebates" });}
+                    </div>
+            <div class="col-md-12 nopadding noteditable" style="width:100%; height:100%;margin-top:-15px;">
+                @if (ViewBag.Status != "Active")
+                    {
+                    <div class="row">
+                        <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                            <div class="text-info-darkbold">Contact Lenses</div>
+                            <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:150px;" id="SRContactLens">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRContactLens", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 nopadding">
+                            <div class="text-info-darkbold">Contact Lens Distributors</div>
+                            <img src="../../images/BlueGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:150px;" id="SRContactLensDistributors">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRContactLensDistributors", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 pull-left nopadding" style="padding-left:5px;">
+                            <div class="text-info-darkbold">Optical Labs</div>
+                            <img src="../../images/GreenLightGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:150px;" id="SROpticalLabs">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SROpticalLabs", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                            <div class="text-info-darkbold">Frames</div>
+                            <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:300px;" id="SRFrames">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRFrames", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 nopadding">
+                            <div class="text-info-darkbold">EHR Software</div>
+                            <img src="../../images/BlueGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:300px;" id="SREHRSoftware">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SREHRSoftware", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 pull-left nopadding" style="padding-left:5px;">
+                            <div class="text-info-darkbold">Equipment</div>
+                            <img src="../../images/GreenLightGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:300px;" id="SREquipment">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SREquipment", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                            <div class="text-info-darkbold">Lenses</div>
+                            <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRLenses">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRLenses", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 nopadding">
+                            <div class="text-info-darkbold ">Practice Management Services</div>
+                            <img src="../../images/BlueGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRPracticeManagement">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRPracticeManagement", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 pull-left nopadding" style="padding-left:5px;">
+                            <div class="text-info-darkbold twoline">Neutriceuticals &amp; <br />Phamaceuticals</div>
+                            <img src="../../images/GreenLightGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRNeutriceuticals">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRNeutriceuticals", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                            <div class="text-info-darkbold twoline">Patient Communication &amp; Education</div>
+                            <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRPatientCommunication">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRPatientCommunication", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 nopadding">
+                            <div class="text-info-darkbold ">Website Design &amp; Development</div>
+                            <img src="../../images/BlueGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRWebsiteDesign">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRWebsiteDesign", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 pull-left nopadding" style="padding-left:5px;">
+                            <div class="text-info-darkbold">Business Services</div>
+                            <img src="../../images/GreenLightGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRBusinessServices">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRBusinessServices", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                            <div class="text-info-darkbold twoline">Medical Coding/ Reimbursement Software</div>
+                            <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRMedicalCoding">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRMedicalCoding", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 nopadding">
+                            <div class="text-info-darkbold ">Practice Performance &amp; Metrics</div>
+                            <img src="../../images/BlueGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRPracticePerformance">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRPracticePerformance", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 pull-left nopadding" style="padding-left:5px;">
+                            <div class="text-info-darkbold">Credit Card Processing</div>
+                            <img src="../../images/GreenLightGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRCreditCardProcessing">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRCreditCardProcessing", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                            <div class="text-info-darkbold">Contact Lens Solutions</div>
+                            <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRContactLensSolutions">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRContactLensSolutions", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 nopadding">
+                            <div class="text-info-darkbold">Stock Lenses</div>
+                            <img src="../../images/BlueGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRStockLens">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRStockLens", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 pull-left nopadding" style="padding-left:5px;">
+                            <div class="text-info-darkbold">Travel</div>
+                            <img src="../../images/GreenLightGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRTravel">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRTravel", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                            <div class="text-info-darkbold ">Leasing &amp; Financial Services</div>
+                            <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRLeasingFinancialServices">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRLeasingFinancialServices", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 nopadding">
+                            <div class="text-info-darkbold">Practice Marketing</div>
+                            <img src="../../images/BlueGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRPracticeMarketing">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRPracticeMarketing", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 pull-left nopadding" style="padding-left:5px;">
+                            <div class="text-info-darkbold twoline">Merchandising Displays &amp; Interiors</div>
+                            <img src="../../images/GreenLightGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRMerchandisingDisplays">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRMerchandisingDisplays", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                            <div class="text-info-darkbold">Frames Reference Materials</div>
+                            <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                            <div class="bg-gray editable" style="min-height:100px;" id="SRFrameReferenceMaterials">
+                                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRFrameReferenceMaterials", status = "LIVE", viewName = "SavingsAndRebates" });}
+                            </div>
+                        </div>
+                    </div>
+                    }
+                else
+                    {
+                <div class="row">
+                    <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                        <div class="text-info-darkbold">Contact Lenses</div>
+                        <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:150px;" id="SRContactLens">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRContactLens", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 nopadding">
+                        <div class="text-info-darkbold">Contact Lens Distributors</div>
+                        <img src="../../images/BlueGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:150px;" id="SRContactLensDistributors">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRContactLensDistributors", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 pull-left nopadding" style="padding-left:5px;">
+                        <div class="text-info-darkbold">Optical Labs</div>
+                        <img src="../../images/GreenLightGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:150px;" id="SROpticalLabs">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SROpticalLabs", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                        <div class="text-info-darkbold">Frames</div>
+                        <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:300px;" id="SRFrames">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRFrames", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 nopadding">
+                        <div class="text-info-darkbold">EHR Software</div>
+                        <img src="../../images/BlueGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:300px;" id="SREHRSoftware">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SREHRSoftware", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 pull-left nopadding" style="padding-left:5px;">
+                        <div class="text-info-darkbold">Equipment</div>
+                        <img src="../../images/GreenLightGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:300px;" id="SREquipment">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SREquipment", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                        <div class="text-info-darkbold">Lenses</div>
+                        <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRLenses">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRLenses", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 nopadding">
+                        <div class="text-info-darkbold ">Practice Management Services</div>
+                        <img src="../../images/BlueGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRPracticeManagement">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRPracticeManagement", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 pull-left nopadding" style="padding-left:5px;">
+                        <div class="text-info-darkbold twoline">Neutriceuticals &amp; <br />Phamaceuticals</div>
+                        <img src="../../images/GreenLightGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRNeutriceuticals">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRNeutriceuticals", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                        <div class="text-info-darkbold twoline">Patient Communication &amp; Education</div>
+                        <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRPatientCommunication">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRPatientCommunication", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 nopadding">
+                        <div class="text-info-darkbold ">Website Design &amp; Development</div>
+                        <img src="../../images/BlueGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRWebsiteDesign">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRWebsiteDesign", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 pull-left nopadding" style="padding-left:5px;">
+                        <div class="text-info-darkbold">Business Services</div>
+                        <img src="../../images/GreenLightGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRBusinessServices">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRBusinessServices", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                        <div class="text-info-darkbold twoline">Medical Coding/ Reimbursement Software</div>
+                        <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRMedicalCoding">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRMedicalCoding", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 nopadding">
+                        <div class="text-info-darkbold ">Practice Performance &amp; Metrics</div>
+                        <img src="../../images/BlueGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRPracticePerformance">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRPracticePerformance", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 pull-left nopadding" style="padding-left:5px;">
+                        <div class="text-info-darkbold">Credit Card Processing</div>
+                        <img src="../../images/GreenLightGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRCreditCardProcessing">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRCreditCardProcessing", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                        <div class="text-info-darkbold">Contact Lens Solutions</div>
+                        <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRContactLensSolutions">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRContactLensSolutions", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 nopadding">
+                        <div class="text-info-darkbold">Stock Lenses</div>
+                        <img src="../../images/BlueGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRStockLens">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRStockLens", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 pull-left nopadding" style="padding-left:5px;">
+                        <div class="text-info-darkbold">Travel</div>
+                        <img src="../../images/GreenLightGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRTravel">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRTravel", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                        <div class="text-info-darkbold ">Leasing &amp; Financial Services</div>
+                        <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRLeasingFinancialServices">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRLeasingFinancialServices", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 nopadding">
+                        <div class="text-info-darkbold">Practice Marketing</div>
+                        <img src="../../images/BlueGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRPracticeMarketing">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRPracticeMarketing", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 pull-left nopadding" style="padding-left:5px;">
+                        <div class="text-info-darkbold twoline">Merchandising Displays &amp; Interiors</div>
+                        <img src="../../images/GreenLightGreenShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRMerchandisingDisplays">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRMerchandisingDisplays", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 pull-left nopadding" style="padding-right:5px;">
+                        <div class="text-info-darkbold">Frames Reference Materials</div>
+                        <img src="../../images/RoyalBlueShortBar.png" style="width:100%;margin-bottom:-7px;" />
+                        <div class="editable" style="min-height:100px;" id="SRFrameReferenceMaterials">
+                            @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "SRFrameReferenceMaterials", status = "LIVE", viewName = "SavingsAndRebates" });}
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row nopadding" style="width:100%;height:25px;">
+    &nbsp;
+</div>

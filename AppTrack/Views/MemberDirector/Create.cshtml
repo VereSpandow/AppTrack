@@ -1,0 +1,165 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-md-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.errorMessage </span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.MemberDirectorViewModel
+    <div id="companyContainerDiv">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <h2>Add Member Director</h2>
+
+            <div class="col-sm-6">
+                <div class="col-sm-4">
+                    @Html.LabelFor(model => model.SponsorID, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.SponsorID, new { htmlAttributes = new { @class = "form-control", maxlength = "10" } })
+                    @Html.ValidationMessageFor(model => model.SponsorID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.LabelFor(model => model.TaxID, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.TaxID, new { htmlAttributes = new { @class = "form-control", maxlength = "11" } })
+                    @Html.ValidationMessageFor(model => model.TaxID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.LabelFor(model => model.AccountingID, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.AccountingID, new { htmlAttributes = new { @class = "form-control", maxlength = "11" } })
+                    @Html.ValidationMessageFor(model => model.AccountingID, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.Company, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.DisplayName, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.DisplayName, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.Address1, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.Address1, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.Address2, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.Address2, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-6">
+                    @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.DropDownListFor(model => model.State, Model.StateList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.PostalCode, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control", maxlength = "5" } })
+                    @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.NameTitle, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.DropDownListFor(model => model.NameTitle, Model.NameTitleList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.NameTitle, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-4">
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-5">
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control email", maxlength = "100" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control password", maxlength = "25" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control password", maxlength = "25" } })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-6">
+                    @Html.LabelFor(model => model.DayPhone, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.DayPhone, new { htmlAttributes = new { @class = "form-control phone", maxlength = "20" } })
+                    @Html.ValidationMessageFor(model => model.DayPhone, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-6">
+                    @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control phone", maxlength = "15" } })
+                    @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-6">
+                    @Html.LabelFor(model => model.Fax, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.Fax, new { htmlAttributes = new { @class = "form-control phone", maxlength = "15" } })
+                    @Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-6 pull-right" style="text-align:right;padding-top:25px;">
+                    <input type="submit" value="Save" class="btn btn-info" />
+                </div>
+            </div>
+
+        }
+
+    </div>
+
+}
+<script>
+    $(document).ready(function () {
+        $("#DayPhone").mask("(999) 999-9999? x99999");
+        $("#Mobile").mask("(999) 999-9999");
+        $("#Fax").mask("(999) 999-9999");
+    });
+</script>

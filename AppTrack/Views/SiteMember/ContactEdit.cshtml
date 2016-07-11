@@ -1,0 +1,157 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayoutMember.cshtml";
+    ViewBag.EditCookie = "N";
+}
+<div id="contactContainerDiv">
+    @if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+    {
+        <div class="col-md-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    }
+    else
+    {
+        @model AppTrack.ViewModels.MemberContactViewModel
+    <div class="col-md-12 col-xs-12 nopadding" style="padding-top:20px;">
+
+        <ul id="tabstrip" class="nav nav-tabs" role="tablist">
+            <li><a class="AccountLink" href="@Url.Action("EditAccount", "SiteMember")" role="tab">Practice Information</a></li>
+            <li><a class="PaymentLink" href="@Url.Action("MemberPaymentMethod", "SiteMember")" role="tab">Payment Information</a></li>
+            <li><a class="LocationLink" href="@Url.Action("LocationList", "SiteMember")" role="tab">Additional Locations</a></li>
+            <li class="active"><a class="ContactLink" href="@Url.Action("ContactList", "SiteMember")" role="tab">Additional Contacts</a></li>
+        </ul>
+
+        <div class="panel panel-default col-xs-12 " style="min-height:275px; box-shadow:#CCC 7px 7px;">
+            <div class="panel-body">
+                <div class="col-sm-12 col-xs-12  pull-left" style="padding:0;">
+                    @using (Html.BeginForm("ContactEdit", "SiteMember", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "contactForm" }))
+                    {
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        if (ViewBag.ErrorMessage != "")
+                        {
+                            <span class="text-success">@ViewBag.ErrorMessage</span>
+                        }
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ErrorCode" id="ErrorCode" value="@ViewBag.ErrorCode" />
+                        @Html.HiddenFor(model => model.contactRecord.CustID)
+                        @Html.HiddenFor(model => model.contactRecord.SponsorID)
+                        @Html.HiddenFor(model => model.contactRecord.Company)
+                        @Html.HiddenFor(model => model.contactRecord.Fax)
+                        <div class="col-md-12 nopadding">
+                            <div class="col-sm-2">
+                                @Html.LabelFor(model => model.contactRecord.NameTitle, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.contactRecord.NameTitle, Model.NameTitleList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.contactRecord.NameTitle, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-5">
+                                @Html.LabelFor(model => model.contactRecord.FirstName, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.contactRecord.FirstName, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.contactRecord.FirstName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-5">
+                                @Html.LabelFor(model => model.contactRecord.LastName, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.contactRecord.LastName, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.contactRecord.LastName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="row"></div>
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.contactRecord.Email, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.contactRecord.Email, new { htmlAttributes = new { @class = "form-control email", maxlength = "100" } })
+                                @Html.ValidationMessageFor(model => model.contactRecord.Email, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.contactRecord.DayPhone, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.contactRecord.DayPhone, new { htmlAttributes = new { @class = "form-control phone", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.contactRecord.DayPhone, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.contactRecord.Mobile, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.contactRecord.Mobile, new { htmlAttributes = new { @class = "form-control phone", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.contactRecord.Mobile, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="row"></div>
+                            <div class="col-sm-6">
+                                @Html.LabelFor(model => model.contactRecord.Address1, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.contactRecord.Address1, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.contactRecord.Address1, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.LabelFor(model => model.contactRecord.Address2, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.contactRecord.Address2, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.contactRecord.Address2, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="row"></div>
+                            <div class="col-sm-6">
+                                @Html.LabelFor(model => model.contactRecord.City, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.contactRecord.City, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.contactRecord.City, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.contactRecord.State, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DropDownListFor(model => model.contactRecord.State, Model.StateList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.contactRecord.State, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.contactRecord.PostalCode, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.contactRecord.PostalCode, new { htmlAttributes = new { @class = "form-control", maxlength = "10" } })
+                                @Html.ValidationMessageFor(model => model.contactRecord.PostalCode, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="row"></div>
+                            <div class="col-sm-4">
+                                <label class = "control-label">Contact Type</label>
+                                <br />
+                                @Html.DropDownListFor(model => model.contactRecord.VariantData1, Model.ContactTypeList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.contactRecord.VariantData1, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.contactRecord.VariantData2, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.contactRecord.VariantData2, new { htmlAttributes = new { @class = "form-control phone", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.contactRecord.VariantData2, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.contactRecord.VariantData3, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.EditorFor(model => model.contactRecord.VariantData3, new { htmlAttributes = new { @class = "form-control phone", maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.contactRecord.VariantData3, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="row"></div>
+                            <div class="col-md-12 pull-right" style="text-align:right;padding-top:25px;">
+                                <input type="submit" value="Update" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse(contactForm);
+        $("#contactRecord_DayPhone").mask("(999)999‐9999?x9999");
+        $("#contactRecord_Mobile").mask("(999)999‐9999");
+    });
+</script>
+
+

@@ -1,0 +1,223 @@
+﻿<!--sidebar left start-->
+<div class="bg-primary" style="margin-left:-25px;">
+    <div class="col-lg-12" style="text-align:center; height:50px;padding:10px;">
+        <a href="~/Home/">
+            <img src="~/Content/images/Logo.png" class="img-circle" style="width:35px;height:auto;margin-top:-5px;">
+            <span style="font-size:1.25em;color:#FFF;" class="sidebarText">&nbsp; Loyalty Benefits</span>
+        </a>
+    </div>
+    <div style="clear:both"></div>
+    <div class="col-lg-12" style="text-align:center; padding:10px;">
+        <nav>
+            <ul class="nav nav-pills nav-stacked">
+                <li class="@Html.IsSelected(controller: "Item")">
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-lbnav">
+                        <i class="fa fa-fw fa-2x fa-home"></i><span class="sidebarText"> Home</span>
+                    </a>
+                </li>
+                <li class="nav-dropdown @Html.IsSelected(controller: "Info")" style="text-align:left;padding-left:0px">
+                    <a class="btn btn-lbnav" data-toggle="collapse" href="#collapseCustomers" aria-expanded="false" aria-controls="collapseCustomers">
+                        <i class="fa fa-fw fa-2x fa-users"></i><span class="sidebarText">Customers</span>
+                    </a>
+                    <ul class="nav-sub collapse" id="collapseCustomers" style="padding-left:50px;">
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Info", new {customerType=2, statusid=1} )">
+                                Members
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("MemberEnrollPage1", "Info")">
+                                Members
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Info", new {customerType=7, statusid=1} )">
+                                Vendors
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Info", new {customerType=2, statusid=1} )">
+                                IMDs
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "SalesRep", new {customerType=3, statusid=1} )">
+                                Sales Reps
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown @Html.IsSelected(controller: "Item")">
+                    <a class="btn btn-lbnav" data-toggle="collapse" href="#collapseMeetings" aria-expanded="false" aria-controls="collapseMeetings">
+                        <i class="fa fa-fw fa-2x fa-calendar"></i> <span class="sidebarText">Meetings</span>
+                    </a>
+                    <ul class="nav-sub collapse" id="collapseMeetings">
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Item")">
+                                Study Group Meetings
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Item")">
+                                Conferences
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown @Html.IsSelected(controller: "Item")">
+                    <a class="btn btn-lbnav" data-toggle="collapse" href="#collapseBillings" aria-expanded="false" aria-controls="collapseBillings">
+                        <i class="fa fa-fw fa-2x fa-file-text"></i><span class="sidebarText">Billings</span>
+                    </a>
+                    <ul class="nav-sub collapse" id="collapseBillings">
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Info")">
+                                View Billing Orders
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Info", "Home")">
+                                Process Member Billings
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Info")">
+                                Process Credit Card Payments
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Info")">
+                                SAGE Integration
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Info")">
+                                View Billing Profiles
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown @Html.IsSelected(controller: "Pages")">
+                    <a class="btn btn-lbnav" data-toggle="collapse" href="#collapseRebates" aria-expanded="false" aria-controls="collapseRebates">
+                        <i class="fa fa-fw fa-2x fa-gift"></i><span class="sidebarText"> Rebates</span>
+                    </a>
+                    <ul class="nav-sub collapse" id="collapseRebates">
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Home")">
+                                Process Vendor Import
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Home")">
+                                Process Rebates
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Home")">
+                                View Rebates
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Home")">
+                                SAGE Integration
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown @Html.IsSelected(controller: "Pages")">
+                    <a class="btn btn-lbnav" data-toggle="collapse" href="#collapseCommissions" aria-expanded="false" aria-controls="collapseCommissions">
+                        <i class="fa fa-fw fa-2x fa-money"></i> <span class="sidebarText">Commissions</span>
+                    </a>
+                    <ul class="nav-sub collapse" id="collapseCommissions">
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Home")">
+                                IMD Meeting Payments
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Home")">
+                                Process Commissions
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Home")">
+                                View Commissions
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Home")">
+                                SAGE Integration
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown @Html.IsSelected(controller: "Pages")">
+                    <a class="btn btn-lbnav" data-toggle="collapse" href="#collapsePromotions" aria-expanded="false" aria-controls="collapsePromotions">
+                        <i class="fa fa-fw fa-2x fa-bullseye"></i><span class="sidebarText"> Products & Promotions </span>
+                    </a>
+                    <ul class="nav-sub collapse" id="collapsePromotions">
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Home")">
+                                Products
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Home")">
+                                Promotions
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown @Html.IsSelected(controller: "Info")">
+                    <a class="btn btn-lbnav" data-toggle="collapse" href="#collapseReports" aria-expanded="false" aria-controls="collapseReports">
+                        <i class="fa fa-fw fa-2x fa-tachometer"></i><span class="sidebarText"> Reports </span>
+                    </a>
+                    <ul class="nav-sub collapse" id="collapseReports">
+                        <li class="@Html.IsSelected(action: "Members")">
+                            <a class="subnavlink" href="@Url.Action("Members", "Info")">
+                                Members
+                            </a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Vendors")">
+                            <a class="subnavlink" href="@Url.Action("Vendors", "Info")">
+                                Vendors
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Home")">
+                                Billings
+                            </a>
+                        </li>
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "Home")">
+                                Rebates
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="@Html.IsSelected(controller: "Pages")">
+                    <a class="btn btn-lbnav" href="@Url.Action("Index", "Item")">
+                        <i class="fa fa-fw fa-2x fa-sitemap"></i> <span class="sidebarText">Website Manager </span>
+                    </a>
+                </li>
+                <li class="nav-dropdown @Html.IsSelected(controller: "Pages")">
+                    <a class="btn btn-lbnav" data-toggle="collapse" href="#collapseAdmin" aria-expanded="false" aria-controls="collapseAdmin">
+                        <i class="fa fa-fw fa-2x fa-cogs"></i> <span class="sidebarText">Administration </span>
+                    </a>
+                    <ul class="nav-sub collapse" id="collapseAdmin">
+                        <li class="subnavlink">
+                            <a class="subnavlink" href="@Url.Action("Index", "AdminUser")">
+                                Manage Admin Users
+                            </a>
+                        </li>
+                        <li class="@Html.IsSelected(action: "Login")">
+                            <a class="subnavlink" href="@Url.Action("Login", "Account")">
+                                Login
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!--sidebar left end-->

@@ -1,0 +1,79 @@
+﻿@model AppTrack.ViewModels.MemberEnrollmentVendorSelect
+
+
+<div id="enrollRightCol5">
+    <div class="panel panel-warning panel-warning-dark">
+        <div class="panel-heading">
+            <div class="panel-title">
+                Select the Vendors to enroll Member in AppTrack program
+            </div>
+        </div>
+        <div class="panel-body">
+            @using (Ajax.BeginForm("MemberEnrollmentVendorSelect", "MemberEnrollment", null,
+                         new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            HttpMethod = "POST",
+                            OnSuccess = "OnSuccess1",
+                            OnFailure = "OnFailure1",
+                            LoadingElementId = "ajax-loader",
+                            UpdateTargetId = "enrollRightCol5"
+                        }, new { id = "memberEnrollmentForm4" }))
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.AntiForgeryToken()
+                <img id="ajax-loader" src="@Url.Content("~/images/ajax-loader.gif")" style="display:none;" />
+                <div class="col-md-12">
+                    @Html.HiddenFor(model => model.CustID)
+                    @{
+                int lastCategoryID = 999999;
+                int thisCategoryID = 111111;
+                int leftOrRight = 0;
+                string divOpenString = "<div class=\"col-md-6\">";
+                string divCloseString = "</div>";
+                    }
+                    @foreach (var item in Model.MemberEnrollmentVendorList)
+                    {
+                        thisCategoryID = item.CategoryID;
+                        if (thisCategoryID != lastCategoryID)
+                        {
+                            if (leftOrRight == 0)
+                            {
+                                if (lastCategoryID != 999999)
+                                {
+                                    @Html.Raw(HttpUtility.HtmlDecode(divCloseString))
+                                }
+                                @Html.Raw(HttpUtility.HtmlDecode(divOpenString))
+                                <h4 style="margin-bottom:5px;margin-top:25px;">
+                                    <strong>
+                                        @Html.DisplayFor(modelItem => item.CategoryName)
+                                    </strong>
+                                </h4>
+                            }
+                        }
+                        else
+                        {
+                            <br />
+                        }
+                        <input type="checkbox" name="SelectedVendors" value="@item.CustID" class="checkbox-inline" style="margin-top:-2px;" />
+                        @Html.Label(item.DisplayName, new { @style = "font-weight:400;color:#393;" })
+                        //@Html.DisplayFor(modelItem => item.DisplayName)
+                        lastCategoryID = thisCategoryID;
+                    }
+                    @Html.Raw(HttpUtility.HtmlDecode(divCloseString))
+                </div>
+                <div class="col-md-12" style="margin-top:15px;">
+                    <div class="form-group">
+                        <input type="submit" name="button" value="Save" class="btn btn-sm btn-primary pull-right">
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script>
+    function OnSuccess1() {
+    }
+    function OnFailure1() {
+    }
+</script>

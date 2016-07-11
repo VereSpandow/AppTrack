@@ -1,0 +1,83 @@
+using IDOC.Models;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
+
+namespace IDOC.ViewModels
+{
+    public class SalesRepList
+ 	{
+        public Nullable<int> CustID { get; set; }
+        public string SalesForceID { get; set; }
+        public string Displayname { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string TaxID { get; set; }
+        public string Status { get; set; }
+        public Nullable<System.DateTime> StatusDate { get; set; }
+        public int StatusID { get; set; }
+        public Nullable<int> AdminID { get; set; }
+    }
+    public class SalesRepViewModel
+    {
+
+        [Display(Name = "Sales RepID")]
+        public int CustID { get; set; }
+
+        [Display(Name = "SalesForceID")]
+        [MaxLength(10)]
+        public string SalesForceID { get; set; }
+
+        [Required, Display(Name = "Tax ID")]
+        [MaxLength(50)]
+        public string TaxID { get; set; }
+
+        [Required, Display(Name = "First Name")]
+        [MaxLength(50)]
+        public string FirstName { get; set; }
+
+        [Required, Display(Name = "Last Name")]
+        [MaxLength(50)]
+        public string LastName { get; set; }
+
+        [Display(Name = "Display Name")]
+        [MaxLength(50)]
+        public string DisplayName { get; set; }
+
+        [Display(Name = "Email*")]
+        [MaxLength(100)]
+        public string Email { get; set; }
+
+        [Display(Name = "Status ")]
+        [MaxLength(50)]
+        public string Status { get; set; }
+
+        [Display(Name = "StatusID")]
+        public int StatusID { get; set; }
+
+        [Display(Name = "AdminID")]
+        public int  AdminID { get; set; }
+
+    }
+
+    public class SearchViewModel
+    {
+        [Display(Name = "SearchStartDate")]
+        public DateTime SearchStartDate { get; set; }
+
+        [Display(Name = "SearchEndDate")]
+        public DateTime SearchEndDate { get; set; }
+
+        [Required, Display(Name = "SearchLastName")]
+        [MaxLength(50)]
+        public string SearchLastName { get; set; }
+
+        [Required, Display(Name = "SearchStatus")]
+        [MaxLength(50)]
+        public string SearchStatus { get; set; }
+    }
+}

@@ -1,0 +1,141 @@
+﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+{
+    <div id="contactContainerDiv">
+        <div class="col-sm-12" style="font-size: 1.5em">
+            <br />
+            <br />
+            The following unexpected error was encountered:
+            <br />
+            <br />
+            <span class=" text-danger">@ViewBag.ErrorMessage</span>
+            <br />
+            <br />
+            Please contact technical support.
+        </div>
+    </div>
+}
+else
+{
+    @model AppTrack.ViewModels.ContractViewModel
+
+    if (ViewBag.PageLayout == "")
+    {
+        <div style="clear:both;height:25px;"></div>
+    }
+    var ExclusivityDisplay = "none";
+
+    if (Model.ExclusivityFlag == 1)
+    {
+        ExclusivityDisplay = "";
+    }
+    <div id="companyContainerDiv">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ID)
+            <input type="hidden" name="pageLayout" id="pageLayout" value="@ViewBag.PageLayout" />
+
+    <div class="col-sm-12">
+        <h2>Enter Contract Information</h2>
+    </div>
+            <div class="col-sm-6">
+                <div class="col-sm-12" >
+                    *<label class="control-label">Select Provider</label>
+                    <br />
+                    @Html.DropDownListFor(model => model.CustID, Model.ProviderList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CustID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-12" style="padding-top:10px;">
+                    *<label class="control-label">Contract Type</label>
+                    <br />
+                    @Html.DropDownListFor(model => model.ContractType, Model.ContractTypeList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ContractType, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-12" style="padding-top:10px;">
+                    *@Html.LabelFor(model => model.ContractTitle, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.EditorFor(model => model.ContractTitle, new { htmlAttributes = new { @class = "form-control", maxlength = "200" } })
+                    @Html.ValidationMessageFor(model => model.ContractTitle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="col-sm-6">
+                    *<label class="control-label">Effective Date</label>
+                    <br />
+                    @Html.JQueryUI().DatepickerFor(model => model.EffectiveDate, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.EffectiveDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-6">
+                    *<label class="control-label">Expiration Date</label>
+                    <br />
+                    @Html.JQueryUI().DatepickerFor(model => model.ExpirationDate, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ExpirationDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-6" style="padding-top:10px;">
+                    <label class="control-label">Signature Date</label>
+                    <br />
+                    @Html.JQueryUI().DatepickerFor(model => model.SignatureDate, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SignatureDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-6" style="padding-top:10px;">
+                    <span class="control-label" style="font-weight: bold">Admin Only?</span>
+                    <br />
+                    @Html.RadioButtonFor(model => model.AdminOnly, 1, Model.AdminOnly == 1 ? new { Checked = "checked", Class = "" } : null) Yes
+                    @Html.RadioButtonFor(model => model.AdminOnly, 0, Model.AdminOnly == 0 ? new { Checked = "checked", Class = "" } : null) No
+                    @Html.ValidationMessageFor(model => model.AdminOnly, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="col-sm-12" style="padding-top:10px;">
+                    @Html.LabelFor(model => model.ContractDescription, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.TextAreaFor(model => model.ContractDescription, new { @rows = 10, @class = "form-control", maxlength = "2500" })
+                    @Html.ValidationMessageFor(model => model.ContractDescription, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-12" style="padding-top:10px;">
+                    @Html.LabelFor(model => model.SpecialTerms, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.TextAreaFor(model => model.SpecialTerms, new { @rows = 5, @class = "form-control", maxlength = "2500" })
+                    @Html.ValidationMessageFor(model => model.SpecialTerms, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-12" style="padding-top:10px;">
+                    <span class="control-label" style="font-weight: bold">Exclusivity?</span>
+                    @Html.RadioButtonFor(model => model.ExclusivityFlag, 1, new { onclick = "showExDesc()" }) Yes
+                    @Html.RadioButtonFor(model => model.ExclusivityFlag, 0, new { onclick = "hideExDesc()" }) No
+                    @Html.ValidationMessageFor(model => model.ExclusivityFlag, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-12" id="ExDescDiv" style="display:@ExclusivityDisplay;padding-top:10px;">
+                    @Html.LabelFor(model => model.ExclusivityDescription, htmlAttributes: new { @class = "control-label" })
+                    <br />
+                    @Html.TextAreaFor(model => model.ExclusivityDescription, new { @rows = 5, @class = "form-control", maxlength = "2500", id = "ExDesc" })
+                    @Html.ValidationMessageFor(model => model.ExclusivityDescription, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-12 pull-right" style="text-align:right;padding-top:10px;">
+                    <input type="submit" name="SubmitAction" value="Save" class="btn btn-info" />
+                </div>
+            </div>
+        }
+
+    </div>
+
+}
+<script>
+    $(document).ready(function () {
+        $("#EffectiveDate").datepicker();
+        $("#ExpirationDate").datepicker();
+        $("#SignatureDate").datepicker();
+        $('.disabled').attr("disabled", "disabled");
+    });
+
+    function showExDesc() {
+        $("#ExDescDiv").show();
+    };
+    function hideExDesc() {
+        $("#ExDesc").html("");
+        $("#ExDescDiv").hide();
+    };
+
+</script>

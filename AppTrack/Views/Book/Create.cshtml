@@ -1,0 +1,39 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Create Book";
+}
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.Id)
+    <div class="editor-label">
+        @Html.LabelFor(m => m.Name)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(m => m.Name)
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(m => m.Author)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(m => m.Author)
+        @Html.ValidationMessageFor(m => m.Author)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(m => m.DatePublished)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(m => m.DatePublished)
+        @Html.ValidationMessageFor(m => m.DatePublished)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(m => m.Rating)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(m => m.Rating)
+        @Html.ValidationMessageFor(m => m.Rating)
+    </div>
+    <button type="submit">Create</button>
+}

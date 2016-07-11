@@ -1,0 +1,79 @@
+﻿@model List<AppTrack.SharedModels.AdminUser>
+
+@{
+    ViewBag.Title = "Admin Users";
+}
+
+<div class="h2" style="float:left">@ViewBag.Title</div>
+
+<div class="h2" style="float:right;">
+    <a class="btn btn-sm btn-info" href="@Url.Action("Create", "UsersAdmin")">Add New User</a>
+</div>
+<table class="table table-hover table-striped table-responsive" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DisplayName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @if (item.StatusID == 1)
+                    {
+                        <span class="status-ACTIVE">Active</span>
+                    }
+                    else
+                    {
+                        <span class="status-CANCELLED">Cancelled</span>
+                    }
+                </td>
+
+                <td style="text-align:right">
+                    @if (item.StatusID == 1)
+                    {
+                        <a href="@Url.Action("Edit", "UsersAdmin", new { id = item.ID })"><span class="fa fa-fw fa-edit"></span></a>
+                        <a href="@Url.Action("Delete", "UsersAdmin", new { id = item.ID })"><span class="btn btn-xs btn-danger" style="padding:1px 2px;line-height:1;">x</span></a>
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#myTable').dataTable(
+            {
+                "searching": false,
+                "bLengthChange": false,
+                "oLanguage": {
+                    "sInfo": "Showing rows _START_ to _END_ of _TOTAL_",
+                    "sLengthMenu": "Show _MENU_ rows per page",
+                    "sInfoEmpty": "0 records found",
+                    "sEmptyTable": "No information available to display"
+                }
+            });
+        });
+    </script>
+}

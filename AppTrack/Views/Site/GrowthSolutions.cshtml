@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    ViewBag.thisPage = "GrowthSolutions";
+    ViewBag.PageType = "GrowthSolutions";
+}
+<div class="row nopadding">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left hidden-xs hidden-sm" style="min-height:450px;">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding">
+            <div class="no-offset nopadding" style="background-color:#FFF;width:100%;padding:0px;margin:0px;">
+                <img class="img-responsive" src="../../Images/GrowthSolutionsV2.png" style="height:auto; width:100%;padding:0px" alt="Grow Optometry Practice" />
+            </div>
+            <div class="col-md-12 nopadding editable" id="GrowthSolutionsMain">
+                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "GrowthSolutionsMain", status = "LIVE", viewName = "GrowthSolutions" });}
+            </div>
+        </div>
+    </div>
+    <div class="row nopadding" style="width:100%;height:25px;">
+        &nbsp;
+    </div>
+</div>
+
+    

@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteMobileLayout.cshtml";
+    ViewBag.Title = "AppTrackQuarterly";
+    ViewBag.thisPage = "AppTrackQuarterly";
+    ViewBag.PageType = "AppTrackQuarterly";
+    ViewBag.EditCookie = "Y";
+}
+<div class="row nopadding">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left hidden-xs hidden-sm" style="min-height:450px;">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding">
+            <div class="no-offset nopadding" style="background-color:#c0d0e6;width:100%;padding:0px;margin:0px;">
+            </div>
+            <div class="col-md-12 nopadding noteditable" id="MOMain">
+                <h1 class="text-royalty-dark">AppTrack Quarterly</h1>
+                <h4 class="text-royalty-dark">Keeping you informed of industry news and trends!</h4>
+
+                <div class="editable" id="AppTrackQuarterly">
+                    <div style="font-size: 14px;min-height:150px;">
+                        @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "AppTrackQuarterly", status = "LIVE", viewName = "AppTrackQuarterly" });}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row nopadding" style="width:100%;height:25px;">
+            &nbsp;
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

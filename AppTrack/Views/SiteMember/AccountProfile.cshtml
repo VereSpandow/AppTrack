@@ -1,0 +1,241 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayoutMember.cshtml";
+    ViewBag.PageType = "AccountProfile";
+}
+
+            @if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+            {
+                <div id="contactContainerDiv">
+                    <div class="col-sm-12" style="font-size: 1.5em">
+                        <br />
+                        <br />
+                        The following unexpected error was encountered:
+                        <br />
+                        <br />
+                        <span class=" text-danger">@ViewBag.ErrorMessage</span>
+                        <br />
+                        <br />
+                        Please contact technical support.
+                    </div>
+                </div>
+            }
+            else
+            {
+                @model AppTrack.ViewModels.MemberProfileViewModel
+
+                <h2>@(Model.MemberRecord.DisplayName)</h2>
+
+
+    
+               <div class="col-md-12 nopadding">
+<!--
+                        <ul id="tabstrip" class="nav nav-tabs" role="tablist">
+                        <li class="active"><a href="@Url.Action("AccountProfile", "SiteMember", new { @id = Model.MemberRecord.CustID })">Profile</a></li>
+                        <li><a class="AccountLink" href="#AccountTab" role="tab" data-toggle="tab">Account</a></li>
+                        <li><a class="LocationLink" href="#LocationTab" role="tab" data-toggle="tab">Locations</a></li>
+                        <li><a class="ContactsLink" href="#ContactsTab" role="tab" data-toggle="tab">Contacts</a></li>
+                        <li><a class="VendorLink" href="#VendorTab" role="tab" data-toggle="tab">Vendors</a></li>
+                        <li><a class="AutoshipLink" href="#AutoshipTab" role="tab" data-toggle="tab">Program</a></li>
+                                    <li><a class="ProgramLink" href="#ProgramTab" role="tab" data-toggle="tab">Program</a></li>
+                                    <li><a class="PaymentMethodLink" href="#PaymentMethodTab" role="tab" data-toggle="tab">Payment Method</a></li>
+                        <li><a class="OrderLink" href="#OrderTab" role="tab" data-toggle="tab">Order</a></li>
+                        <li><a class="RebateLink" href="#RebateTab" role="tab" data-toggle="tab">Rebates</a></li>
+                    </ul>
+-->  
+                    <!-- Tab Content Containers -->
+                    <div class="tab-content nopadding" style="padding-top:15px;">
+                        <div class="nopadding" id="Profile">
+                            <div class="col-md-6 col-sm-12 col-xs-12 nopadding pull-left">
+                                <div class="panel panel-default nopadding col-sm-12" style="min-height:275px; min-width:275px; box-shadow:#CCC 7px 7px;">
+                                    <div class=" panel-heading">
+                                        <h4>Practice Information</h4>
+                                     </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-4" style="clear:both"><strong>Member ID:</strong></div>
+                                        <div class="col-sm-8">@Model.MemberRecord.CustID</div>
+                                        <div class="col-sm-4" style="clear:both"><strong>Practice:</strong></div>
+                                        <div class="col-sm-8">@Model.MemberRecord.DisplayName</div>
+                                        <div class="col-sm-4" style="clear:both"><strong>Address:</strong></div>
+                                        <div class="col-sm-8">
+                                            @if (Model.MemberRecord.Address1 != "")
+                                            {
+                                                @Model.MemberRecord.Address1
+                                                if (!String.IsNullOrEmpty(Model.MemberRecord.Address2))
+                                                {
+                                                    <span>,</span> @Model.MemberRecord.Address2
+                                                }
+                                                <br />
+                                                @Model.MemberRecord.City<span>,</span> @(Model.MemberRecord.State)@:&nbsp;   @(Model.MemberRecord.PostalCode)
+                                                <br />
+                                            }
+                                        </div>
+                                        <div class="col-sm-4"><strong>Contact:</strong></div>
+                                        <div class="col-sm-8">@Model.MemberRecord.NameTitle @Model.MemberRecord.FirstName @Model.MemberRecord.LastName</div>
+                                        <div class="col-sm-4" style="clear:both"><strong>Phone:</strong></div>
+                                        <div class="col-sm-8">@Helpers.FormatPhone(@Model.MemberRecord.DayPhone)</div>
+                                        <div class="col-sm-4" style="clear:both"><strong>Email:</strong></div>
+                                        <div class="col-sm-8">@Model.MemberRecord.Email</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12 nopadding pull-left">
+                                <div class="panel panel-default nopadding col-sm-12" style="min-height:275px; min-width:275px; box-shadow:#CCC 7px 7px;">
+                                    <div class="panel-heading">
+                                        <h4>
+                                            Membership
+                                        </h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:1.0em">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Membership
+                                                    </th>
+                                                    <th>
+                                                        Next Bill Date
+                                                    </th>
+                                                    <th>
+                                                        Amount
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if ((Model.AutoshipBasicRecord != null) && (Model.AutoshipBasicRecord.OrderTotal > 0))
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Model.AutoshipBasicRecord.VariantData1
+                                                        </td>
+                                                        <td>
+                                                            @Model.AutoshipBasicRecord.NextDate.ToString("MM/dd/yy")
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => model.AutoshipBasicRecord.OrderTotal)
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="4" style="text-align:center;">
+                                                            <div class="alert alert-danger" style="width:80%;margin:0 auto;">
+                                                                A Membership profile does not exist for this account
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 nopadding" style="height:15px;">
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12 nopadding pull-left">
+                                <div class="panel panel-default nopadding col-sm-12" style="min-height:275px; min-width:275px; box-shadow:#CCC 7px 7px;">
+                                    <div class="panel-heading">
+                                        <h4>
+                                            <span class="h4">Rebates</span>
+                                        </h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:1.0em">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Period
+                                                    </th>
+                                                    <th>
+                                                        Payee
+                                                    </th>
+                                                    <th>
+                                                        Amount
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.CommissionHeaderList)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.PeriodName)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.DisplayName)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Commission)
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12 nopadding pull-left">
+                                <div class="panel panel-default nopadding  col-sm-12" style="min-height:275px; min-width:275px; box-shadow:#CCC 7px 7px;">
+                                    <div class=" panel-heading">
+                                        <h4>Billing History</h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:1.0em">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Date
+                                                    </th>
+                                                    <th>
+                                                        Name
+                                                    </th>
+                                                    <th>
+                                                        Total
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.OrderBasicList)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @item.OrderDate.ToString("MM/dd/yyyy")
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Name)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.OrderTotal)
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="AccountTab"></div>
+                        <div class="tab-pane fade" id="ContactsTab"></div>
+                        <div class="tab-pane fade" id="LocationTab"></div>
+                        <div class="tab-pane fade" id="ProgramTab"></div>
+                        <div class="tab-pane fade" id="SubLocationTab"></div>
+                        <div class="" id="LocationProfileTab"></div>
+                        <div class="tab-pane fade" id="VendorTab"></div>
+                        <div class="tab-pane fade" id="AutoshipTab"></div>
+                        <div class="tab-pane fade" id="BillingTab"></div>
+                        <div class="tab-pane fade" id="OrderTab"></div>
+                        <div class="tab-pane fade" id="RebateTab"></div>
+                        <div class="tab-pane fade" id="PaymentMethodTab"></div>
+                        <div class="tab-pane fade" id="PayeeTab"></div>
+                        <div class="tab-pane fade" id="NotesTab"></div>
+                        <div class="tab-pane fade" id="ReviewTab"></div>
+                    </div>
+                </div>
+
+                <div class="row nopadding" style="width:100%;height:25px;">
+                    &nbsp;
+                </div>
+
+            }

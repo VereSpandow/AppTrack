@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "~/Views/Shared/_SiteMobileLayout.cshtml";
+    ViewBag.Title = "About";
+    ViewBag.thisPage = "About";
+    ViewBag.EditCookie = "Y";
+}
+
+<div class="row nopadding">
+    <div class="container nopadding" style="margin-top:0px;">
+        <div class="col-md-4  pull-left hidden-xs hidden-sm" style="min-height:450px;">
+            @{Html.RenderAction("ContactSubscribe", "Site");}
+        </div>
+        <div class="col-md-8 pull-right no-offset nopadding">
+            <div class="no-offset nopadding" style="background-color:#c0d0e6;width:100%;padding:0px;margin:0px;">
+            </div>
+            <div class="col-md-12 nopadding editable" id="AboutMain">
+                @{Html.RenderAction("CMSGetContents", "CMSContents", new { sectionName = "AboutMain", status = "SAVED", viewName = "About" });}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row nopadding" style="width:100%;height:25px;">
+    &nbsp;
+</div>

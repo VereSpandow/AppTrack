@@ -1,0 +1,62 @@
+﻿@model AppTrack.ViewModels.MemberVendorRequirementViewModel
+@{
+    var i = 1;
+}
+<div class="col-md-12 pull-right alert alert-info" style="border:1px #CCC dashed;">
+    <div class="col-md-12">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @if (@ViewBag.DocuSignError != "" && @ViewBag.DocuSignError != null)
+        {
+            <span class="text-danger">@ViewBag.DocuSignError</span>
+        }
+    </div>
+    @foreach (var item in Model.MemberVendorRequirementList)
+    {
+        <div style="padding:5px;border-bottom:1px #DDE solid;font-size:0.90em;">
+            <div class="col-md-6">
+                <strong>@i: </strong> @item.RequirementName
+                @if (!String.IsNullOrEmpty(item.FileName))
+                {
+                    <span>&nbsp; &nbsp; - &nbsp; &nbsp;</span>
+                    String DocumentPathFile = Constants.siteURL + "/" + item.Path + item.FileName;
+                    DocumentPathFile = DocumentPathFile.Replace("~/", "");
+                    <a href="@DocumentPathFile" target="_blank">@item.DocumentName</a>
+                }
+            </div>
+            <div class="col-md-6 pull-right" style="text-align:right;">
+                @if (@item.TemplateID != null)
+                {
+                    // DocuSign Document
+                    if (@item.Status.ToUpper() == "NEW")
+                    {
+                        <span onclick="sendDocuSign(@Model.VendorID, @Model.CustID, @item.ID)" class="btn btn-xs btn-primary">Send Document</span>
+                    }
+                    else
+                    {
+                        <span class="status-@item.Status.ToUpper()"><strong>@item.Status on @item.StatusDate.Value.ToString("MM/dd/yyyy")</strong></span>
+                    }
+                }
+                else
+                {
+                    <span class="status-@item.Status.ToUpper()"><strong>@item.Status on @item.StatusDate.Value.ToString("MM/dd/yyyy")</strong></span>
+                }
+                @if (@item.Status.ToUpper() == "SENT")
+                {
+                    <br />
+                    <span onclick="showUploadDocument(@item.ID)" class="btn btn-xs btn-primary" id="DOC-@item.ID">Upload Document</span>
+                    <span onclick="sendDocuSign(@Model.VendorID, @Model.CustID, @item.ID)" class="btn btn-xs btn-warning">Re-Send Document</span>
+                }
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-12 pull-right" style="text-align:right;display:none;padding:5px;" id="uploadDocument-@item.ID">
+                <iframe src="@Url.Action("DocumentUploadIFrame", "Member", new { CustID = @Model.CustID, VendorID = @Model.VendorID, MVRID = @item.ID }, @Constants.secureProtocol)" frameborder="0" style="width:100%;height:60px;"></iframe>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+                i = i + 1;
+    }
+</div>
+
+@*
+    The sendDocuSign and showUploadDOcument functions in in _MemberVendors.cshtml so it is only defined once instead of each time this partial view is rendered
+*@

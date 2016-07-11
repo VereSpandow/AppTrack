@@ -1,0 +1,137 @@
+﻿@model AppTrack.ViewModels.SalesPoPReportViewModel
+
+@{
+    int thisCustID = 0;
+    int thisVendorID = 0;
+    ViewBag.Title = "Dashboard";
+}
+
+<div class="h2" style="float:left">AppTrack Executive Dashboard</div>
+<div style="display:block;clear:both;"></div>
+<div id="chartContainer1" class="col-md-6">
+</div>
+<div id="chartContainer2" class="col-md-6">
+</div>
+<div id="chartContainer3" class="col-md-6">
+</div>
+<div id="chartContainer4" class="col-md-6">
+</div>
+<hr />
+
+<div id="graph" class="aGraph" style="position:absolute;top:0px;left:0; float:left;"></div>
+
+@section Scripts {
+    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="~/Scripts/dimple.v2.1.6.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajaxSetup({ cache: false });
+            $.get("../Dashboard/LineChart1/?searchCustID=0&searchVendorID=275877", function (data1) {
+                var svg1 = dimple.newSvg("#chartContainer1", 600, 400);
+                var myChart1 = new dimple.chart(svg1, data1);
+                // Filter for a single SKU and Channel
+
+                // Create and Position a Chart
+                var myChart1 = new dimple.chart(svg1, data1);
+                myChart1.setMargins(50, 20, 20, 40)
+                var x = myChart1.addCategoryAxis("x", "Period")
+                myChart1.addMeasureAxis("y", "Sales");
+
+                // Order the x axis by date
+                x.addOrderRule("Period");
+
+                // Min price will be green, middle price yellow and max red
+                myChart1.addColorAxis("Sales", ["red", "yellow", "green"]);
+
+                // Add a thick line with markers
+                var lines = myChart1.addSeries(null, dimple.plot.line);
+                lines.lineWeight = 5;
+                lines.lineMarkers = true;
+
+                // Draw the chart
+                myChart1.draw();
+            }, 'json');
+
+           
+            $.get("../Dashboard/LineChart2/?searchCustID=168600&searchVendorID=0", function (data2) {
+                var svg2 = dimple.newSvg("#chartContainer2", 600, 400);
+                var myChart2 = new dimple.chart(svg2, data2);
+                // Filter for a single SKU and Channel
+
+                // Create and Position a Chart
+                var myChart2 = new dimple.chart(svg2, data2);
+                myChart2.setMargins(50, 20, 20, 40)
+                var x = myChart2.addCategoryAxis("x", "Period")
+                myChart2.addMeasureAxis("y", "Sales");
+
+                // Order the x axis by date
+                x.addOrderRule("Period");
+
+                // Min price will be green, middle price yellow and max red
+                myChart2.addColorAxis("Sales", ["red", "yellow", "green"]);
+
+                // Add a thick line with markers
+                var lines = myChart2.addSeries(null, dimple.plot.line);
+                lines.lineWeight = 5;
+                lines.lineMarkers = true;
+
+                // Draw the chart
+                myChart2.draw();
+            }, 'json');
+
+            
+            $.get("../Dashboard/LineChart3/?searchCustID=170700&searchVendorID=0", function (data3) {
+                var svg3 = dimple.newSvg("#chartContainer3", 600, 400);
+                var myChart3 = new dimple.chart(svg3, data3);
+                // Filter for a single SKU and Channel
+
+                // Create and Position a Chart
+                var myChart3 = new dimple.chart(svg3, data3);
+                myChart3.setMargins(50, 20, 20, 40)
+                var x = myChart3.addCategoryAxis("x", "Period")
+                myChart3.addMeasureAxis("y", "Sales");
+
+                // Order the x axis by date
+                x.addOrderRule("Period");
+
+                // Min price will be green, middle price yellow and max red
+                myChart3.addColorAxis("Sales", ["red", "yellow", "green"]);
+
+                // Add a thick line with markers
+                var lines = myChart3.addSeries(null, dimple.plot.line);
+                lines.lineWeight = 5;
+                lines.lineMarkers = true;
+
+                // Draw the chart
+                myChart3.draw();
+            }, 'json');
+            $.get("../Dashboard/LineChart4/?searchCustID=194300&searchVendorID=0", function (data4) {
+                var svg4 = dimple.newSvg("#chartContainer4", 600, 400);
+                var myChart4 = new dimple.chart(svg4, data4);
+                // Filter for a single SKU and Channel
+
+                // Create and Position a Chart
+                var myChart4 = new dimple.chart(svg4, data4);
+                myChart4.setMargins(50, 20, 20, 40)
+                var x = myChart4.addCategoryAxis("x", "Period")
+                myChart4.addMeasureAxis("y", "Sales");
+
+                // Order the x axis by date
+                x.addOrderRule("Period");
+
+                // Min price will be green, middle price yellow and max red
+                myChart4.addColorAxis("Sales", ["red", "yellow", "green"]);
+
+                // Add a thick line with markers
+                var lines = myChart4.addSeries(null, dimple.plot.line);
+                lines.lineWeight = 5;
+                lines.lineMarkers = true;
+
+                // Draw the chart
+                myChart4.draw();
+            }, 'json');
+        });
+    </script>
+}
+
+

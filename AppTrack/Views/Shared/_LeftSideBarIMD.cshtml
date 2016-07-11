@@ -1,0 +1,62 @@
+﻿@{
+    var AccountStyle = "";
+    var ResetPasswordStyle = "";
+    var MeetingsStyle = "";
+    var MembersStyle = "";
+    var MemberVendorListStyle = "";
+    var CommissionsStyle = "";
+    var ResourcesStyle = "";
+    if (ViewBag.PageType == "Account")
+    {
+        AccountStyle = "nav-bg-info-dark";
+    }
+    if (ViewBag.PageType == "ResetPasswordList")
+    {
+        ResetPasswordStyle = "nav-bg-info-dark";
+    }
+    if (ViewBag.PageType == "Meetings")
+    {
+        MeetingsStyle = "nav-bg-info-dark";
+    }
+    if (ViewBag.PageType == "Members")
+    {
+        MembersStyle = "nav-bg-info-dark";
+    }
+    if (ViewBag.PageType == "MemberVendorList")
+    {
+        MemberVendorListStyle = "nav-bg-info-dark";
+    }
+    if (ViewBag.PageType == "Commissions")
+    {
+        CommissionsStyle = "nav-bg-info-dark";
+    }
+    if (ViewBag.PageType == "Resources")
+    {
+        ResourcesStyle = "nav-bg-info-dark";
+    }
+}
+<div class="pull-left col-md-8 nopadding" style="padding-top:15px;">
+    <div class="pull-right idocsubnav @AccountStyle" style="width:100%;border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+        <a href="@Url.Action("AccountProfile", "SiteIMD")">Account Profile</a>
+    </div>
+    <div class="pull-right idocsubnav @ResetPasswordStyle" style="width:100%;border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+        <a href="@Url.Action("RequestResetPassword", "Account")">Update Password</a>
+    </div>
+    <div class="pull-right idocsubnav @MeetingsStyle" style="width:100%;border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+        <a href="@Url.Action("MeetingList", "SiteIMD")">Meetings</a>
+    </div>
+    <div class="pull-right idocsubnav @MembersStyle" style="width:100%;border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+        <a href="@Url.Action("MemberList", "SiteIMD")">Members</a>
+    </div>
+    <div class="pull-right idocsubnav @MemberVendorListStyle" style="width:100%;border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+        <a href="@Url.Action("MemberVendorList", "SiteIMD")">Vendor Programs</a>
+    </div>
+    <div class="pull-right idocsubnav @CommissionsStyle" style="width:100%;border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+        <a href="@Url.Action("CommissionList", "SiteIMD")">Commissions</a>
+    </div>
+    <div class="pull-right idocsubnav @ResourcesStyle" style="width:100%; border:1px #333 solid;margin-top:10px;" id="SavingsAndRebatesStyle">
+        <a href="@Url.Action("Resources", "SiteIMD")">Resources</a>
+    </div>
+</div>
+
+
