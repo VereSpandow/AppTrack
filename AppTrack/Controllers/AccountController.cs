@@ -143,14 +143,10 @@ namespace AppTrack.Controllers
                     if (intStatusID >= 3)
                     {
                         isUserValid = false;
-                    }
-                    if (status == "New" && customerType == 6 && intStatusID == 1 && flag4 == 1)
-                    {
-//                        return RedirectToAction("EnrollmentRedirect", "Enrollment", new { id = 33, custID = CustID });
                         AuthenticationManager.SignOut();
                         TempData["errorMessage"] = "Your account information is not complete. Please contact Member Services.";
                         return RedirectToAction("Login", "Account");
-                    }    
+                    }
                 }
             }
 

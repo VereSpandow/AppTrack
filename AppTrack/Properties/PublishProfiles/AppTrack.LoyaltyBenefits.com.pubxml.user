@@ -17,7 +17,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/10/2016 16:17:02</publishTime>
     </File>
     <File Include="bin/AppTrack.dll">
-      <publishTime>09/05/2016 12:55:29</publishTime>
+      <publishTime>09/05/2016 14:21:07</publishTime>
     </File>
     <File Include="bin/AuthorizeNet.dll">
       <publishTime>07/10/2016 16:17:02</publishTime>
@@ -1226,7 +1226,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/10/2016 15:59:34</publishTime>
     </File>
     <File Include="Views/Enrollment/_EnrollmentPrimary.cshtml">
-      <publishTime>07/10/2016 15:59:34</publishTime>
+      <publishTime>09/05/2016 13:42:23</publishTime>
     </File>
     <File Include="Views/Enrollment/_EnrollmentThankYou.cshtml">
       <publishTime>07/10/2016 15:59:34</publishTime>
@@ -1544,10 +1544,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/05/2016 12:08:18</publishTime>
     </File>
     <File Include="Views/MemberVendor/Index.cshtml">
-      <publishTime>09/05/2016 09:13:19</publishTime>
+      <publishTime>09/05/2016 14:15:57</publishTime>
     </File>
     <File Include="Views/MemberVendor/MemberVendorAdd.cshtml">
-      <publishTime>09/05/2016 09:16:41</publishTime>
+      <publishTime>09/05/2016 14:17:58</publishTime>
     </File>
     <File Include="Views/MemberVendor/_ContactList.cshtml">
       <publishTime>09/05/2016 09:43:54</publishTime>
@@ -1949,7 +1949,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/05/2016 12:32:51</publishTime>
     </File>
     <File Include="Views/SiteMember/Index.cshtml">
-      <publishTime>09/05/2016 12:55:11</publishTime>
+      <publishTime>09/05/2016 14:13:24</publishTime>
     </File>
     <File Include="Views/SiteMember/LocationEditAccount.cshtml">
       <publishTime>07/10/2016 15:59:35</publishTime>

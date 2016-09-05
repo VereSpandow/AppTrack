@@ -20,11 +20,9 @@ namespace AppTrack.ViewModels
             public int EventID { get; set; }
             public int ParentID { get; set; }
             public int SponsorID { get; set; }
-            [Required]
             [Display(Name = "Practice Name")]
             [MaxLength(100)]
             public string DisplayName { get; set; }
-            [Required]
             [Display(Name = "Title")]
             [MaxLength(5)]
             public string NameTitle { get; set; }
@@ -41,28 +39,23 @@ namespace AppTrack.ViewModels
             [MaxLength(100)]
             [DataType(DataType.EmailAddress)]
             public string Email { get; set; }
-            [Required]
             [Display(Name = "Street Address")]
             [MaxLength(40)]
             public string Address1 { get; set; }
             [Display(Name = "Address Line 2")]
             [MaxLength(40)]
             public string Address2 { get; set; }
-            [Required]
             [Display(Name = "City")]
             [MaxLength(40)]
             public string City { get; set; }
-            [Required]
             [Display(Name = "State")]
             [MaxLength(2)]
             public string State { get; set; }
-            [Required]
             [RegularExpression(@"(^(?!0{5})(\d{5})(?!-?0{4})(-?\d{4})?$)", ErrorMessage = "Improperly formatted zip code.  It must be entered as nnnnn or nnnnn-nnnnn.")]
             [Display(Name = "Postal Code")]
             [MaxLength(10)]
             [DataType(DataType.PostalCode)]
             public string PostalCode { get; set; }
-            [Required]
             [Display(Name = "Phone")]
             [DataType(DataType.PhoneNumber)]
             public string Phone { get; set; }
@@ -82,7 +75,6 @@ namespace AppTrack.ViewModels
             [Compare("Password")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
             public string Multilocation { get; set; }
 
             public IEnumerable<System.Web.Mvc.SelectListItem> StateList { get; set; }

@@ -179,27 +179,28 @@ namespace AppTrack.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EnrollmentPrimary([Bind(Include = "RepID,ParentID,EventID,DisplayName,NameTitle,FirstName,LastName,Email,Address1,Address2,City,State,PostalCode,Phone,Fax, Password, ConfirmPassword, Multilocation")] EnrollmentPrimary enrollmentPrimary)
+        public ActionResult EnrollmentPrimary([Bind(Include = "NameTitle,FirstName,LastName,Email,Password, ConfirmPassword")] EnrollmentPrimary enrollmentPrimary)
         {
             DateTime StartDate = DateTime.Now;
+            ViewBag.ErrorCode = 0;
+
             if (!ModelState.IsValid)
             {
                 IEnumerable<System.Web.Mvc.SelectListItem> stateList = DataHelper.GetStateSelectList();
                 enrollmentPrimary.StateList = stateList;
                 IEnumerable<System.Web.Mvc.SelectListItem> nameTitleList = DataHelper.GetNameTitleList();
                 enrollmentPrimary.NameTitleList = nameTitleList;
+                ViewBag.ErrorCode = 1;
+
                 return PartialView("_EnrollmentPrimary", enrollmentPrimary);
             }
             else
             {
                 var company = "";
                 var taxID = "";
-                int sponsorID = enrollmentPrimary.RepID;
+                int sponsorID = 0;
                 int secSponsorID = 0;
                 int mainMemberItemID = 1;
-
-                enrollmentPrimary.Phone = DataHelper.FixPhone(enrollmentPrimary.Phone);
-                enrollmentPrimary.Fax = DataHelper.FixPhone(enrollmentPrimary.Fax);
 
                 ObjectParameter returnCustID = new ObjectParameter("returnCustID", typeof(int));
                 ObjectParameter returnMessage = new ObjectParameter("returnMessage", typeof(string));
@@ -240,58 +241,49 @@ namespace AppTrack.Controllers
                 if (scalarCustID == -1)
                 {
                     ModelState.AddModelError("", errorMessage);
-                    IEnumerable<System.Web.Mvc.SelectListItem> stateList = DataHelper.GetStateSelectList();
-                    enrollmentPrimary.StateList = stateList;
-                    IEnumerable<System.Web.Mvc.SelectListItem> nameTitleList = DataHelper.GetNameTitleList();
-                    enrollmentPrimary.NameTitleList = nameTitleList;
-                    return PartialView("_EnrollmentPrimary", enrollmentPrimary);                    
+                    ViewBag.ErrorCode = 1;
                 }
                 else
                 {
-                    Response.Cookies["PrimaryEmail"].Value = enrollmentPrimary.Email;
-                    Response.Cookies["FirstName"].Value  = enrollmentPrimary.FirstName;
-                    Response.Cookies["LastName"].Value = enrollmentPrimary.LastName;
-
-                    if (enrollmentPrimary.Multilocation == "Y")
+                    // Insert Member Director into Identity login tables
+                    try
                     {
-                        ModelState.Clear();
-                        var model = new EnrollmentLocations {
-                            RepID = enrollmentPrimary.RepID,
-                            ParentID = scalarCustID,
-                            EventID = enrollmentPrimary.EventID,
-                            DisplayName = "NEW LOCATION",
-                            FirstName = "",
-                            LastName = "",
-                            Email = enrollmentPrimary.Email,
-                            Address1 = "",
-                            Address2 = "",                            
-                            City = "",
-                            State = enrollmentPrimary.State,
-                            PostalCode = "",
-                            Phone = "",
-                            Fax = "",
-                            AddLocation = "Y"
-                        };
-                        IEnumerable<System.Web.Mvc.SelectListItem> stateList = DataHelper.GetStateSelectList();
-                        model.StateList = stateList;
-                        return PartialView("_EnrollmentLocations", model);
-                    }
-                    else
-                    {
-                        var model = new EnrollmentPaymentMethod
+                        var user = new ApplicationUser { UserName = enrollmentPrimary.Email, Email = enrollmentPrimary.Email, DisplayName = enrollmentPrimary.FirstName + " " + enrollmentPrimary.LastName, CustID = scalarCustID };
+                        IdentityResult userResult = UserManager.Create(user, enrollmentPrimary.Password);
+                        if (!userResult.Succeeded)
                         {
-                            CustID = scalarCustID,
-                            PName = enrollmentPrimary.FirstName + ' ' + enrollmentPrimary.LastName
-                        };
-                        IEnumerable<System.Web.Mvc.SelectListItem> cardTypeList = DataHelper.GetCardTypeSelectList();
-                        model.CardTypeList = cardTypeList;
-                        IEnumerable<System.Web.Mvc.SelectListItem> cardExpMonthList = DataHelper.GetCardExpMonthsSelectList();
-                        model.CardExpMonthList = cardExpMonthList;
-                        IEnumerable<System.Web.Mvc.SelectListItem> cardExpYearList = DataHelper.GetCardExpYearsSelectList();
-                        model.CardExpYearList = cardExpYearList;
-                        return PartialView("_EnrollmentPaymentMethod", model);
+                            AddErrors(userResult);
+                        }
+                        else
+                        {
+                            try
+                            {
+                                IdentityResult roleResult = UserManager.AddToRoles(user.Id, "Member");
+                                if (!roleResult.Succeeded)
+                                {
+                                    ModelState.AddModelError("", roleResult.Errors.First());
+                                    ViewBag.ErrorCode = 1;
+                                }
+                            }
+                            catch
+                            {
+                                ModelState.AddModelError("", "Error encountered adding Member Role");
+                                ViewBag.ErrorCode = 1;
+                            }
+                        }
                     }
-                  }
+                    catch
+                    {
+                        ModelState.AddModelError("", "Error encountered adding Member Login");
+                        ViewBag.ErrorCode = 1;
+                    }
+                }
+
+                IEnumerable<System.Web.Mvc.SelectListItem> stateList = DataHelper.GetStateSelectList();
+                enrollmentPrimary.StateList = stateList;
+                IEnumerable<System.Web.Mvc.SelectListItem> nameTitleList = DataHelper.GetNameTitleList();
+                enrollmentPrimary.NameTitleList = nameTitleList;
+                return PartialView("_EnrollmentPrimary", enrollmentPrimary);
             }
         }
 

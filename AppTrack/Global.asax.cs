@@ -70,9 +70,9 @@ namespace AppTrack
         public const string companyName = "AppTrack";
         public const int pageSize = 25;
 
-        public const string adminEmailFrom = "notifications@AppTrack.net"; // Live
-        public const string memberEmailFrom = "memberservices@AppTrack.net"; // Live
-        public const string vendorEmailFrom = "memberupdate@AppTrack.net"; // Live
+        public const string adminEmailFrom = "info@LoyaltyBenefits.com"; // Live
+        public const string memberEmailFrom = "info@LoyaltyBenefits.com"; // Live
+        public const string vendorEmailFrom = "info@LoyaltyBenefits.com"; // Live
 
         public const int emailIDNewMember = 1;
         public const int emailIDFailedPayment = 2;

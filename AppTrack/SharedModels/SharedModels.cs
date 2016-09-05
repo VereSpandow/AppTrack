@@ -787,10 +787,10 @@ namespace AppTrack.SharedModels
         [Display(Name = "Vendor ID")]
         public int CustID { get; set; }
         public int SponsorID { get; set; }
-        [Required, Display(Name = "Company Name")]
+        [Display(Name = "Company Name")]
         [MaxLength(50)]
         public string Company { get; set; }
-        [Required, Display(Name = "Display Name")]
+        [Display(Name = "Display Name")]
         [MaxLength(100)]
         public string DisplayName { get; set; }
         [Display(Name = "Title")]
