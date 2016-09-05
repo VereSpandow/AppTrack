@@ -54,6 +54,8 @@ namespace AppTrack.ViewModels
 
         public List<VendorContact> VendorContactList { get; set; }
 
+        public List<CustomerNote> VendorTaskList { get; set; }
+
         public List<VendorRequirement> VendorRequirementList { get; set; }
 
     }

@@ -947,11 +947,15 @@ namespace AppTrack.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("LB_InsertNoteMin", custIDParameter, noteTextParameter, adminIDParameter);
         }
     
-        public virtual int LB_InsertVendor(Nullable<int> customerType, string company, string displayName, string address1, string address2, string city, string state, string postalCode, string companyPhone, string fax, Nullable<int> flag1, string nameTitle, string firstName, string lastName, string email, string dayPhone, string mobile, Nullable<int> flag2, string siteName, Nullable<int> hideFlag, ObjectParameter returnCustID, ObjectParameter returnMessage)
+        public virtual int LB_InsertVendor(Nullable<int> customerType, Nullable<int> sponsorID, string company, string displayName, string address1, string address2, string city, string state, string postalCode, string companyPhone, string fax, Nullable<int> flag1, string nameTitle, string firstName, string lastName, string email, string dayPhone, string mobile, Nullable<int> flag2, string siteName, Nullable<int> hideFlag, ObjectParameter returnCustID, ObjectParameter returnMessage)
         {
             var customerTypeParameter = customerType.HasValue ?
                 new ObjectParameter("CustomerType", customerType) :
                 new ObjectParameter("CustomerType", typeof(int));
+    
+            var sponsorIDParameter = sponsorID.HasValue ?
+                new ObjectParameter("SponsorID", sponsorID) :
+                new ObjectParameter("SponsorID", typeof(int));
     
             var companyParameter = company != null ?
                 new ObjectParameter("Company", company) :
@@ -1029,7 +1033,7 @@ namespace AppTrack.Models
                 new ObjectParameter("HideFlag", hideFlag) :
                 new ObjectParameter("HideFlag", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("LB_InsertVendor", customerTypeParameter, companyParameter, displayNameParameter, address1Parameter, address2Parameter, cityParameter, stateParameter, postalCodeParameter, companyPhoneParameter, faxParameter, flag1Parameter, nameTitleParameter, firstNameParameter, lastNameParameter, emailParameter, dayPhoneParameter, mobileParameter, flag2Parameter, siteNameParameter, hideFlagParameter, returnCustID, returnMessage);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("LB_InsertVendor", customerTypeParameter, sponsorIDParameter, companyParameter, displayNameParameter, address1Parameter, address2Parameter, cityParameter, stateParameter, postalCodeParameter, companyPhoneParameter, faxParameter, flag1Parameter, nameTitleParameter, firstNameParameter, lastNameParameter, emailParameter, dayPhoneParameter, mobileParameter, flag2Parameter, siteNameParameter, hideFlagParameter, returnCustID, returnMessage);
         }
     
         public virtual int LB_InsertVendorContact(Nullable<int> sponsorID, Nullable<int> customertype, string contactType, string nameTitle, string firstName, string lastName, string email, string address1, string address2, string city, string state, string postalCode, string dayPhone, string mobile, string fax, Nullable<int> flag2, ObjectParameter returnCustID, ObjectParameter returnMessage)
@@ -5174,6 +5178,99 @@ namespace AppTrack.Models
                 new ObjectParameter("VolumeDescription", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("LB_UpdateVolume", volumeIDParameter, volumeNameParameter, volumeDescriptionParameter, returnID, returnMessage);
+        }
+    
+        public virtual int LB_InsertVendorV2(Nullable<int> customerType, Nullable<int> sponsorID, string secID, string company, string displayName, string address1, string address2, string city, string state, string postalCode, string companyPhone, string fax, Nullable<int> flag1, string nameTitle, string firstName, string lastName, string email, string dayPhone, string mobile, Nullable<int> flag2, string siteName, Nullable<int> hideFlag, ObjectParameter returnCustID, ObjectParameter returnMessage)
+        {
+            var customerTypeParameter = customerType.HasValue ?
+                new ObjectParameter("CustomerType", customerType) :
+                new ObjectParameter("CustomerType", typeof(int));
+    
+            var sponsorIDParameter = sponsorID.HasValue ?
+                new ObjectParameter("SponsorID", sponsorID) :
+                new ObjectParameter("SponsorID", typeof(int));
+    
+            var secIDParameter = secID != null ?
+                new ObjectParameter("SecID", secID) :
+                new ObjectParameter("SecID", typeof(string));
+    
+            var companyParameter = company != null ?
+                new ObjectParameter("Company", company) :
+                new ObjectParameter("Company", typeof(string));
+    
+            var displayNameParameter = displayName != null ?
+                new ObjectParameter("DisplayName", displayName) :
+                new ObjectParameter("DisplayName", typeof(string));
+    
+            var address1Parameter = address1 != null ?
+                new ObjectParameter("Address1", address1) :
+                new ObjectParameter("Address1", typeof(string));
+    
+            var address2Parameter = address2 != null ?
+                new ObjectParameter("Address2", address2) :
+                new ObjectParameter("Address2", typeof(string));
+    
+            var cityParameter = city != null ?
+                new ObjectParameter("City", city) :
+                new ObjectParameter("City", typeof(string));
+    
+            var stateParameter = state != null ?
+                new ObjectParameter("State", state) :
+                new ObjectParameter("State", typeof(string));
+    
+            var postalCodeParameter = postalCode != null ?
+                new ObjectParameter("PostalCode", postalCode) :
+                new ObjectParameter("PostalCode", typeof(string));
+    
+            var companyPhoneParameter = companyPhone != null ?
+                new ObjectParameter("CompanyPhone", companyPhone) :
+                new ObjectParameter("CompanyPhone", typeof(string));
+    
+            var faxParameter = fax != null ?
+                new ObjectParameter("Fax", fax) :
+                new ObjectParameter("Fax", typeof(string));
+    
+            var flag1Parameter = flag1.HasValue ?
+                new ObjectParameter("Flag1", flag1) :
+                new ObjectParameter("Flag1", typeof(int));
+    
+            var nameTitleParameter = nameTitle != null ?
+                new ObjectParameter("NameTitle", nameTitle) :
+                new ObjectParameter("NameTitle", typeof(string));
+    
+            var firstNameParameter = firstName != null ?
+                new ObjectParameter("FirstName", firstName) :
+                new ObjectParameter("FirstName", typeof(string));
+    
+            var lastNameParameter = lastName != null ?
+                new ObjectParameter("LastName", lastName) :
+                new ObjectParameter("LastName", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var dayPhoneParameter = dayPhone != null ?
+                new ObjectParameter("DayPhone", dayPhone) :
+                new ObjectParameter("DayPhone", typeof(string));
+    
+            var mobileParameter = mobile != null ?
+                new ObjectParameter("Mobile", mobile) :
+                new ObjectParameter("Mobile", typeof(string));
+    
+            var flag2Parameter = flag2.HasValue ?
+                new ObjectParameter("Flag2", flag2) :
+                new ObjectParameter("Flag2", typeof(int));
+    
+            var siteNameParameter = siteName != null ?
+                new ObjectParameter("SiteName", siteName) :
+                new ObjectParameter("SiteName", typeof(string));
+    
+            var hideFlagParameter = hideFlag.HasValue ?
+                new ObjectParameter("HideFlag", hideFlag) :
+                new ObjectParameter("HideFlag", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("LB_InsertVendorV2", customerTypeParameter, sponsorIDParameter, secIDParameter, companyParameter, displayNameParameter, address1Parameter, address2Parameter, cityParameter, stateParameter, postalCodeParameter, companyPhoneParameter, faxParameter, flag1Parameter, nameTitleParameter, firstNameParameter, lastNameParameter, emailParameter, dayPhoneParameter, mobileParameter, flag2Parameter, siteNameParameter, hideFlagParameter, returnCustID, returnMessage);
         }
     }
 }

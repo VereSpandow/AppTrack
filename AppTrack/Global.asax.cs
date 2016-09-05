@@ -29,18 +29,18 @@ namespace AppTrack
     {
         // LIVE SETTINGS
         public const bool isLive = true;
-        public const string siteDomain = "www.AppTrack.net"; // Live
-        public const string siteURL = "http://www.AppTrack.net"; // Live
-        public const string secureSiteURL = "https://www.AppTrack.net"; // Live
+        public const string siteDomain = "AppTrack.LoyaltyBenefits.com"; // Live
+        public const string siteURL = "http://AppTrack.LoyaltyBenefits.com"; // Live
+        public const string secureSiteURL = "http://AppTrack.LoyaltyBenefits.com"; // Live
 
-        public const string notificationEmailTo = "memberservices@AppTrack.net,ssheets@AppTrack.net,asavary@AppTrack.net"; // Live
-        public const string referralEmailTo = "mpressler@AppTrack.net,ssheets@AppTrack.net"; // Live
-        public const string contactEmailTo = "info@AppTrack.net,ssheets@AppTrack.net,araci@AppTrack.net"; // Live
-        public const string salesEmailTo = "ithombs@AppTrack.net,ssheets@AppTrack.net"; // Live
+        public const string notificationEmailTo = "vere@loyaltybenefits.com"; // Live
+        public const string referralEmailTo = "vere@loyaltybenefits.com"; // Live
+        public const string contactEmailTo = "vere@loyaltybenefits.com"; // Live
+        public const string salesEmailTo = "vere@loyaltybenefits.com"; // Live
 
         public const string AuthorizeNetStatus = "Live";
-        public const string secureProtocol = "https";
-        public const string docuSignAccountEmail = "docusign@AppTrack.net";
+        public const string secureProtocol = "http";
+        public const string docuSignAccountEmail = "docusign@AppTrack.com";
         public const string docuSignAccountPassword = "Testing3#";
 
         public const string payflowConnectURL = "payflowpro.paypal.com";

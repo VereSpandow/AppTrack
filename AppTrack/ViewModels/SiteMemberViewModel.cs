@@ -11,67 +11,33 @@ namespace AppTrack.ViewModels
     {
     }
 
-    public class SiteMemberEditViewModel: Member
+    public class SiteMemberEditViewModel
     {
-        [Display(Name = "Member/Location ID")]
-        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Please enter a valid Member/Location ID value")]
-        public int? CustID { get; set; }
+        public int CustID { get; set; }
 
-        [Display(Name = "Payee ID")]
-        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Please enter a valid Payee ID value")]
-        public int? PayoutCustID { get; set; }
-
+        [Display(Name = "Name Title")]
+        [MaxLength(50)]
+        public string NameTitle { get; set; }
+     
         [Display(Name = "First Name")]
         [MaxLength(50)]
-        public string ShipFirstName { get; set; }
+        public string FirstName { get; set; }
 
         [Display(Name = "Last Name")]
         [MaxLength(50)]
-        public string ShipLastName { get; set; }
+        public string LastName { get; set; }
 
-        [Display(Name = "Payee Name")]
-        [MaxLength(50)]
-        public string ShipName { get; set; }
-
-        [Required, Display(Name = "Address Line 1")]
-        [MaxLength(50)]
-        public string ShipAddress1 { get; set; }
-
-        [Display(Name = "Address Line 2")]
-        [MaxLength(50)]
-        public string ShipAddress2 { get; set; }
-
-        [Required, Display(Name = " Ship City")]
-        [MaxLength(50)]
-        public string ShipCity { get; set; }
-
-        [Required, Display(Name = "State")]
-        [MaxLength(50)]
-        public string ShipState { get; set; }
-
-        [Required, Display(Name = "Postal Code")]
-        [DataType(DataType.PostalCode)]
-        public string ShipPostalCode { get; set; }
-
-        [Display(Name = "Payee Email")]
+        [Display(Name = "Email")]
         [MaxLength(100)]
-        public string ShipEmail { get; set; }
+        public string Email { get; set; }
 
-        [Display(Name = "Payee Phone")]
-        [DataType(DataType.PhoneNumber)]
-        public string ShipPhone { get; set; }
-
-        [Display(Name = "AdminID")]
-        public int AdminID { get; set; }
+        [Required, Display(Name = "Phone")]
+        [MaxLength(50)]
+        public string DayPhone { get; set; }
 
         public string FormAction { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> NameTitleList { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> StateList { get; set; }
-        public IEnumerable<System.Web.Mvc.SelectListItem> StatusList { get; set; }
-        public IEnumerable<System.Web.Mvc.SelectListItem> BoardingStatusList { get; set; }
-        public IEnumerable<System.Web.Mvc.SelectListItem> PracticeSizeList { get; set; }
-        public IEnumerable<System.Web.Mvc.SelectListItem> CancelReasonCodesList { get; set; }
-        public IEnumerable<System.Web.Mvc.SelectListItem> PracticeManagementSoftwareList { get; set; }
     }
 
 

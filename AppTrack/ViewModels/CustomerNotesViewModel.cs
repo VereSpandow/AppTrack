@@ -17,6 +17,9 @@ namespace AppTrack.ViewModels
             [Display(Name = "Member ID")]
             public int SearchCustID { get; set; }
 
+            [Display(Name = "Vendor ID")]
+            public int SearchVendorID { get; set; }
+
             [Display(Name = "Assigned To")]
             public int SearchAssignedToID { get; set; }
             public IEnumerable<System.Web.Mvc.SelectListItem> SearchAssignedToList { get; set; }
@@ -73,6 +76,8 @@ namespace AppTrack.ViewModels
         public int SearchActivityID { get; set; }
 
         public int SearchCustID { get; set; }
+
+        public int SearchVendorID { get; set; }
 
         public int SearchAssignedToID { get; set; }
 

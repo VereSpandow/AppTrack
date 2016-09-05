@@ -469,7 +469,7 @@ namespace AppTrack.Controllers
                 ObjectParameter returnCustID = new ObjectParameter("returnCustID", typeof(int));
                 ObjectParameter returnMessage = new ObjectParameter("returnMessage", typeof(string));
 
-                db.LB_InsertVendor(Constants.vendorCustomerType, vendorCompanyViewModel.Company, vendorCompanyViewModel.DisplayName, 
+                db.LB_InsertVendorV2(Constants.vendorCustomerType, 3, "", vendorCompanyViewModel.Company, vendorCompanyViewModel.DisplayName, 
                     vendorCompanyViewModel.Address1, vendorCompanyViewModel.Address2, vendorCompanyViewModel.City, vendorCompanyViewModel.State, 
                     vendorCompanyViewModel.PostalCode, vendorCompanyViewModel.CompanyPhone, vendorCompanyViewModel.Fax, vendorCompanyViewModel.Flag1, 
                     vendorCompanyViewModel.NameTitle, vendorCompanyViewModel.FirstName, vendorCompanyViewModel.LastName, vendorCompanyViewModel.Email, 

@@ -187,12 +187,9 @@
                         }
                     </td>
                     <td>
-                        @if (item.AdminID == ViewBag.AdminID || User.IsInRole("MemberServicesManager") || item.AssignedToID == ViewBag.AdminID)
-                        {
-                            <div class="pull-left" style="padding-right:10px;">
-                                <a href="#" onclick="editActivityInit(@item.ActivityID)"><span class="fa fa-2x fa-edit"></span></a>
-                            </div>
-                        }
+                        <div class="pull-left" style="padding-right:10px;">
+                            <a href="#" onclick="editActivityInit(@item.ActivityID)"><span class="fa fa-2x fa-edit"></span></a>
+                        </div>
                         <div id="showAct@(item.ActivityID)">
                             <a href="#" onclick="getActivityNotes(@item.ActivityID)"><span class="fa fa-2x fa-search-plus"></span></a>
                         </div>

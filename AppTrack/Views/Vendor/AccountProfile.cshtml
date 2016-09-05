@@ -1,4 +1,8 @@
-﻿@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
+﻿@{
+    Layout = "~/Views/Shared/_SiteLayoutMember.cshtml";
+    ViewBag.PageType = "AccountProfile";
+}
+@if (ViewBag.ErrorCode == Constants.fatalErrorCode)
 {
     <div id="contactContainerDiv">
         <div class="col-sm-12" style="font-size: 1.5em">
@@ -18,299 +22,175 @@ else
 {
     @model AppTrack.ViewModels.VendorProfileViewModel
 
-    <div class="pull-left" style="width:70%"><h2>@Model.VendorRecord.DisplayName</h2></div>
+    DateTime futureDate = new DateTime(2099, 12, 1);
 
-    <div class="pull-right" style="width:30%; text-align:right;">
-        @if (ViewBag.Disabled == "")
-        {
-            if (Model.VendorRecord.Status.ToUpper() != "INACTIVE" && Model.VendorRecord.Status.ToUpper() != "DELETED")
-            {
-                <span onclick="deleteVendor()" class="btn btn-xs btn-danger">
-                    Set InActive
-                </span>
-            }
-
-            if (Model.VendorRecord.Status.ToUpper() == "INACTIVE")
-            {
-                <span onclick="undeleteVendor()" class="btn btn-xs btn-success">
-                    Set Active
-                </span>
-            }
-        }
-
-    </div>
+    <h2>@(Model.VendorRecord.DisplayName) (@Model.VendorRecord.CustID)</h2>
 
     <div class="col-md-12">
         <ul id="tabstrip" class="nav nav-tabs" role="tablist">
-            <li class="active"><a href="#Profile" role="tab" data-toggle="tab">Profile</a></li>
-            <li><a href="#Company" role="tab" data-toggle="tab">Company</a></li>
-            <li><a class="ajax" href="#ContactList" role="tab" data-toggle="tab">Contacts</a></li>
-            <li><a class="ajax" href="#ProgramList" role="tab" data-toggle="tab">Programs</a></li>
-            <li><a class="ajax" href="#RequirementList" role="tab" data-toggle="tab">Requirements</a></li>
-            <li><a href="#Documents" role="tab" data-toggle="tab">Documents</a></li>
-            <li><a class="ajax" href="#RebateList" role="tab" data-toggle="tab">Rebates</a></li>
-            <li><a class="CustomerNotesLink" href="#CustomerNotesTab" role="tab" data-toggle="tab">Notes</a></li>
+            <li class="active"><a href="@Url.Action("AccountProfile", "Vendor", new { @id = Model.VendorRecord.CustID })">Profile</a></li>
+            <li><a class="AccountLink" href="#AccountTab" role="tab" data-toggle="tab">Account</a></li>
+            <li><a class="ContactsLink" href="#ContactsTab" role="tab" data-toggle="tab">Contacts</a></li>
+            <li><a class="ActivitiesLink" href="#ActivitiesTab" role="tab" data-toggle="tab">Activities</a></li>
         </ul>
 
         <!-- Tab Content Containers -->
-        <div class="tab-content" style="padding-top:15px;">
-            <div class="tab-pane fade in active" id="Profile">
-                <div class="col-md-6 col-sm-12 pull-left">
-                    <div class="panel panel-default" style="min-height:200px;">
-                        <div class=" panel-heading">Company Information</div>
+        <div class="tab-content nopadding" style="padding-top:15px;">
+            <div class="tab-pane fade in active nopadding" id="Profile">
+                <div class="col-md-6 col-sm-12 pull-left" style="margin-left:-15px;">
+                    <div class="panel panel-default" style="min-height:275px; box-shadow:#CCC 7px 7px;">
+                        <div class=" panel-heading">
+                            <span class="h4">Contact Information</span>
+                            <span id="contactPanel" class="fa fa-expand pull-right"></span>
+                        </div>
                         <div class="panel-body">
-                            @Model.VendorRecord.Company
-                            <br />
-                            @if (Model.VendorRecord.Address1 != "")
-                            {
-                                @Model.VendorRecord.Address1
-                                if (!String.IsNullOrEmpty(Model.VendorRecord.Address2))
+                            <div class="col-sm-4">Name:</div>
+                            <div class="col-sm-8">@Model.VendorRecord.NameTitle @Model.VendorRecord.FirstName @Model.VendorRecord.LastName</div>
+                            <div class="col-sm-4" style="clear:both">TIN Name:</div>
+                            <div class="col-sm-8">@Model.VendorRecord.Company</div>
+                            <div class="col-sm-4" style="clear:both">Address:</div>
+                            <div class="col-sm-8">
+                                @if (Model.VendorRecord.Address1 != "")
                                 {
-                                    <span>,</span> @Model.VendorRecord.Address2
+                                    @Model.VendorRecord.Address1
+                                    if (!String.IsNullOrEmpty(Model.VendorRecord.Address2))
+                                    {
+                                        <span>,</span> @Model.VendorRecord.Address2
+                                    }
+                                    <br />
+                                    @Model.VendorRecord.City<span>,</span> @(Model.VendorRecord.State)@:&nbsp;   @(Model.VendorRecord.PostalCode)
+                                    <br />
                                 }
-                                <br />
-                                @Model.VendorRecord.City<span>,</span> @Model.VendorRecord.State <span>&nbsp;</span>@Model.VendorRecord.PostalCode
-                                <br />
-                            }
-                            @Helpers.FormatPhone(@Model.VendorRecord.CompanyPhone)
-                            <br />
-                            @Model.VendorRecord.Email
+                            </div>
+                            <div class="col-sm-4" style="clear:both">Phone:</div>
+                            <div class="col-sm-8">@Helpers.FormatPhone(@Model.VendorRecord.DayPhone)</div>
+                            <div class="col-sm-4" style="clear:both">Email:</div>
+                            <div class="col-sm-8">@Model.VendorRecord.Email</div>
+                            <div class="col-sm-4" style="clear:both">Member ID:</div>
+                            <div class="col-sm-8">@Model.VendorRecord.CustID </div>
+                            <div class="col-sm-4" style="clear:both">Join Date:</div>
+                            <div class="col-sm-8">@Model.VendorRecord.StartDate.Value.ToString("MM/dd/yy")</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-12 pull-left">
-                    <div class="panel panel-default" style="min-height:200px;">
-                        <div class=" panel-heading">Programs</div>
+                <div class="col-md-6 col-sm-12 pull-right" style="margin-right:-15px;">
+                    @{
+                                var panelClass = "panel-default";
+                                if (Model.VendorRecord.Status.ToUpper() == "CANCELLED")
+                                { panelClass = "panel-danger-dark"; }
+                                if (Model.VendorRecord.Status.ToUpper() == "SUSPENDED")
+                                { panelClass = "panel-warning-dark"; }
+                    }
+                    <div class="panel panel-default @panelClass" style="min-height:275px; box-shadow:#CCC 7px 7px;">
+                        <div class="panel-heading">
+                            <span class="h4">Tasks</span>
+                            <span id="autoshipPanel" class="fa fa-expand pull-right"></span>
+                        </div>
                         <div class="panel-body">
                             <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:.8em">
                                 <thead>
                                     <tr>
-                                        <th>
-                                            Membership
-                                        </th>
-                                        <th>
-                                            Program Name
-                                        </th>
                                         <th>
                                             Start Date
                                         </th>
                                         <th>
-                                            Status
+                                            End Date
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                        <th>
+
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model.VendorProgramList)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.C_ProgramName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ProgramName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.StartDate)
-                                            </td>
-                                            <td>
-                                                <span class="status-@item.Status.ToUpper()">@Html.DisplayFor(modelItem => item.Status)</span>
-                                            </td>
-                                        </tr>
-                                    }
                                 </tbody>
+
                             </table>
+                            <div class="col-sm-12">
+                                <img id="ajax-loader" src="@Url.Content("~/Images/ajax-loader.gif")" style="display:none;" />
+                            </div>
+
+
+                            <div style="clear:both;"></div>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-12" style="height:15px;">
                 </div>
 
-                <div class="col-md-6 col-sm-12 pull-left">
-                    <div class="panel panel-default" style="min-height:250px;">
-                        <div class=" panel-heading">Contacts</div>
-                        <div class="panel-body">
-                            <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:.8em">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Type
-                                        </th>
-                                        <th>
-                                            Name
-                                        </th>
-                                        <th>
-                                            Email
-                                        </th>
-                                        <th>
-                                            Phone
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.VendorContactList)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ContactType)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.DisplayName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Email)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.DayPhone)
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-sm-12 pull-left">
-                    <div class="panel panel-default" style="min-height:250px;">
-                        <div class=" panel-heading">Requirements</div>
-                        <div class="panel-body">
-                            <table class="table table-hover table-striped table-responsive" id="documentsTable" style="font-size:.8em">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Type
-                                        </th>
-                                        <th>
-                                            Name
-                                        </th>
-                                        <th>
-                                            Status
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.VendorRequirementList)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.RequirementType)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.RequirementName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Status)
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
 
             </div>
-            <div class="tab-pane fade" id="Company"><iframe src="@Url.Action("Company", "Vendor", new { VendorID = @ViewBag.VendorID, PageLayout = "I" }, @Constants.secureProtocol )" frameborder="0" style="width:100%;height:1000px;"></iframe></div>
-            <div class="tab-pane fade" id="ContactList"></div>
-            <div class="tab-pane fade" id="ProgramList"></div>
-            <div class="tab-pane fade" id="RequirementList"></div>
-            <div class="tab-pane fade" id="Documents" style="width:100%;height:auto;"><iframe src="@Url.Action("Documents", "Vendor", new { VendorID = @ViewBag.VendorID, PageLayout = "I" }, @Constants.secureProtocol)" frameborder=" 0" style="width:100%;height:1000px;"></iframe></div>
-            <div class="tab-pane fade" id="RebateList"></div>
-            <div class="tab-pane fade" id="CustomerNotesTab">@*{Html.RenderAction("NotesList", "CustomerNotes", new { ID = @ViewBag.VendorID });}*@</div>
+            <div class="tab-pane fade" id="AccountTab"></div>
+            <div class="tab-pane fade" id="ContactsTab"></div>
+            <div class="tab-pane fade" id="ActivitiesTab"></div>
         </div>
     </div>
 
-        <!-- DELETE VENDOR FORM -->
-    using (Html.BeginForm("UpdateVendorStatus", "Vendor", FormMethod.Post, new { id = "updateVendorForm" }))
-    {
-        @Html.AntiForgeryToken()
-        <input type="hidden" name="CustID" id="updateVendorID" value="@Model.VendorRecord.CustID" />
-        <input type="hidden" name="StatusID" id="updateStatusID" value="" />
-    }
 
-    <div class="modal fade" id="deleteVendorModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Confirmation</h4>
-                </div>
-                <div class="modal-body">
-                    <h4>
-                        Are you sure you want to make this Vendor InActive?
-                    </h4>
-                    <br />
-                    <p>
-                        Vendors can be reset to Active at any time.
-                    </p>
-                </div>
-                <div class="modal-footer">
 
-                    <div class="btn btn-info pull-left" data-dismiss="modal">No, Keep Vendor Active</div>
-                    <div class="btn btn-danger pull-right" onclick="deleteVendorConfirm()">Yes, Make Vendor InActive</div>
-                </div><!-- /.modal-footer-->
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 
-    <div class="modal fade" id="undeleteVendorModal" tabindex="-1" role="dialog" aria-labelledby="undeleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Confirmation</h4>
-                </div>
-                <div class="modal-body">
-                    <h4>
-                        Are you sure you want to make this Vendor Active?
-                    </h4>
-                    <br />
-                    <p>
-                        Vendors can be set to InActive at any time.
-                    </p>
-                </div>
-                <div class="modal-footer">
-
-                    <div class="btn btn-info pull-left" data-dismiss="modal">No, Keep Vendor InActive</div>
-                    <div class="btn btn-success pull-right" onclick="undeleteVendorConfirm()">Yes, Make Vendor Active</div>
-                </div><!-- /.modal-footer-->
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
+    <div id="cancelPanel" style="position:fixed; top:-300px; left:50%;margin-left:-350px; width:700px; height:400px; background-color:#fff; border:1px #369 solid; display:none;z-index:3;">
+        <div class="panel panel-danger-dark" style="min-height:250px;">
+            <div class=" panel-heading">
+                <h3 style="color:#FFF;">CANCEL @Model.VendorRecord.DisplayName </h3>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("UpdateStatus", "Member", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.VendorRecord.CustID)
+                    <input type="hidden" name="StatusID" value="3" />
+                    <input type="hidden" name="Status" value="Cancelled" />
+                    <div class="clearfix"></div>
+                    <div class="col-sm-12" style="margin-top:15px;margin-bottom:20px;">
+                        Comments
+                        <br />
+                        <textarea name="comments" rows="5" cols="60"></textarea>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-6">
+                            <div class="btn btn-sm btn-default" id="cancelCancel">Close without Cancelling</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="btn btn-sm bg-danger-dark" id="saveCancel">Confirm Cancel</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 
     <script>
-        function deleteVendor() {
-            $("#updateStatusID").val('3');
-            $('#deleteVendorModal').modal('show');
-        };
 
-        function deleteVendorConfirm() {
-            $('#deleteVendorModal').modal('hide');
-            $("#updateVendorForm").submit();
-        };
+        $(document).ready(function () {
+            var viewTab = "@ViewBag.Tab";
+            switch (viewTab) {
+                case "Activities":
+                    $("#tabstrip .ActivitiesLink").click();
+                    break;
+            }
+        });
 
-        function undeleteVendor() {
-            $("#updateStatusID").val('1');
-            $('#undeleteVendorModal').modal('show');
-        };
-
-        function undeleteVendorConfirm() {
-            $('#undeleteVendorModal').modal('hide');
-            $("#updateVendorForm").submit();
-        };
-
-        $('#tabstrip .ajax').click(function (e) {
+        $('#tabstrip .AccountLink').click(function (e) {
             var tabID = $(this).attr("href").substr(1);
             if ($("#" + tabID).html() == "") {
                 e.preventDefault()
                 $(this).tab('show')
                 $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
                 $.ajax({
-                    url: "/@ViewContext.RouteData.Values["controller"]/" + tabID + "?VendorID=@ViewBag.VendorID",
+                    url: "/Member/EditAccount?CustID=@Model.VendorRecord.CustID",
                     cache: false,
                     type: "get",
                     dataType: "html",
                     success: function (result) {
                         $("#" + tabID).html(result);
+                        $.validator.unobtrusive.parse(document);
                     },
                     failure: function () {
                         alert("Ooops - something went wrong");
@@ -319,22 +199,50 @@ else
             }
         });
 
-        $('#tabstrip .CustomerNotesLink').click(function (e) {
+        $('#contactPanel').click(function () {
+            $("#tabstrip .ContactsLink").click();
+        });
+
+        $('#tabstrip .ContactsLink').click(function (e) {
             var tabID = $(this).attr("href").substr(1);
+            // alert("Scott");
             if ($("#" + tabID).html() == "") {
                 e.preventDefault()
                 $(this).tab('show')
                 $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
                 $.ajax({
-                    url: "/CustomerNotes/NotesList/@ViewBag.VendorID",
+                    url: "/Member/ContactList/@Model.VendorRecord.CustID",
                     cache: false,
                     type: "get",
                     dataType: "html",
                     success: function (result) {
+                        //             alert("Scott");
                         $("#" + tabID).html(result);
                         $.validator.unobtrusive.parse(document);
-                        $("#SearchStartDate").datepicker();
-                        $("#SearchEndDate").datepicker();
+                    },
+                    failure: function () {
+                        alert("Ooops - something went wrong");
+                    }
+                });
+            }
+        });
+
+        $('#tabstrip .ActivitiesLink').click(function (e) {
+            var tabID = $(this).attr("href").substr(1);
+            if ($("#" + tabID).html() == "") {
+                e.preventDefault()
+                $(this).tab('show')
+                // alert("Scott");
+                $("#" + tabID).html("<div style='text-align:center;padding-top:50px;'><img src='/Content/Images/ajaxLoader.gif' /></div>");
+                $.ajax({
+                    url: "/MemberActivity/ActivityList/@Model.VendorRecord.CustID",
+                    cache: false,
+                    type: "get",
+                    dataType: "html",
+                    success: function (result) {
+                        // alert("Scott1");
+                        $("#" + tabID).html(result);
+                        $.validator.unobtrusive.parse(document);
                     },
                     failure: function () {
                         alert("Ooops - something went wrong");

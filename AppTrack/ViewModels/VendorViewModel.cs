@@ -19,9 +19,21 @@ namespace AppTrack.ViewModels
         [MaxLength(50)]
         public string SearchCompany { get; set; }
 
+        [Display(Name = "Vendor Name")]
+        [MaxLength(50)]
+        public string SearchDisplayName { get; set; }
+
         [Display(Name = "Status")]
         public string SelectedStatus { get; set; }
         public IEnumerable<System.Web.Mvc.SelectListItem> StatusList { get; set; }
+
+    }
+
+    public class VendorViewModel : Vendor
+    {
+        public IEnumerable<System.Web.Mvc.SelectListItem> StateList { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> NameTitleList { get; set; }
+        public string ErrorMessage { get; set; }
 
     }
 

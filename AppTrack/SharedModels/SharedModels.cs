@@ -786,6 +786,7 @@ namespace AppTrack.SharedModels
     {
         [Display(Name = "Vendor ID")]
         public int CustID { get; set; }
+        public int SponsorID { get; set; }
         [Required, Display(Name = "Company Name")]
         [MaxLength(50)]
         public string Company { get; set; }
@@ -850,9 +851,16 @@ namespace AppTrack.SharedModels
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> StatusDate { get; set; }
-        [Display(Name = "Member Participation Y/N")]
+
+        [Display(Name = "Account Number")]
+        public string SecID { get; set; }
+
+        [Display(Name = "Account Details")]
+        public string VariantData1 { get; set; }
+
+        public string VariantData2 { get; set; }
+
         public int Flag1 { get; set; }
-        [Display(Name = "Member Notifications Y/N")]
         public int Flag2 { get; set; }
         public int StatusID { get; set; }
         public Nullable<int> AdminID { get; set; }
@@ -864,7 +872,7 @@ namespace AppTrack.SharedModels
         public int CustID { get; set; }
         [Display(Name = "Vendor ID")]
         public int SponsorID { get; set; }
-        [Required, Display(Name = "Contact Type")]
+        [Display(Name = "Contact Type")]
         public string ContactType { get; set; }
         [Display(Name = "Display Name")]
         [MaxLength(100)]
@@ -878,7 +886,6 @@ namespace AppTrack.SharedModels
         [Required, Display(Name = "Last Name")]
         [MaxLength(50)]
         public string LastName { get; set; }
-        [Required]
         [MaxLength(100)]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
@@ -1137,6 +1144,7 @@ namespace AppTrack.SharedModels
     {
         public int NoteID { get; set; }
         public int CustID { get; set; }
+        public int VendorID { get; set; }
         public int OwnerID { get; set; }
         public int ActivityID { get; set; }
         public string NoteType { get; set; }
@@ -1175,6 +1183,7 @@ namespace AppTrack.SharedModels
         public string OwnerName { get; set; }
         public string AssignedToName { get; set; }
         public string MemberName { get; set; }
+        public string VendorName { get; set; }
         public string ContactName { get; set; }
     }
 

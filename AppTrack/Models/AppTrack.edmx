@@ -192,8 +192,6 @@ warning 6002: The table/view 'BetaProvidentVereTrax.dbo.C_AutoShipDetail' does n
           <Property Name="StatusID" Type="int" />
           <Property Name="PostDate" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'BetaProvidentVereTrax.dbo.C_BucketLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="C_Categories">
           <Key>
             <PropertyRef Name="ID" />
@@ -2348,6 +2346,7 @@ warning 6002: The table/view 'BetaProvidentVereTrax.dbo.TmpOrderHeaderForPayment
         </Function>
         <Function Name="LB_InsertVendor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CustomerType" Type="int" Mode="In" />
+          <Parameter Name="SponsorID" Type="int" Mode="In" />
           <Parameter Name="Company" Type="varchar" Mode="In" />
           <Parameter Name="DisplayName" Type="varchar" Mode="In" />
           <Parameter Name="Address1" Type="varchar" Mode="In" />
@@ -2423,6 +2422,32 @@ warning 6002: The table/view 'BetaProvidentVereTrax.dbo.TmpOrderHeaderForPayment
           <Parameter Name="DocumentID" Type="int" Mode="In" />
           <Parameter Name="AdminID" Type="int" Mode="In" />
           <Parameter Name="returnRequirementID" Type="int" Mode="InOut" />
+          <Parameter Name="returnMessage" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="LB_InsertVendorV2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CustomerType" Type="int" Mode="In" />
+          <Parameter Name="SponsorID" Type="int" Mode="In" />
+          <Parameter Name="SecID" Type="varchar" Mode="In" />
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+          <Parameter Name="DisplayName" Type="varchar" Mode="In" />
+          <Parameter Name="Address1" Type="varchar" Mode="In" />
+          <Parameter Name="Address2" Type="varchar" Mode="In" />
+          <Parameter Name="City" Type="varchar" Mode="In" />
+          <Parameter Name="State" Type="varchar" Mode="In" />
+          <Parameter Name="PostalCode" Type="varchar" Mode="In" />
+          <Parameter Name="CompanyPhone" Type="varchar" Mode="In" />
+          <Parameter Name="Fax" Type="varchar" Mode="In" />
+          <Parameter Name="Flag1" Type="int" Mode="In" />
+          <Parameter Name="NameTitle" Type="varchar" Mode="In" />
+          <Parameter Name="FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="LastName" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="DayPhone" Type="varchar" Mode="In" />
+          <Parameter Name="Mobile" Type="varchar" Mode="In" />
+          <Parameter Name="Flag2" Type="int" Mode="In" />
+          <Parameter Name="SiteName" Type="varchar" Mode="In" />
+          <Parameter Name="HideFlag" Type="int" Mode="In" />
+          <Parameter Name="returnCustID" Type="int" Mode="InOut" />
           <Parameter Name="returnMessage" Type="varchar" Mode="InOut" />
         </Function>
         <Function Name="LB_InsertVolume" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -4675,6 +4700,7 @@ warning 6002: The table/view 'BetaProvidentVereTrax.dbo.TmpOrderHeaderForPayment
           <EntitySet Name="C_Regions" EntityType="IDOCModel.C_Regions" />
           <FunctionImport Name="LB_InsertVendor">
             <Parameter Name="CustomerType" Mode="In" Type="Int32" />
+            <Parameter Name="SponsorID" Mode="In" Type="Int32" />
             <Parameter Name="Company" Mode="In" Type="String" />
             <Parameter Name="DisplayName" Mode="In" Type="String" />
             <Parameter Name="Address1" Mode="In" Type="String" />
@@ -6019,6 +6045,32 @@ warning 6002: The table/view 'BetaProvidentVereTrax.dbo.TmpOrderHeaderForPayment
             <Parameter Name="VolumeName" Mode="In" Type="String" />
             <Parameter Name="VolumeDescription" Mode="In" Type="String" />
             <Parameter Name="returnID" Mode="InOut" Type="Int32" />
+            <Parameter Name="returnMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="LB_InsertVendorV2">
+            <Parameter Name="CustomerType" Mode="In" Type="Int32" />
+            <Parameter Name="SponsorID" Mode="In" Type="Int32" />
+            <Parameter Name="SecID" Mode="In" Type="String" />
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="DisplayName" Mode="In" Type="String" />
+            <Parameter Name="Address1" Mode="In" Type="String" />
+            <Parameter Name="Address2" Mode="In" Type="String" />
+            <Parameter Name="City" Mode="In" Type="String" />
+            <Parameter Name="State" Mode="In" Type="String" />
+            <Parameter Name="PostalCode" Mode="In" Type="String" />
+            <Parameter Name="CompanyPhone" Mode="In" Type="String" />
+            <Parameter Name="Fax" Mode="In" Type="String" />
+            <Parameter Name="Flag1" Mode="In" Type="Int32" />
+            <Parameter Name="NameTitle" Mode="In" Type="String" />
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="DayPhone" Mode="In" Type="String" />
+            <Parameter Name="Mobile" Mode="In" Type="String" />
+            <Parameter Name="Flag2" Mode="In" Type="Int32" />
+            <Parameter Name="SiteName" Mode="In" Type="String" />
+            <Parameter Name="HideFlag" Mode="In" Type="Int32" />
+            <Parameter Name="returnCustID" Mode="InOut" Type="Int32" />
             <Parameter Name="returnMessage" Mode="InOut" Type="String" />
           </FunctionImport>
         </EntityContainer>
@@ -9939,6 +9991,7 @@ warning 6002: The table/view 'BetaProvidentVereTrax.dbo.TmpOrderHeaderForPayment
           <FunctionImportMapping FunctionImportName="LB_InsertNoteMinV2" FunctionName="IDOCModel.Store.LB_InsertNoteMinV2" />
           <FunctionImportMapping FunctionImportName="LB_UpdateNoteV2" FunctionName="IDOCModel.Store.LB_UpdateNoteV2" />
           <FunctionImportMapping FunctionImportName="LB_UpdateVolume" FunctionName="IDOCModel.Store.LB_UpdateVolume" />
+          <FunctionImportMapping FunctionImportName="LB_InsertVendorV2" FunctionName="IDOCModel.Store.LB_InsertVendorV2" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

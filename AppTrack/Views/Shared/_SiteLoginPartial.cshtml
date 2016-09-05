@@ -4,11 +4,11 @@
     <ul class="nav navbar-nav navbar-right nopadding">
         @if (User.IsInRole("MemberDirector"))
         {
-            <li class="bg-info-dark" style="padding-top:7px;">@Html.ActionLink("My Account", "Index", "SiteIMD", "https", AppTrack.Constants.siteDomain, "", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            <li class="bg-info-dark" style="padding-top:7px;">@Html.ActionLink("My Account", "Index", "SiteIMD", AppTrack.Constants.secureProtocol, AppTrack.Constants.siteDomain, "", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         }
         else
         {
-            <li class="bg-info-dark" style="padding-top:7px;">@Html.ActionLink("My Account", "Index", "SiteMember", "https", AppTrack.Constants.siteDomain, "", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            <li class="bg-info-dark" style="padding-top:7px;">@Html.ActionLink("My Account", "Index", "SiteMember", AppTrack.Constants.secureProtocol, AppTrack.Constants.siteDomain, "", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         }
         <li class="bg-success-dark" style="padding-top:7px;"><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>

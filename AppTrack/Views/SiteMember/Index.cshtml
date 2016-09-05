@@ -6,49 +6,34 @@
 }
 <div class="col-md-12 pull-right no-offset nopadding">
     <div class="col-md-12 nopadding noteditable" id="SiteMemberIndexHeader">
-        <h4 style="margin-top:20px;">Important Messages from AppTrack</h4>
-        <div style="clear:both;height:10px;"></div>
-        <div id="myCarousel" class="carousel slide nopadding" data-ride="carousel" data-interval="8000">
-            <!-- Indicators -->
-            <ol>
-                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#myCarousel" data-slide-to="1"></li>
-            </ol>
+        <h2 style="margin-top:20px;">Here's how it works...</h2>
+        <br />
+        <br />
+        <h2>My Community</h2>
+        <h4>
+            My Community will show you a list of people and businesses that you interact with and want to track events and activities. You can add as many as you like.
+            <br /><br />
+            Click on the little person icon to the right to view their Profile. You can edit their information, add Contacts or the best part track Activities.
+            <br /><br />
+            Activities are any interaction that you want to track like a purchase, or customer service issue or service appointment.
+            <br /><br />
+            Each Activity can have either Notes or Tasks.  Notes can be anything about that Activity you want to remember. Tasks are just that things you need to do related to this Activity that typically have a due date.
+            <br /><br />
+        </h4>
 
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner" role="listbox">
-                <div class="item active" style="padding:5px;">
-                    <div class="col-xs-12 col-sm-12 col-md-7"><a href="https://www.myalcon.com/products/contact-lenses/air-optix/aqua-technology.shtml" target="_blank"><img src="@Constants.siteURL/images/1412C03-US-AOA-banner.jpg" width=100% /></a></div>
-                    <div class="col-xs-12 col-sm-12 col-md-5"><a href="@Url.Action("AppTrackSelect","Site")"><img src="@Constants.siteURL/images/AppTrackSelect-banner.jpg" width=100% /></a></div>
-                </div>
-                <div class="item" style="padding:5px;">
-                    @*<div class="col-xs-12 col-sm-12 col-md-7"><a href="https://www.myalcon.com/products/contact-lenses/air-optix/colors-ourscience.shtml" target="_blank"><img src="@Constants.siteURL/images/1412C09G-AOC-banner.jpg" width=100% /></a></div>*@
-                    <div class="col-xs-12 col-sm-12 col-md-7"><a href="http://www.ecpally.com" target="_blank"><img src="@Constants.siteURL/images/HOYA-banner.jpg" width=100% /></a></div>
-                    <div class="col-xs-12 col-sm-12 col-md-5"><a href="https://www.dailies.com/products/dailies-aquacomfort-plus-toric.shtml" target="_blank"><img src="@Constants.siteURL/images/1503C31E-DACP-banner.jpg" width=100% /></a></div>                    
-                </div>
-            </div>
-        </div>
+        <h2>My Tasks</h2>
+        <h4>
+            My Tasks will show you a list of all your Tasks.
+            <br /><br />
+            You can edit the Task, but to add a new Task you will need to find the Activity to associate it with and add it to that Activity.
+        </h4>
+        <h2>My Account</h2>
+        <h4>
+            My Account just lets you update your personal information.
+            <br /><br />
+        </h4>
+        <br /><br />
+        Today you have to log in to view your Tasks but soon we will have push reminders that will send you email or text when you have an upcoming Task.
+        <div style="clear:both;height:10px;"></div>
     </div>
 </div>
-<script>
-    $(function () {
-        $('#fader div:not(:first)').hide();
-        $('#fader div').css('position', 'absolute');
-        $('#fader div').css('top', '0px');
-        $('#fader div').css('left', '0');
-
-        var pause = false;
-
-        function fadeNext() {
-            $('#fader div').first().fadeOut().appendTo($('#fader'));
-            $('#fader div').first().fadeIn();
-        }
-
-        function fadePrev() {
-            $('#fader div').first().fadeOut();
-            $('#fader div').last().prependTo($('#fader')).fadeIn();
-        }
-
-        var rotate = setInterval(fadeNext, 4000);
-    });
-</script>

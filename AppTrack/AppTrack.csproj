@@ -223,6 +223,7 @@
     <Compile Include="Controllers\MemberEnrollmentController.cs" />
     <Compile Include="Controllers\MemberProductCountsController.cs" />
     <Compile Include="Controllers\MemberSalesReportController.cs" />
+    <Compile Include="Controllers\MemberVendorController.cs" />
     <Compile Include="Controllers\ProcessCommissionsController.cs" />
     <Compile Include="Controllers\ProcessPaymentsController.cs" />
     <Compile Include="Controllers\ProcessRebatesController.cs" />
@@ -242,6 +243,7 @@
     <Compile Include="Controllers\SiteMobileController.cs" />
     <Compile Include="Controllers\StockBinController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
+    <Compile Include="Controllers\VendorActivityController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
     <Compile Include="Controllers\VendorPayeeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -899,22 +901,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="App_Code\Helpers.cshtml" />
-    <Content Include="Documents\_Membership Application.pdf" />
-    <Content Include="Documents\_Fast Track Application.pdf" />
-    <Content Include="Documents\Benefits_of_Being_an_IMD %281%29.pptx" />
-    <Content Include="Documents\Booklet V3.pdf" />
-    <Content Include="Documents\CIM_XML_guide.pdf" />
-    <Content Include="Documents\DRAFT Q3 SGM Handout - We Are Not Selling Pizza.docx" />
-    <Content Include="Documents\IDOC Org Chart_2015 - updated 08.12.2015.pptx" />
-    <Content Include="Documents\IDOC Sales Aid Sheet-v5.pdf" />
-    <Content Include="Documents\IDOC_Select_Overview %282%29.pptx" />
-    <Content Include="Documents\IDOC_Select_Overview_FAQs %281%29.pptx" />
-    <Content Include="Documents\IDOC_sign-in_r4.docx" />
-    <Content Include="Documents\IMD_Compensation_Plan_2015 %281%29.pptx" />
-    <Content Include="Documents\IMD_Effectiveness_Index_Overview.pptx" />
-    <Content Include="Documents\Study Group Reference Guide.pdf" />
-    <Content Include="Documents\Tonight Only Special Application_January 2016.pdf" />
-    <Content Include="Documents\MemberAgreementTermsAndConditions.pdf" />
     <Content Include="Content\_loyaltybenefitsSite.css Backup Copy" />
     <Content Include="Models\AppTrack.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -972,7 +958,6 @@
     <Content Include="Views\SiteMember\LocationEditAccount.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\SiteMember\MemberVendorList.cshtml" />
     <Content Include="Views\Vendor\AccountProfile.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -1262,13 +1247,9 @@
     <Content Include="Views\Commission\_RebateCommissionDetailList.cshtml" />
     <Content Include="Views\Commission\_RebateVolumeDetailListWithHeader.cshtml" />
     <Content Include="Views\Billing\FailedPaymentList.cshtml" />
-    <Content Include="Views\SiteMember\VendorDetail.cshtml" />
     <Content Include="Views\SiteMember\Resources.cshtml" />
     <Content Include="Views\SiteMember\LocationEditAccountV1.cshtml" />
     <Content Include="Views\Shared\_SiteLayoutMemberNoNav.cshtml" />
-    <Content Include="Views\SiteMember\MemberVendors.cshtml">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Views\SiteMember\EditAccount.cshtml" />
     <Content Include="Views\Member\CreateUser.cshtml" />
     <Content Include="Views\SiteMobile\About.cshtml" />
@@ -1361,8 +1342,20 @@
     <Content Include="Views\MemberActivity\_MemberActivitySummary.cshtml" />
     <Content Include="Views\MemberActivity\MemberActivityReports.cshtml" />
     <Content Include="Views\CustomerNotes\TaskList.cshtml" />
-    <Content Include="Views\SiteMember\_MemberVendorListPartial.cshtml" />
-    <Content Include="Views\SiteMember\MemberVendorListDvi.cshtml" />
+    <Content Include="Views\Vendor\_EditAccount.cshtml" />
+    <Content Include="Views\VendorActivity\_VendorActivityAdd.cshtml" />
+    <Content Include="Views\VendorActivity\_VendorActivityDetail.cshtml" />
+    <Content Include="Views\VendorActivity\_VendorActivityEdit.cshtml" />
+    <Content Include="Views\VendorActivity\_VendorActivityList.cshtml" />
+    <Content Include="Views\VendorActivity\_VendorActivitySummary.cshtml" />
+    <Content Include="Views\MemberVendor\Index.cshtml" />
+    <Content Include="Views\MemberVendor\MemberVendorAdd.cshtml" />
+    <Content Include="Views\MemberVendor\AccountProfile.cshtml" />
+    <Content Include="Views\MemberVendor\_EditAccount.cshtml" />
+    <Content Include="Views\MemberVendor\_ContactList.cshtml" />
+    <Content Include="Views\SiteMember\TaskList.cshtml" />
+    <Content Include="Views\CustomerNotes\_TaskListAdd.cshtml" />
+    <Content Include="Views\CustomerNotes\_TaskListEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,10 +1,7 @@
-﻿
-<!--sidebar left start-->
+﻿<!--sidebar left start-->
 <div class="bg-primary">
-    <div class="col-lg-12" style="text-align:center; padding: 10px 0 0 0;">
-        <a href="~/Home/">
-            <img src="~/Content/images/Logo.png" style="width:80%;height:auto;">
-        </a>
+    <div class="col-lg-12" style="text-align:center; padding: 10px 0 0 0;font-size:2em;font-weight:bold;color:white">
+        APP Track
     </div>
     <div style="clear:both"></div>
     <div class="col-lg-12" style="text-align:center; padding:10px 0 0 0;">
@@ -17,230 +14,229 @@
                 </li>
                 <li class="nav-dropdown">
                     <a class="btn-lbnav" data-toggle="collapse" href="#collapseCustomers" aria-expanded="false" aria-controls="collapseCustomers">
-                        <i class="fa fa-fw fa-2x fa-users"></i><span class="sidebarText  hidden-sm">Customers</span>
+                        <i class="fa fa-fw fa-2x fa-users"></i><span class="sidebarText  hidden-sm">Community</span>
                     </a>
                     <ul class="nav collapse @Html.IsSelected(controller: "Member")  @Html.IsSelected(controller: "MemberDirector")  @Html.IsSelected(controller: "Vendor")  @Html.IsSelected(controller: "SalesRep")" id="collapseCustomers" style="list-style:none;text-align:left;">
                         <li class="subnavlink @Html.IsSelected(controller: "Member")">
                             <a class="subnavlink" href="@Url.Action("Index", "Member")">
-                                <div style="padding-left:35px;">Members</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink @Html.IsSelected(controller: "Vendor")">
-                            <a class="subnavlink @Html.IsSelected(controller: "Vendor")" href="@Url.Action("Index", "Vendor", new {customerType=7, statusid=1} )">
-                                <div class="hidden-sm" style="padding-left:35px;">Vendors</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink @Html.IsSelected(controller: "VendorPayee")">
-                            <a class="subnavlink @Html.IsSelected(controller: "VendorPayee")" href="@Url.Action("Index", "VendorPayee", new {customerType=6, statusid=1} )">
-                                <div class="hidden-sm" style="padding-left:35px;">Vendor Payee</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink @Html.IsSelected(controller: "MemberDirector")">
-                            <a class="subnavlink" href="@Url.Action("Index", "MemberDirector")">
-                                <div class="hidden-sm" style="padding-left:35px;">IMDs</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink @Html.IsSelected(controller: "SalesRep")">
-                            <a class="subnavlink" href="@Url.Action("Index", "SalesRep")">
-                                <div class="hidden-sm" style="padding-left:35px;">Sales Reps</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink @Html.IsSelected(controller: "Contact")">
-                            <a class="subnavlink" href="@Url.Action("Index", "Contact")">
-                                <div class="hidden-sm" style="padding-left:35px;">Contacts</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-dropdown">
-                    <a class="btn-lbnav" data-toggle="collapse" href="#collapseMeetings" aria-expanded="false" aria-controls="collapseMeetings">
-                        <i class="fa fa-fw fa-2x fa-calendar"></i><span class="sidebarText  hidden-sm">Meetings</span>
-                    </a>
-                    <ul class="nav collapse @Html.IsSelected(controller: "Meeting")  @Html.IsSelected(controller: "Conference")" id="collapseMeetings" style="list-style:none;text-align:left;">
-                        <li class="subnavlink @Html.IsSelected(controller: "Meeting")">
-                            <a class=" subnavlink" href="@Url.Action("Index", "Meeting")">
-                                <div class="hidden-sm" style="padding-left:35px;">Study Groups</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink @Html.IsSelected(controller: "Conference")">
-                            <a class="subnavlink" href="@Url.Action("Index", "Conference")">
-                                <div class="hidden-sm" style="padding-left:35px;">Conferences</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-dropdown">
-                    <a class="btn-lbnav" data-toggle="collapse" href="#collapseBillings" aria-expanded="false" aria-controls="collapseBillings">
-                        <i class="fa fa-fw fa-2x fa-file-text"></i><span class="sidebarText  hidden-sm">Billings</span>
-                    </a>
-                    <ul class="nav collapse @Html.IsSelected(controller: "Billing")" id="collapseBillings" style="list-style:none;text-align:left;">
-                        <li class="subnavlink  @Html.IsSelected(action: "ProfileList")">
-                            <a class="subnavlink" href="@Url.Action("ProfileList", "Billing")">
-                                <div class="hidden-sm" style="padding-left:35px;">Manage Profiles</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink @Html.IsSelected(action: "OrderList")" ">
-                            <a class=" subnavlink" href="@Url.Action("OrderList", "Billing")">
-                            <div class="hidden-sm" style="padding-left:35px;">Manage Orders</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink" class="subnavlink @Html.IsSelected(controller: "ProcessPayments")">
-                            <a class=" subnavlink" href="@Url.Action("Index", "ProcessPayments")">
-                                <div class="hidden-sm" style="padding-left:35px;">Process Payments</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink @Html.IsSelected(action: "FailedPaymentList")" ">
-                            <a class=" subnavlink" href="@Url.Action("FailedPaymentList", "Billing")">
-                            <div class="hidden-sm" style="padding-left:35px;">Manage Failed Payments</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-dropdown">
-                    <a class="btn btn-lbnav" data-toggle="collapse" href="#collapseRebates" aria-expanded="false" aria-controls="collapseRebates">
-                        <i class="fa fa-fw fa-2x fa-gift"></i><span class="sidebarText  hidden-sm">Rebates</span>
-                    </a>
-                    <ul class="nav collapse  @Html.IsSelected(controller: "Rebate")" id="collapseRebates" style="list-style:none;text-align:left;">
-                        <li class="subnavlink  @Html.IsSelected(action: "BatchImportList")">
-                            <a class="subnavlink" href="@Url.Action("BatchImportList", "Rebate")">
-                                <div class="hidden-sm" style="padding-left:35px;">Vendor Import</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink">
-                            <a class="subnavlink" href="@Url.Action("Index", "ProcessRebates")">
-                                <div class="hidden-sm" style="padding-left:35px;">Process Rebates</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink">
-                            <a class="subnavlink" href="@Url.Action("RebateSummary", "Rebate")">
-                                <div class="hidden-sm" style="padding-left:35px;">Manage Rebates</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-dropdown">
-                    <a class="btn-lbnav" data-toggle="collapse" href="#collapseCommissions" aria-expanded="false" aria-controls="collapseCommissions">
-                        <i class="fa fa-fw fa-2x fa-money"></i><span class="sidebarText  hidden-sm">Commissions</span>
-                    </a>
-                    <ul class="nav collapse" id="collapseCommissions" style="list-style:none;text-align:left;">
-                        <li class="subnavlink">
-                            <a class="subnavlink" href="@Url.Action("Index", "ProcessCommissions")">
-                                <div class="hidden-sm" style="padding-left:35px;">Process Commissions</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink">
-                            <a class="subnavlink" href="@Url.Action("CommissionSummary", "Commission")">
-                                <div class="hidden-sm" style="padding-left:35px;">Manage Commissions</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-dropdown">
-                    <a class="btn-lbnav" data-toggle="collapse" href="#collapsePromotions" aria-expanded="false" aria-controls="collapsePromotions">
-                        <i class="fa fa-fw fa-2x fa-bullseye"></i><span class="sidebarText  hidden-sm">Products </span>
-                    </a>
-                    <ul class="nav collapse" id="collapsePromotions" style="list-style:none;text-align:left;">
-                        <li class="subnavlink">
-                            <a class="subnavlink" href="@Url.Action("Index", "Item")">
-                                <div class="hidden-sm" style="padding-left:35px;">Products</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink">
-                            <a class="subnavlink" href="@Url.Action("Index", "Home")">
-                                <div class="hidden-sm" style="padding-left:35px;">Promotions</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-dropdown">
-                    <a class="btn-lbnav" data-toggle="collapse" href="#collapseSage" aria-expanded="false" aria-controls="collapseSage">
-                        <i class="fa fa-fw fa-2x fa-file-excel-o"></i><span class="sidebarText  hidden-sm">Sage</span>
-                    </a>
-                    <ul class="nav collapse  @Html.IsSelected(controller: "Sage")" id="collapseSage" style="list-style:none;text-align:left;">
-                        <li class="subnavlink">
-                            <a class="subnavlink" href="@Url.Action("ExportList", "Sage", new {BatchType="Invoice"} )">
-                                <div class="hidden-sm" style="padding-left:35px;">Export Orders</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink">
-                            <a class="subnavlink" href="@Url.Action("ExportList", "Sage", new { BatchType = "Payment" })">
-                                <div class="hidden-sm" style="padding-left:35px;">Export Payments</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink">
-                            <a class="subnavlink" href="@Url.Action("ExportList", "Sage", new { BatchType = "Rebate" })">
-                                <div class="hidden-sm" style="padding-left:35px;">Export Rebates</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink">
-                            <a class="subnavlink" href="@Url.Action("ExportList", "Sage", new { BatchType = "Commission" })">
-                                <div class="hidden-sm" style="padding-left:35px;">Export Commissions</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink">
-                            <a class="subnavlink" href="@Url.Action("ImportList", "Sage")">
-                                <div class="hidden-sm" style="padding-left:35px;">Import Payout</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink">
-                            <a class="subnavlink" href="@Url.Action("PayeeChangeList", "Sage")">
-                                <div class="hidden-sm" style="padding-left:35px;">Payee Change Report</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-dropdown">
-                    <a class="btn-lbnav" data-toggle="collapse" href="#collapseReports" aria-expanded="false" aria-controls="collapseReports">
-                        <i class="fa fa-fw fa-2x fa-tachometer"></i><span class="sidebarText  hidden-sm">Reports </span>
-                    </a>
-                    <ul class="nav collapse @Html.IsSelected(controller: "MemberCounts") @Html.IsSelected(controller: "MemberBudgetReport") @Html.IsSelected(controller: "MemberSalesReport") @Html.IsSelected(controller: "MemberBillingReport") @Html.IsSelected(controller: "SalesPopMembersONLYReport") @Html.IsSelected(controller: "SalesPopReport")" id="collapseReports" style="list-style: none; text-align: left;">
-                        <!--
-               <li class="@Html.IsSelected(controller: "DashBoard")">
-                    <a class="subnavlink" href="@Url.Action("Index", "DashBoard")">
-                        <div class="hidden-sm" style="padding-left:35px;">Activity Dashboard</div>
-                    </a>
-                </li>
-        -->
-                        <li class="@Html.IsSelected(controller: "MemberCounts")">
-                            <a class="subnavlink" href="@Url.Action("BySalesRep", "MemberCounts")">
-                                <div class="hidden-sm" style="padding-left:35px;">Member Retention</div>
-                            </a>
-                        </li>
-                        <li class="@Html.IsSelected(controller: "MemberBudgetReport")">
-                            <a class="subnavlink" href="@Url.Action("Index", "MemberBudgetReport")">
-                                <div class="hidden-sm" style="padding-left:35px;">Member Budget</div>
-                            </a>
-                        </li>
-                        <li class="@Html.IsSelected(controller: "MemberSalesReport")">
-                            <a class="subnavlink" href="@Url.Action("Index", "MemberSalesReport")">
-                                <div class="hidden-sm" style="padding-left:35px;">Member Sales/Rebates</div>
-                            </a>
-                        </li>
-                        <li class="@Html.IsSelected(controller: "MemberBillingReport")">
-                            <a class="subnavlink" href="@Url.Action("Index", "MemberBillingReport")">
-                                <div class="hidden-sm" style="padding-left:35px;">Billing</div>
-                            </a>
-                        </li>
-                        <li class="@Html.IsSelected(controller: "SalesPopMembersONLYReport")">
-                            <a class="subnavlink" href="@Url.Action("Index", "SalesPopMembersONLYReport")">
-                                <div class="hidden-sm" style="padding-left:35px;">Member Sales Trends</div>
-                            </a>
-                        </li>
-                        <li class="@Html.IsSelected(controller: "SalesPopReport")">
-                            <a class="subnavlink" href="@Url.Action("Index", "SalesPopReport")">
-                                <div class="hidden-sm" style="padding-left:35px;">Payee Sales Trends</div>
+                                <div style="padding-left:35px;">Vendors</div>
                             </a>
                         </li>
                         <!--
-                                <li class="@Html.IsSelected(controller: "Report")">
-                                    <a class="subnavlink" href="@Url.Action("MemberAttritionSummary", "Report")">
-                                        <div class="hidden-sm" style="padding-left:35px;">Member Attrition</div>
+                                                <li class="subnavlink @Html.IsSelected(controller: "Vendor")">
+                                                    <a class="subnavlink @Html.IsSelected(controller: "Vendor")" href="@Url.Action("Index", "Vendor", new {customerType=7, statusid=1} )">
+                                                        <div class="hidden-sm" style="padding-left:35px;">Vendors</div>
+                                                    </a>
+                                                </li>
+                                                <li class="subnavlink @Html.IsSelected(controller: "VendorPayee")">
+                                                    <a class="subnavlink @Html.IsSelected(controller: "VendorPayee")" href="@Url.Action("Index", "VendorPayee", new {customerType=6, statusid=1} )">
+                                                        <div class="hidden-sm" style="padding-left:35px;">Vendor Payee</div>
+                                                    </a>
+                                                </li>
+                                                <li class="subnavlink @Html.IsSelected(controller: "MemberDirector")">
+                                                    <a class="subnavlink" href="@Url.Action("Index", "MemberDirector")">
+                                                        <div class="hidden-sm" style="padding-left:35px;">IMDs</div>
+                                                    </a>
+                                                </li>
+                                                <li class="subnavlink @Html.IsSelected(controller: "SalesRep")">
+                                                    <a class="subnavlink" href="@Url.Action("Index", "SalesRep")">
+                                                        <div class="hidden-sm" style="padding-left:35px;">Sales Reps</div>
+                                                    </a>
+                                                </li>
+                                                <li class="subnavlink @Html.IsSelected(controller: "Contact")">
+                                                    <a class="subnavlink" href="@Url.Action("Index", "Contact")">
+                                                        <div class="hidden-sm" style="padding-left:35px;">Contacts</div>
+                                                    </a>
+                                                </li>
+                        -->
+                    </ul>
+                </li>
+                <!--                <li class="nav-dropdown">
+                                    <a class="btn-lbnav" data-toggle="collapse" href="#collapseMeetings" aria-expanded="false" aria-controls="collapseMeetings">
+                                        <i class="fa fa-fw fa-2x fa-calendar"></i><span class="sidebarText  hidden-sm">Meetings</span>
+                                    </a>
+                                    <ul class="nav collapse @Html.IsSelected(controller: "Meeting")  @Html.IsSelected(controller: "Conference")" id="collapseMeetings" style="list-style:none;text-align:left;">
+                                        <li class="subnavlink @Html.IsSelected(controller: "Meeting")">
+                                            <a class=" subnavlink" href="@Url.Action("Index", "Meeting")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Study Groups</div>
+                                            </a>
+                                        </li>
+                                        <li class="subnavlink @Html.IsSelected(controller: "Conference")">
+                                            <a class="subnavlink" href="@Url.Action("Index", "Conference")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Conferences</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-dropdown">
+                                    <a class="btn-lbnav" data-toggle="collapse" href="#collapseBillings" aria-expanded="false" aria-controls="collapseBillings">
+                                        <i class="fa fa-fw fa-2x fa-file-text"></i><span class="sidebarText  hidden-sm">Billings</span>
+                                    </a>
+                                    <ul class="nav collapse @Html.IsSelected(controller: "Billing")" id="collapseBillings" style="list-style:none;text-align:left;">
+                                        <li class="subnavlink  @Html.IsSelected(action: "ProfileList")">
+                                            <a class="subnavlink" href="@Url.Action("ProfileList", "Billing")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Manage Profiles</div>
+                                            </a>
+                                        </li>
+                                        <li class="subnavlink @Html.IsSelected(action: "OrderList")" ">
+                                            <a class=" subnavlink" href="@Url.Action("OrderList", "Billing")">
+                                            <div class="hidden-sm" style="padding-left:35px;">Manage Orders</div>
+                                            </a>
+                                        </li>
+                                        <li class="subnavlink" class="subnavlink @Html.IsSelected(controller: "ProcessPayments")">
+                                            <a class=" subnavlink" href="@Url.Action("Index", "ProcessPayments")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Process Payments</div>
+                                            </a>
+                                        </li>
+                                        <li class="subnavlink @Html.IsSelected(action: "FailedPaymentList")" ">
+                                            <a class=" subnavlink" href="@Url.Action("FailedPaymentList", "Billing")">
+                                            <div class="hidden-sm" style="padding-left:35px;">Manage Failed Payments</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-dropdown">
+                                    <a class="btn btn-lbnav" data-toggle="collapse" href="#collapseRebates" aria-expanded="false" aria-controls="collapseRebates">
+                                        <i class="fa fa-fw fa-2x fa-gift"></i><span class="sidebarText  hidden-sm">Rebates</span>
+                                    </a>
+                                    <ul class="nav collapse  @Html.IsSelected(controller: "Rebate")" id="collapseRebates" style="list-style:none;text-align:left;">
+                                        <li class="subnavlink  @Html.IsSelected(action: "BatchImportList")">
+                                            <a class="subnavlink" href="@Url.Action("BatchImportList", "Rebate")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Vendor Import</div>
+                                            </a>
+                                        </li>
+                                        <li class="subnavlink">
+                                            <a class="subnavlink" href="@Url.Action("Index", "ProcessRebates")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Process Rebates</div>
+                                            </a>
+                                        </li>
+                                        <li class="subnavlink">
+                                            <a class="subnavlink" href="@Url.Action("RebateSummary", "Rebate")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Manage Rebates</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-dropdown">
+                                    <a class="btn-lbnav" data-toggle="collapse" href="#collapseCommissions" aria-expanded="false" aria-controls="collapseCommissions">
+                                        <i class="fa fa-fw fa-2x fa-money"></i><span class="sidebarText  hidden-sm">Commissions</span>
+                                    </a>
+                                    <ul class="nav collapse" id="collapseCommissions" style="list-style:none;text-align:left;">
+                                        <li class="subnavlink">
+                                            <a class="subnavlink" href="@Url.Action("Index", "ProcessCommissions")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Process Commissions</div>
+                                            </a>
+                                        </li>
+                                        <li class="subnavlink">
+                                            <a class="subnavlink" href="@Url.Action("CommissionSummary", "Commission")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Manage Commissions</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-dropdown">
+                                    <a class="btn-lbnav" data-toggle="collapse" href="#collapsePromotions" aria-expanded="false" aria-controls="collapsePromotions">
+                                        <i class="fa fa-fw fa-2x fa-bullseye"></i><span class="sidebarText  hidden-sm">Products </span>
+                                    </a>
+                                    <ul class="nav collapse" id="collapsePromotions" style="list-style:none;text-align:left;">
+                                        <li class="subnavlink">
+                                            <a class="subnavlink" href="@Url.Action("Index", "Item")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Products</div>
+                                            </a>
+                                        </li>
+                                        <li class="subnavlink">
+                                            <a class="subnavlink" href="@Url.Action("Index", "Home")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Promotions</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-dropdown">
+                                    <a class="btn-lbnav" data-toggle="collapse" href="#collapseSage" aria-expanded="false" aria-controls="collapseSage">
+                                        <i class="fa fa-fw fa-2x fa-file-excel-o"></i><span class="sidebarText  hidden-sm">Sage</span>
+                                    </a>
+                                    <ul class="nav collapse  @Html.IsSelected(controller: "Sage")" id="collapseSage" style="list-style:none;text-align:left;">
+                                        <li class="subnavlink">
+                                            <a class="subnavlink" href="@Url.Action("ExportList", "Sage", new {BatchType="Invoice"} )">
+                                                <div class="hidden-sm" style="padding-left:35px;">Export Orders</div>
+                                            </a>
+                                        </li>
+                                        <li class="subnavlink">
+                                            <a class="subnavlink" href="@Url.Action("ExportList", "Sage", new { BatchType = "Payment" })">
+                                                <div class="hidden-sm" style="padding-left:35px;">Export Payments</div>
+                                            </a>
+                                        </li>
+                                        <li class="subnavlink">
+                                            <a class="subnavlink" href="@Url.Action("ExportList", "Sage", new { BatchType = "Rebate" })">
+                                                <div class="hidden-sm" style="padding-left:35px;">Export Rebates</div>
+                                            </a>
+                                        </li>
+                                        <li class="subnavlink">
+                                            <a class="subnavlink" href="@Url.Action("ExportList", "Sage", new { BatchType = "Commission" })">
+                                                <div class="hidden-sm" style="padding-left:35px;">Export Commissions</div>
+                                            </a>
+                                        </li>
+                                        <li class="subnavlink">
+                                            <a class="subnavlink" href="@Url.Action("ImportList", "Sage")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Import Payout</div>
+                                            </a>
+                                        </li>
+                                        <li class="subnavlink">
+                                            <a class="subnavlink" href="@Url.Action("PayeeChangeList", "Sage")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Payee Change Report</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-dropdown">
+                                    <a class="btn-lbnav" data-toggle="collapse" href="#collapseReports" aria-expanded="false" aria-controls="collapseReports">
+                                        <i class="fa fa-fw fa-2x fa-tachometer"></i><span class="sidebarText  hidden-sm">Reports </span>
+                                    </a>
+                                    <ul class="nav collapse @Html.IsSelected(controller: "MemberCounts") @Html.IsSelected(controller: "MemberBudgetReport") @Html.IsSelected(controller: "MemberSalesReport") @Html.IsSelected(controller: "MemberBillingReport") @Html.IsSelected(controller: "SalesPopMembersONLYReport") @Html.IsSelected(controller: "SalesPopReport")" id="collapseReports" style="list-style: none; text-align: left;">
+                                        <!--
+                               <li class="@Html.IsSelected(controller: "DashBoard")">
+                                    <a class="subnavlink" href="@Url.Action("Index", "DashBoard")">
+                                        <div class="hidden-sm" style="padding-left:35px;">Activity Dashboard</div>
                                     </a>
                                 </li>
-        -->
-                    </ul>
-                </li>
-
+                                        <li class="@Html.IsSelected(controller: "MemberCounts")">
+                                            <a class="subnavlink" href="@Url.Action("BySalesRep", "MemberCounts")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Member Retention</div>
+                                            </a>
+                                        </li>
+                                        <li class="@Html.IsSelected(controller: "MemberBudgetReport")">
+                                            <a class="subnavlink" href="@Url.Action("Index", "MemberBudgetReport")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Member Budget</div>
+                                            </a>
+                                        </li>
+                                        <li class="@Html.IsSelected(controller: "MemberSalesReport")">
+                                            <a class="subnavlink" href="@Url.Action("Index", "MemberSalesReport")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Member Sales/Rebates</div>
+                                            </a>
+                                        </li>
+                                        <li class="@Html.IsSelected(controller: "MemberBillingReport")">
+                                            <a class="subnavlink" href="@Url.Action("Index", "MemberBillingReport")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Billing</div>
+                                            </a>
+                                        </li>
+                                        <li class="@Html.IsSelected(controller: "SalesPopMembersONLYReport")">
+                                            <a class="subnavlink" href="@Url.Action("Index", "SalesPopMembersONLYReport")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Member Sales Trends</div>
+                                            </a>
+                                        </li>
+                                        <li class="@Html.IsSelected(controller: "SalesPopReport")">
+                                            <a class="subnavlink" href="@Url.Action("Index", "SalesPopReport")">
+                                                <div class="hidden-sm" style="padding-left:35px;">Payee Sales Trends</div>
+                                            </a>
+                                        </li>
+                                                <li class="@Html.IsSelected(controller: "Report")">
+                                                    <a class="subnavlink" href="@Url.Action("MemberAttritionSummary", "Report")">
+                                                        <div class="hidden-sm" style="padding-left:35px;">Member Attrition</div>
+                                                    </a>
+                                                </li>
+                                    </ul>
+                                </li>
+                            -->
                 <li class="nav-dropdown">
                     <a class="btn-lbnav" data-toggle="collapse" href="#collapseTs" aria-expanded="false" aria-controls="collapseTs">
                         <i class="fa fa-fw fa-2x fa-tasks"></i><span class="sidebarText  hidden-sm">Activities</span>
@@ -259,23 +255,24 @@
                     </ul>
                 </li>
 
-                <li class="nav-dropdown">
-                    <a class="btn-lbnav" data-toggle="collapse" href="#collapseWebsite" aria-expanded="false" aria-controls="collapseWebsite">
-                        <i class="fa fa-fw fa-2x fa-sitemap"></i><span class="sidebarText  hidden-sm">Website</span>
-                    </a>
-                    <ul class="nav collapse" id="collapseWebsite" style="list-style: none; text-align: left;">
-                        <li class="subnavlink @Html.IsSelected(controller: "Site")">
-                            <a class="subnavlink" href="@Url.Action("Index", "Site", new {E="Y"})" target="_blank">
-                                <div class="hidden-sm" style="padding-left:35px;">Website</div>
-                            </a>
-                        </li>
-                        <li class="subnavlink @Html.IsSelected(controller: "SiteMember")">
-                            <a class="subnavlink" href="@Url.Action("Index", "SiteMember", new {E="Y"})" target="_blank">
-                                <div class="hidden-sm" style="padding-left:35px;">Member Website</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                <!--                <li class="nav-dropdown">
+                                    <a class="btn-lbnav" data-toggle="collapse" href="#collapseWebsite" aria-expanded="false" aria-controls="collapseWebsite">
+                                        <i class="fa fa-fw fa-2x fa-sitemap"></i><span class="sidebarText  hidden-sm">Website</span>
+                                    </a>
+                                    <ul class="nav collapse" id="collapseWebsite" style="list-style: none; text-align: left;">
+                                        <li class="subnavlink @Html.IsSelected(controller: "Site")">
+                                            <a class="subnavlink" href="@Url.Action("Index", "Site", new {E="Y"})" target="_blank">
+                                                <div class="hidden-sm" style="padding-left:35px;">Website</div>
+                                            </a>
+                                        </li>
+                                        <li class="subnavlink @Html.IsSelected(controller: "SiteMember")">
+                                            <a class="subnavlink" href="@Url.Action("Index", "SiteMember", new {E="Y"})" target="_blank">
+                                                <div class="hidden-sm" style="padding-left:35px;">Member Website</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                 -->
                 <li class="nav-dropdown">
                     <a class="btn-lbnav" data-toggle="collapse" href="#collapseContract" aria-expanded="false" aria-controls="collapseContract">
                         <i class="fa fa-fw fa-2x fa-briefcase"></i><span class="sidebarText  hidden-sm">Contracts</span>
@@ -320,5 +317,3 @@
     </div>
 </div>
 <!--sidebar left end-->
-
-

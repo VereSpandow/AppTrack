@@ -1,17 +1,17 @@
 ﻿@using Microsoft.AspNet.Identity
 @{
     var EducationStyle = "";
-    var AppTrackStyle = "";
-    var AppTrackSelectStyle = "";
+    var IDOCStyle = "";
+    var IDOCSelectStyle = "";
     var SavingsAndRebatesStyle = "";
     var GrowthSolutionsStyle = "";
-    if (ViewBag.PageType == "AppTrack")
+    if (ViewBag.PageType == "IDOC")
     {
-        AppTrackStyle = "nav-bg-green-light";
+        IDOCStyle = "nav-bg-green-light";
     }
-    if (ViewBag.PageType == "AppTrackSelect")
+    if (ViewBag.PageType == "IDOCSelect")
     {
-        AppTrackSelectStyle = "nav-bg-success-dark";
+        IDOCSelectStyle = "nav-bg-success-dark";
     }
     if (ViewBag.PageType == "SavingsAndRebates")
     {
@@ -49,59 +49,31 @@
             }
         </ul>
     </div>
-    <div class="row nopadding">
-        <div class="container nopadding">
-            <div class="col-md-12 logoHeader" style="color:#fff; text-align:center;min-height:200px;">
-                <a href="~/Site/Index"><img src="~/images/AppTrackLogo250.jpg" class="img-responsive" style="width:100%;height:auto;max-width:275px;margin:0 auto;" alt="AppTrack Optometric Alliance Group" /></a>
-            </div>
-        </div>
-    </div>
-    <nav role="navigation" class="navbar navbar-default  navbar-static-top" style="margin-bottom:0px;">
+    <nav role="navigation" class="navbar navbar-default  navbar-static-top" style="margin-top:30px;margin-bottom:0px;">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="row" style="background-color:#EEE;">
                 <div class="col-sm-4 navbar-header pull-left" style="padding-left:5px;">
-                    <a href="#" class="navbar-brand pull-left">Menu</a>
                     <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle  pull-left" style="background-color:#EEE;">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <div class="col-sm-8 pull-left" style="background-color:#FFF;">
-                        @if (!Request.IsAuthenticated)
-                        {
-                            <a href="~/Site/ContactMe" class="navbar-brandV2 pull-left">Learn More <span class="hidden-xs">about AppTrack</span> </a>
-                        }
-                    </div>
                 </div>
             </div>
             <div class="row"></div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbarCollapse" style="font-size:1.25em;padding-left:20px;background-color:#EEE;margin:0;z-index:10;">
                 <ul class="nav navbar-nav">
-                    @if (!Request.IsAuthenticated)
-                    {
-                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/Site/AppTrack">AppTrack<span class="pull-right fa fa-arrow-right"></span></a></li>
-                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/Site/AppTrackSelect">AppTrack Select<span class="pull-right fa fa-arrow-right"></span></a></li>
-                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/Site/SavingsAndRebates">Savings<span class="pull-right fa fa-arrow-right"></span></a></li>
-                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/Site/Education">Education<span class="pull-right fa fa-arrow-right"></span></a></li>
-                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/Site/GrowthSolutions">Growth Solutions<span class="pull-right fa fa-arrow-right"></span></a></li>
-                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/Site/AppTrackQuarterly">AppTrack Quarterly<span class="pull-right fa fa-arrow-right"></span></a></li>
-                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/Site/VideoGallery">Our Videos<span class="pull-right fa fa-arrow-right"></span></a></li>
-                    }
-                    else
+                    @if (Request.IsAuthenticated)
                     {
 
                         <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/SiteMember/Index">Home<span class="pull-right fa fa-arrow-right"></span></a></li>
-                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/SiteMember/AccountProfile">My Account Profile<span class="pull-right fa fa-arrow-right"></span></a></li>
-                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/SiteMember/EditAccount">Edit My Account<span class="pull-right fa fa-arrow-right"></span></a></li>
+                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/MemberVendor/Index">My Community<span class="pull-right fa fa-arrow-right"></span></a></li>
+                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/CustomerNotes/TaskList">My Tasks<span class="pull-right fa fa-arrow-right"></span></a></li>
+                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/SiteMember/EditAccount">My Account<span class="pull-right fa fa-arrow-right"></span></a></li>
                         <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/Account/RequestResetPassword">Update Password<span class="pull-right fa fa-arrow-right"></span></a></li>
-                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/SiteMember/ProfileUpdate">My Membership<span class="pull-right fa fa-arrow-right"></span></a></li>
-                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/SiteMember/OrderList">My Billing History<span class="pull-right fa fa-arrow-right"></span></a></li>
-                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/SiteMember/RebateCommissionList">My Rebates<span class="pull-right fa fa-arrow-right"></span></a></li>
-                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="/SiteMember/MemberVendorList">Vendor Programs<span class="pull-right fa fa-arrow-right"></span></a></li>
-                        <li style="padding-top:7px;border-bottom:1px #999 solid;"><a href="http://idocuniversity.net/evendor-book/2015/Third-Quarter-E-Vendor-Book-2015/index.html" target="_blank">Q3 eVendor Book<span class="pull-right fa fa-arrow-right"></span></a></li>
 
                     }
                 </ul>
@@ -147,8 +119,8 @@
     <div class="row">
         <div class="container nopadding">
             <div class="col-md-4 pull-left">
-                <div class="col-md-8 logoHeader" style="color:#fff; padding-left:0px; padding-right:0px;">
-                    <a href="~/Site/Index"><img src="~/images/AppTrackLogo250.jpg" class="pull-left img-responsive" style="width:100%;height:auto;" alt="AppTrack Optometric Alliance Group" /></a>
+                <div class="col-md-8 logoHeader" style="color:#0038A8; font-size:3em;font-weight:bold;padding-left:0px; padding-right:0px;text-align:center;">
+                    AppTRACK
                 </div>
             </div>
             <div class="col-md-8 pull-right logoHeader" style="padding-right:0px">
@@ -168,31 +140,32 @@
             </div>
             <div class="pull-right col-md-8 nopadding">
                 <div class="pull-right col-md-12 nopadding">
-                    <a href="~/Site/GrowthSolutions">
-                        <div class="pull-right idocsubnav @GrowthSolutionsStyle" style="width:26%;" id="GrowthSolutionsStyle">
-                            Growth Solutions
-                        </div>
-                    </a>
-                    <a href="~/Site/Education">
-                        <div class="pull-right idocsubnav @EducationStyle" style="width:20%;" id="EducationStyle">
-                            Education
-                        </div>
-                    </a>
-                    <a href="~/Site/SavingsAndRebates">
-                        <div class="pull-right idocsubnav @SavingsAndRebatesStyle" style="width:20%;" id="SavingsAndRebatesStyle">
-                            Savings
-                        </div>
-                    </a>
-                    <a href="~/Site/AppTrackSelect">
-                        <div class="pull-right idocsubnav @AppTrackSelectStyle" style="width:21%;" id="AppTrackSelectStyle">
-                            AppTrack Select
-                        </div>
-                    </a>
-                    <a href="~/Site/AppTrack">
-                        <div class="pull-right idocsubnav @AppTrackStyle" style="border-left:1px #333 solid;width:13%;" id="AppTrackStyle">
-                            AppTrack
-                        </div>
-                    </a>
+                    <!--                    <a href="~/Site/GrowthSolutions">
+                                    <div class="pull-right idocsubnav @GrowthSolutionsStyle" style="width:26%;" id="GrowthSolutionsStyle">
+                                        Growth Solutions
+                                    </div>
+                                </a>
+                                <a href="~/Site/Education">
+                                    <div class="pull-right idocsubnav @EducationStyle" style="width:20%;" id="EducationStyle">
+                                        Education
+                                    </div>
+                                </a>
+                                <a href="~/Site/SavingsAndRebates">
+                                    <div class="pull-right idocsubnav @SavingsAndRebatesStyle" style="width:20%;" id="SavingsAndRebatesStyle">
+                                        Savings
+                                    </div>
+                                </a>
+                                <a href="~/Site/IDOCSelect">
+                                    <div class="pull-right idocsubnav @IDOCSelectStyle" style="width:21%;" id="IDOCSelectStyle">
+                                        IDOC Select
+                                    </div>
+                                </a>
+                                <a href="~/Site/IDOC">
+                                    <div class="pull-right idocsubnav @IDOCStyle" style="border-left:1px #333 solid;width:13%;" id="IDOCStyle">
+                                        IDOC
+                                    </div>
+                                </a>
+            -->
                 </div>
             </div>
         </div>

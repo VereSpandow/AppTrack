@@ -4,24 +4,17 @@
     Layout = "~/Views/Shared/_SiteLayout.cshtml";
     ViewBag.Title = "Login";
 }
-<div class="row nopadding">
+<div class="row clear">
     <div class="container nopadding" style="margin-top:0px;">
         <div class="col-md-4  pull-left hidden-xs hidden-sm" style="min-height:450px;">
             @{Html.RenderAction("ContactSubscribe", "Site");}
         </div>
         <div class="col-md-8 pull-right no-offset nopadding">
-            <div class="col-md-12 nopadding noteditable" id="GrowthSolutionsMain">
+            <div class="col-md-12 nopadding noteditable">
                 <h1 class="text-success-dark">Log In</h1>
                 @if (ViewBag.errorMessage != "")
                 {
                     <p class="text-danger">@ViewBag.errorMessage</p>
-                }
-                else
-                {
-                    <p>
-                        If this is your first time logging into the new Member Portal, please enter your email address in both the email <strong>and</strong> password fields below.
-                        If you have any problems logging in, don’t hesitate to call us at 203.853.3333 or email <a href="mailto:memberservices@AppTrack.net">memberservices@AppTrack.net</a>. Thank you.
-                    </p>
                 }
                 <section id="loginForm">
                     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
